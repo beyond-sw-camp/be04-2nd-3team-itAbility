@@ -12,7 +12,6 @@ import lombok.*;
 @Table(name = "member_info")
 public class MemberInfoDTO {
     //  identity 하여 오토인크리면트 사용
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "member_id")
     private int memberId;
@@ -36,12 +35,12 @@ public class MemberInfoDTO {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "blacklist_status")
+    @Column(name = "is_blacklisted")
     private boolean blacklistStatus;
 
     @Column(name = "blacklist_count")
     private int blacklistCount;
 
-    @Column(name = "mb_report_count")
+    @Column(name = "report_count")
     private int mbReportCount;
 }
