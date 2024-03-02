@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <td>id :</td>
+        <td th:text="${list[0]}"></td>
+    </tr>
+    <tr>
+        <td>썸네일 :</td>
+        <td><img th:src="${list[1]}"></td>
+    </tr>
+    <tr>
+        <td>이름 :</td>
+        <td th:text="${list[2]}"></td>
+    </tr>
+    <tr>
+        <td>생년월일 :</td>
+        <td th:text="${list[3]}"></td>
+    </tr>
+        <tr>
+        <td>이메일 :</td>
+        <td th:text="${list[4]}"></td>
+    </tr>
+    <tr>
+        <td>휴대폰 :</td>
+        <td th:text="${list[5]}"></td>
+    </tr>
+    <tr>
+        <td>성별 :</td>
+        <td th:text="${list[6]}"></td>
+    </tr>
+</table>
+
+</body>
+</html>
