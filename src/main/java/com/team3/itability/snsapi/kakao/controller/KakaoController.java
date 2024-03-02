@@ -1,6 +1,6 @@
-package com.team3.itability.kakao.controller;
+package com.team3.itability.snsapi.kakao.controller;
 
-import com.team3.itability.kakao.service.KakaoService;
+import com.team3.itability.snsapi.kakao.service.KakaoService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,10 +28,7 @@ public class KakaoController {
     @Value("${kakao.redirect-uri}")
     private String redirectUri;
 
-
-
-
-    @GetMapping("kakaoTerms")
+    @GetMapping("kakao")
     public String kakaoConnect() {
 
         StringBuffer url = new StringBuffer();
@@ -43,7 +40,7 @@ public class KakaoController {
         return "redirect:" + url.toString();
     }
 
-    @RequestMapping(value = "/kakao")
+    @RequestMapping(value = "login/kakao")
     public String kakaoLogin(@RequestParam("code") String code, Model model , HttpSession session) throws Exception {
 
         //code로 토큰 받음

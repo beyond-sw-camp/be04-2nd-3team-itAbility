@@ -1,4 +1,4 @@
-package com.team3.itability.kakao.service;
+package com.team3.itability.snsapi.kakao.service;
 
 import org.springframework.stereotype.Service;
 

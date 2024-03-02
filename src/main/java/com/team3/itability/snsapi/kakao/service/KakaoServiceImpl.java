@@ -1,10 +1,10 @@
-package com.team3.itability.kakao.service;
+package com.team3.itability.snsapi.kakao.service;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.team3.itability.kakao.dao.KakaoRepository;
-import com.team3.itability.kakao.domain.Kakaouser;
+import com.team3.itability.snsapi.kakao.dao.KakaoRepository;
+import com.team3.itability.snsapi.kakao.domain.Kakaouser;
 import com.team3.itability.member.dto.Provider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -120,23 +120,24 @@ public class KakaoServiceImpl implements KakaoService {
         String imgId = properties.getAsJsonObject().get("thumbnail_image").getAsString();
         String name = properties.getAsJsonObject().get("nickname").getAsString();
         String email = kakao_account.getAsJsonObject().get("email").getAsString();
-        String gender = kakao_account.getAsJsonObject().get("gender").getAsString();
-        String birthYear = kakao_account.getAsJsonObject().get("birthyear").getAsString();
-        String birthDay = kakao_account.getAsJsonObject().get("birthday").getAsString();
-        String phone = kakao_account.getAsJsonObject().get("phone_number").getAsString();
+//        String gender = kakao_account.getAsJsonObject().get("gender").getAsString();
+//        String birthYear = kakao_account.getAsJsonObject().get("birthyear").getAsString();
+//        String birthDay = kakao_account.getAsJsonObject().get("birthday").getAsString();
+//        String phone = kakao_account.getAsJsonObject().get("phone_number").getAsString();
 
 
         list.add(userId);
         list.add(imgId);
         list.add(name);
-        list.add(birthYear + birthDay); //concat
+//        list.add(birthYear + birthDay); //concat
         list.add(email);
-        list.add(phone);
-        list.add(gender);
+//        list.add(phone);
+//        list.add(gender);
 
 
         //DB 저장
-        Kakaouser kakaouser = new Kakaouser(userId, imgId, Provider.KAKAO, name, birthYear, birthDay, email, phone, gender);
+//        Kakaouser kakaouser = new Kakaouser(userId, imgId, Provider.KAKAO, name, birthYear, birthDay, email, phone, gender);
+        Kakaouser kakaouser = new Kakaouser(userId, imgId, Provider.KAKAO, name, email);
         kakaoRepository.save(kakaouser);
         System.out.println("kakaouser = " + kakaouser);
 

@@ -1,4 +1,4 @@
-package com.team3.itability.kakao.domain;
+package com.team3.itability.snsapi.kakao.domain;
 
 import com.team3.itability.member.dto.Provider;
 import jakarta.persistence.*;
@@ -25,15 +25,15 @@ public class Kakaouser {
     public Kakaouser() {
     }
 
-    public Kakaouser(Long userId, String imgId, Provider provider, String name, String birthYear, String birthDay, String email, String phone, String gender) {
+    public Kakaouser(Long userId, String imgId, Provider provider, String name, String email) {
         this.userId = userId;
         this.imgId = imgId;
         this.provider = provider;
         this.name = name;
-        this.birthYear = birthYear;
-        this.birthDay = birthDay;
+//        this.birthYear = birthYear;
+//        this.birthDay = birthDay;
         this.email = email;
-        this.phone = phone;
-        this.gender = gender;
+//        this.phone = phone;
+//        this.gender = gender;
     }
 }
