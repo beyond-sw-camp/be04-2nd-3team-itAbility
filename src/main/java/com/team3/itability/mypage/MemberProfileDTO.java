@@ -1,3 +1,4 @@
+/*
 package com.team3.itability.mypage;
 
 
@@ -11,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Getter
 @Setter
 @ToString
-
-
 @Entity(name="member_profile_dto")
 @Table(name="member_profile")
 public class MemberProfileDTO {
@@ -21,4 +20,6 @@ public class MemberProfileDTO {
     @OneToOne
     @JoinColumn (name="member_id")
     private MemberInfoDTO memberId;
+
 }
+*/

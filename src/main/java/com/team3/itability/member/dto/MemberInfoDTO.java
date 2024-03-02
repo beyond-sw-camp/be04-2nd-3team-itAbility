@@ -1,17 +1,19 @@
 package com.team3.itability.member.dto;
 
+import com.team3.itability.mypage.dto.MemberProfileDTO;
+//import com.team3.itability.mypage.MemberProfileDTO;
 import jakarta.persistence.*;
 import lombok.*;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "memberProfile")
 @Entity(name = "member_info_dto")
 @Table(name = "member_info")
 public class MemberInfoDTO {
-    //  identity 하여 오토인크리면트 사용
     @Id
     @Column(name = "member_id")
     private int memberId;
@@ -43,4 +45,8 @@ public class MemberInfoDTO {
 
     @Column(name = "report_count")
     private int mbReportCount;
+
+    // 연관 관계 설정 (MemberProfile)
+//    @OneToOne(mappedBy = "memberId", cascade = CascadeType.ALL)
+//    private MemberProfileDTO memberProfile;
 }
