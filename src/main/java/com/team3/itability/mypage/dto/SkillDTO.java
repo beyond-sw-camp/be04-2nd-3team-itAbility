@@ -8,8 +8,6 @@ import lombok.*;
 
 @Entity(name = "skill_dto")
 @Table(name = "skill")
-@NoArgsConstructor
-@AllArgsConstructor
 @Setter
 @Getter
 @ToString
@@ -19,4 +17,37 @@ public class SkillDTO {
     private Integer skillId;
     @Column(name = "skill_name")
     private String skillName;
+
+    public SkillDTO() {
+    }
+
+    public SkillDTO(Integer skillId, String skillName) {
+        this.skillId = skillId;
+        this.skillName = skillName;
+    }
+
+    public Integer getSkillId() {
+        return skillId;
+    }
+
+    public void setSkillId(Integer skillId) {
+        this.skillId = skillId;
+    }
+
+    public String getSkillName() {
+        return skillName;
+    }
+
+    public void setSkillName(String skillName) {
+        this.skillName = skillName;
+    }
+
+    @Override
+    public String toString() {
+        return "SkillDTO{" +
+                "skillId=" + skillId +
+                ", skillName='" + skillName + '\'' +
+                '}';
+    }
 }
+

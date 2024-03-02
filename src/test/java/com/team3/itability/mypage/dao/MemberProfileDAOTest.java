@@ -14,6 +14,16 @@ class MemberProfileDAOTest {
 
     @Autowired
     MemberProfileDAO memberProfileDAO;
+    @Autowired
+    DegreeDAO degreeDAO;
+    @Autowired
+    CareerDAO careerDAO;
+    @Autowired
+    MemberRecruitCategoryDAO memberRecruitCategoryDAO;
+    @Autowired
+    ImageDAO imageDAO;
+
+    private int memberCode =1;
 
     @Test
     void name() {
@@ -21,4 +31,17 @@ class MemberProfileDAOTest {
         profileList.forEach(System.out::println);
         assertNotNull(profileList);
     }
+
+    /**
+     * <h2>showAll()</h2>
+     * 프로필 관련 정보들 전부 불러오기 위한 것
+     * */
+    @Test
+    void showAll(){
+        //userCode = 1;
+        MemberProfileDTO member = memberProfileDAO.findById(memberCode).orElseThrow();
+        System.out.println("member = " + member);
+
+    }
+
 }
