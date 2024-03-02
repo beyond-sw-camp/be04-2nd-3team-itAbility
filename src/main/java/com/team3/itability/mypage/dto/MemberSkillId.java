@@ -18,6 +18,22 @@ public class MemberSkillId implements Serializable {
     private Integer memberId;
     private Integer skillId;
 
+    public Integer getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Integer memberId) {
+        this.memberId = memberId;
+    }
+
+    public Integer getSkillId() {
+        return skillId;
+    }
+
+    public void setSkillId(Integer skillId) {
+        this.skillId = skillId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
