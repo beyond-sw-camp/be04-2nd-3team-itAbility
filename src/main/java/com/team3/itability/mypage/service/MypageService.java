@@ -64,19 +64,15 @@ public class MypageService {
         return memberProfileDTO;
     }
 
-    /**<h1>4. 경력 수정</h1>*/
+    /**<h1>4. 경력 조회,수정,추가</h1>*/
     public List<CareerDTO> printCareerList(int memberId){
         MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberId).orElseThrow();
 
         return careerDAO.findByMemberId(memberProfileDTO);
     }
-
-
     public CareerDTO printCareer(int careerId) {
         return careerDAO.findById(careerId).orElseThrow();
     }
-
-
     @Transactional
     public CareerDTO modifyCareer(CareerDTO careerDTO) {
         CareerDTO career = careerDAO.findById(careerDTO.getCareerId()).orElseThrow();
@@ -86,7 +82,14 @@ public class MypageService {
         career.setRole(career.getRole());
         career.setAssignedTask(career.getAssignedTask());
         career.setCurrentJob(career.isCurrentJob());
-
         return career;
+    }
+
+
+    public CareerDTO addCareer(CareerDTO careerDTO, int memberCode) {
+        MemberProfileDTO member = memberProfileDAO.findById(memberCode).orElseThrow();
+        careerDTO.setMemberId(member);
+        careerDAO.save(careerDTO);
+        return careerDTO;
     }
 }

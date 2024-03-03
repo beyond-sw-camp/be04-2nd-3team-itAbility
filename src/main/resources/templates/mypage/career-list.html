@@ -15,8 +15,8 @@
     </style>
 </head>
 <body>
-
 <h1 align="center" > mypage-modify </h1>
+<button th:onclick="'redirectToAddCareerPage(\'' + ${memberCode} + '\')'">경력 추가</button><br>
 <table>
     <tr>
         <th>경력번호</th>
@@ -47,6 +47,13 @@
         window.location.href = "http://localhost:8080/mypage/" + memberId+ "/modify-career"+"/"+careerId;
     }
 </script>
+
+<script>
+    function redirectToAddCareerPage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId+ "/add-career";
+    }
+</script>
+
 
 </body>
 </html>

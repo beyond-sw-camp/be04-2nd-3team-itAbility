@@ -92,6 +92,19 @@ public class MypageController {
         System.out.println("career = " + career);
         return "redirect:/mypage/" + careerDTO.getMemberId().getMemberId();
     }
+    @GetMapping("/{memberCode}/add-career")
+    public String showAddCareer(Model model, @PathVariable int memberCode){
+        model.addAttribute(memberCode);
+        return "mypage/add-career";
+    }
+    @PostMapping("/add-career")
+    public String AddCareer(Model model, @ModelAttribute CareerDTO careerDTO, @RequestParam int memberId){
+        CareerDTO career = mypageService.addCareer(careerDTO,memberId);
+        System.out.println("career = " + career);
+        return "redirect:/mypage/" + memberId;
+    }
+
+
 
 
 }
