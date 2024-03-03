@@ -21,6 +21,38 @@
 재학여부: <a th:text="${profile.getDegree().isRegisterStatus()}"/> <br>
 <button onclick="redirectToModifyDegreePage()">학력 수정하기</button>
 
+<br><br><br>
+<h2>경력</h2>
+<table>
+    <tr>
+        <th></th>
+        <th>경력번호</th>
+        <th>회사명</th>
+        <th>입사일</th>
+        <th>퇴사일</th>
+        <th>직급</th>
+        <th>담당업무</th>
+        <th>재직여부</th>
+    </tr>
+
+    <tr th:each="career : ${careerList}">
+        <td th:text="${career.careerId }"></td>
+        <td th:text="${career.companyName }"></td>
+        <td th:text="${career.startDate }"></td>
+        <td th:text="${career.endDate }"></td>
+        <td th:text="${career.role }"></td>
+        <td th:text="${career.assignedTask }"></td>
+        <td th:text="${career.isCurrentJob }"></td>
+    </tr>
+
+</table>
+<button onclick="redirectToModifyCareerPage()">경력 조회</button>
+
+
+
+
+
+
 <script>
     function redirectToModifyNamePage() {
         // 현재 페이지의 URL 가져오기
@@ -38,6 +70,15 @@
         // URL에서 memberId 값 추출
         var memberId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
         window.location.href = "http://localhost:8080/mypage/" + memberId + "/modify-degree";
+    }
+</script>
+<script>
+    function redirectToModifyCareerPage() {
+        // 현재 페이지의 URL 가져오기
+        var currentUrl = window.location.href;
+        // URL에서 memberId 값 추출
+        var memberId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+        window.location.href = "http://localhost:8080/mypage/" + memberId + "/career-list";
     }
 </script>
 
