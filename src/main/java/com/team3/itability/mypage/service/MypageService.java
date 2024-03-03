@@ -31,6 +31,7 @@ public class MypageService {
 
 
     /** <h1> 1. 자신의 마이페이지 정보 조회</h1> */
+    @Transactional(readOnly = true)
     public MemberProfileDTO printMypageData(int memberCode){
         MemberProfileDTO memberProfileDTO =memberProfileDAO.findById(memberCode).orElseThrow();
 
@@ -65,11 +66,13 @@ public class MypageService {
     }
 
     /**<h1>4. 경력 조회,수정,추가</h1>*/
+    @Transactional(readOnly = true)
     public List<CareerDTO> printCareerList(int memberId){
         MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberId).orElseThrow();
 
         return careerDAO.findByMemberId(memberProfileDTO);
     }
+    @Transactional(readOnly = true)
     public CareerDTO printCareer(int careerId) {
         return careerDAO.findById(careerId).orElseThrow();
     }
@@ -85,7 +88,7 @@ public class MypageService {
         return career;
     }
 
-
+    @Transactional
     public CareerDTO addCareer(CareerDTO careerDTO, int memberCode) {
         MemberProfileDTO member = memberProfileDAO.findById(memberCode).orElseThrow();
         careerDTO.setMemberId(member);
