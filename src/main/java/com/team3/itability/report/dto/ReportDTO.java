@@ -46,13 +46,14 @@ public class ReportDTO {
     @ManyToOne
     @JoinColumn(name="recruit_id")
     private RecruitDTO recruitId;
-    public String getBoardContent() {
-        return boardId != null ? boardId.getBoardContent() : null;
+    public String getBoardTitle() {
+        return boardId != null ? boardId.getBoardTitile() : null;
     }
 
-    // MemberInfoDTO의 memberName 가져오기
     public String getMemberName() {
         return memberId != null ? memberId.getName() : null;
     }
-
+    public String getCommentContent() {
+        return commentId != null ? commentId.getCmtContent() : null;
+    }
 }

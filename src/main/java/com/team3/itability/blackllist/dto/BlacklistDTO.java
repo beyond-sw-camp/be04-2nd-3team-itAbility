@@ -18,13 +18,13 @@ public class BlacklistDTO {
 
     @Id
     @Column(name="blacklist_id")
-    private int blacklistId;
+    private Long blacklistId;
 
     @Column(name="blacklist_date")
     @Temporal(TemporalType.DATE)
     private java.util.Date blackist_date;
 
-    @JoinColumn(name="member_id")
-    @ManyToOne
-    private MemberInfoDTO memberId;
+    @Column(name = "member_id")
+    private Long memberId;
+
 }

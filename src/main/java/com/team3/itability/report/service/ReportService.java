@@ -23,4 +23,10 @@ public class ReportService {
     public List<ReportDTO> findReportList() {
         return reportDAO.findAll(Sort.by("reportId"));
     }
+    @Transactional
+    public ReportDTO addReport(ReportDTO reportDTO) {
+        // 신고글 저장 로직
+        return reportDAO.save(reportDTO);
+    }
+
 }

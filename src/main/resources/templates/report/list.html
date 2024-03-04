@@ -24,10 +24,10 @@
         <tr th:each="report : ${reportList}">
             <td th:text="${report.reportId}">1</td>
             <td th:text="${report.reportDate}">2020-01-01</td>
-            <td th:text="${report.getBoardContent()}">Feed Name</td>
+            <td th:text="${report.getBoardTitle()}">Feed Name</td>
             <td th:text="${report.getMemberName()}">Member Name</td>
             <td th:text="${report.reportCategoryId}">Category ID</td>
-            <td th:text="${report.commentId}">Comment ID</td>
+            <td th:text="${report.getCommentContent()}">Comment ID</td>
             <td th:text="${report.recruitId}">Recruit ID</td>
         </tr>
         </tbody>
