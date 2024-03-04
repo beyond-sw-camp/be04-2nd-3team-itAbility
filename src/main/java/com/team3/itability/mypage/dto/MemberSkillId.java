@@ -13,7 +13,7 @@ import java.util.Objects;
 @ToString
 public class MemberSkillId implements Serializable {
 
-    private Integer memberId;
+    private Long memberId;
     private Integer skillId;
 
     @Override

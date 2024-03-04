@@ -9,7 +9,7 @@
 <h1 align="center" > mypage-modify </h1>
 
 <form id="modifyForm" action="/mypage/modify-name" method="post">
-    <input type="hidden" name="memberCode" th:value="${profile.getMemberId()}" />
+    <input type="hidden" name="memberId" th:value="${profile.getMemberId()}" />
 
     닉네임: <input type="text" name="nickname" th:value="${profile.nickname}"/> <br>
     이름: <input type="text" name="name" th:value="${profile.getMemberInfo().name}"/> <br>
@@ -18,7 +18,7 @@
 
 <script>
     // memberId 값을 JavaScript 변수로 설정
-    var memberId = "${memberCode}";
+    var memberId = "${memberId}";
 
     // memberId 값을 hidden input 필드에 설정
     document.getElementById("memberIdInput").value = memberId;

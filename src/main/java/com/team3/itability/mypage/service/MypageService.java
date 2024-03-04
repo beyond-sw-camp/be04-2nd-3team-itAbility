@@ -32,8 +32,8 @@ public class MypageService {
 
     /** <h1> 1. 자신의 마이페이지 정보 조회</h1> */
     @Transactional(readOnly = true)
-    public MemberProfileDTO printMypageData(int memberCode){
-        MemberProfileDTO memberProfileDTO =memberProfileDAO.findById(memberCode).orElseThrow();
+    public MemberProfileDTO printMypageData(long memberId){
+        MemberProfileDTO memberProfileDTO =memberProfileDAO.findById(memberId).orElseThrow();
 
         System.out.println("memberProfileDTO = " + memberProfileDTO);
 
@@ -42,8 +42,8 @@ public class MypageService {
 
     /** <h1>2. 마이페이지 수정</h1>*/
     @Transactional
-    public MemberProfileDTO modifyMypage(int memberCode, String nickname, String name) {
-        MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberCode).orElseThrow();
+    public MemberProfileDTO modifyMypage(long memberId, String nickname, String name) {
+        MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberId).orElseThrow();
         memberProfileDTO.setNickname(nickname);
         memberProfileDTO.getMemberInfo().setName(name);
         return memberProfileDTO;
@@ -52,7 +52,7 @@ public class MypageService {
      * <h1>3. 학력 수정</h1>
      * */
     @Transactional
-    public MemberProfileDTO modifyDegree(int memberId, DegreeDTO degreeDTO) {
+    public MemberProfileDTO modifyDegree(long memberId, DegreeDTO degreeDTO) {
 
         MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberId).orElseThrow();
         memberProfileDTO.getDegree().setMajor(degreeDTO.getMajor());
@@ -67,7 +67,7 @@ public class MypageService {
 
     /**<h1>4. 경력 조회,수정,추가</h1>*/
     @Transactional(readOnly = true)
-    public List<CareerDTO> printCareerList(int memberId){
+    public List<CareerDTO> printCareerList(long memberId){
         MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberId).orElseThrow();
 
         return careerDAO.findByMemberId(memberProfileDTO);
@@ -89,8 +89,8 @@ public class MypageService {
     }
 
     @Transactional
-    public CareerDTO addCareer(CareerDTO careerDTO, int memberCode) {
-        MemberProfileDTO member = memberProfileDAO.findById(memberCode).orElseThrow();
+    public CareerDTO addCareer(CareerDTO careerDTO, long memberId) {
+        MemberProfileDTO member = memberProfileDAO.findById(memberId).orElseThrow();
         careerDTO.setMemberId(member);
         careerDAO.save(careerDTO);
         return careerDTO;

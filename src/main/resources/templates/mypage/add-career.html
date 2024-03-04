@@ -9,7 +9,7 @@
 <h1 align="center" > career-modify </h1>
 <!--경력번호	회사명	입사일	퇴사일	직급	담당업무	재직여부	수정하기-->
 <form id="modifyForm" action="/mypage/add-career" method="post">
-    <input type="hidden" name="memberId" th:value="${memberCode}" />
+    <input type="hidden" name="memberId" th:value="${memberId}" />
     회사명: <input type="text" name="companyName"/> <br>
     입사일: <input type="date" name="startDate"/> <br>
     퇴사일: <input type="date" name="endDate"/> <br>
@@ -21,7 +21,7 @@
 
 <script>
     // memberId 값을 JavaScript 변수로 설정
-    var memberId = "${memberCode}";
+    var memberId = "${memberId}";
     // memberId 값을 hidden input 필드에 설정
     document.getElementById("memberIdInput").value = memberId;
 </script>

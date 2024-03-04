@@ -15,7 +15,7 @@ import lombok.*;
 public class MemberProfileDTO {
     @Id
     @Column(name = "member_id")
-    private Integer memberId;
+    private long memberId;
     @Column(name = "nickname")
     private String nickname;
 

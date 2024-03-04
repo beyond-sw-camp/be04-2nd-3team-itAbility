@@ -3,6 +3,12 @@ package com.team3.itability.snsapi.kakao.service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.team3.itability.member.dao.MemberInfoRepo;
+import com.team3.itability.member.dto.MemberInfoDTO;
+import com.team3.itability.mypage.dao.DegreeDAO;
+import com.team3.itability.mypage.dao.MemberProfileDAO;
+import com.team3.itability.mypage.dto.DegreeDTO;
+import com.team3.itability.mypage.dto.MemberProfileDTO;
 import com.team3.itability.snsapi.kakao.dao.KakaoRepository;
 import com.team3.itability.snsapi.kakao.domain.Kakaouser;
 import com.team3.itability.member.dto.Provider;
@@ -24,10 +30,15 @@ import java.util.ArrayList;
 public class KakaoServiceImpl implements KakaoService {
 
     private final KakaoRepository kakaoRepository;
-
+    private final MemberInfoRepo memberInfoRepo;
+    private final MemberProfileDAO memberProfileDAO;
+    private final DegreeDAO degreeDAO;
     @Autowired
-    public KakaoServiceImpl(KakaoRepository kakaoRepository) {
+    public KakaoServiceImpl(KakaoRepository kakaoRepository, MemberInfoRepo memberInfoRepo, MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO) {
         this.kakaoRepository = kakaoRepository;
+        this.memberInfoRepo = memberInfoRepo;
+        this.memberProfileDAO = memberProfileDAO;
+        this.degreeDAO = degreeDAO;
     }
 
     @Value("${kakao.client-id}")
@@ -137,7 +148,24 @@ public class KakaoServiceImpl implements KakaoService {
 
         //DB 저장
 //        Kakaouser kakaouser = new Kakaouser(userId, imgId, Provider.KAKAO, name, birthYear, birthDay, email, phone, gender);
-        Kakaouser kakaoouser = new Kakaouser(userId, imgId, name, email, Provider.KAKAO);
+        Kakaouser kakaoouser = new Kakaouser(userId, imgId, email, name, Provider.KAKAO);
+        if(!memberInfoRepo.existsById(userId)) {
+            MemberInfoDTO member = new MemberInfoDTO();
+            member.setMemberId(userId);
+            member.setName(kakaoouser.getName());
+            member.setEmail(kakaoouser.getEmail());
+            member.setProvider(kakaoouser.getProvider().name());
+            System.out.println("member = " + member);
+            MemberProfileDTO profile = new MemberProfileDTO();
+            profile.setMemberInfo(member);
+            profile.setNickname(member.getName());
+            System.out.println("profile = " + profile);
+            DegreeDTO degree = new DegreeDTO();
+            degreeDAO.save(degree);
+            profile.setDegree(degree);
+            memberProfileDAO.save(profile);
+        }
+
         kakaoRepository.save(kakaoouser);
         System.out.println("kakaouser = " + kakaoouser);
 

@@ -16,7 +16,7 @@
 </head>
 <body>
 <h1 align="center" > mypage-modify </h1>
-<button th:onclick="'redirectToAddCareerPage(\'' + ${memberCode} + '\')'">경력 추가</button><br>
+<button th:onclick="'redirectToAddCareerPage(\'' + ${memberId} + '\')'">경력 추가</button><br>
 <table>
     <tr>
         <th>경력번호</th>
@@ -37,7 +37,7 @@
         <td th:text="${career.role }"></td>
         <td th:text="${career.assignedTask }"></td>
         <td th:text="${career.isCurrentJob }"></td>
-        <td><button th:onclick="'redirectToModifyCareerPage(\'' + ${memberCode} + '\', \'' + ${career.careerId} + '\')'"> 수정하기 </button></td>
+        <td><button th:onclick="'redirectToModifyCareerPage(\'' + ${memberId} + '\', \'' + ${career.careerId} + '\')'"> 수정하기 </button></td>
     </tr>
 
 </table>

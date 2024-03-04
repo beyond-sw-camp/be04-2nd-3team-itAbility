@@ -14,7 +14,7 @@ import java.util.Objects;
 @ToString
 public class memberRecruitCategoryId implements Serializable {
 
-    private Integer memberId;
+    private Long memberId;
     private Integer recruitCategoryId;
 
     @Override
