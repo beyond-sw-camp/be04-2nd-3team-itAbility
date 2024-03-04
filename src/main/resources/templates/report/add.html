@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>신고 추가</title>
+</head>
+<body>
+
+<div>
+    <h2>신고 추가</h2>
+    <form th:action="@{/report/add}" th:object="${report}" method="post">
+        <div>
+            <label for="reportDate">신고 날짜:</label>
+            <input type="date" id="reportDate" name="reportDate" th:field="*{reportDate}" />
+        </div>
+        <div>
+            <label for="boardId">게시판 ID:</label>
+            <input type="text" id="boardId" name="boardId" th:field="*{boardId}" />
+        </div>
+        <div>
+            <label for="memberId">회원 ID:</label>
+            <input type="text" id="memberId" name="memberId" th:field="*{memberId}" />
+        </div>
+        <div>
+            <label for="reportCategoryId">신고 카테고리 ID:</label>
+            <input type="number" id="reportCategoryId" name="reportCategoryId" th:field="*{reportCategoryId}" />
+        </div>
+        <div>
+            <label for="commentId">댓글 ID:</label>
+            <input type="text" id="commentId" name="commentId" th:field="*{commentId}" />
+        </div>
+        <div>
+            <label for="recruitId">모집글 ID:</label>
+            <input type="text" id="recruitId" name="recruitId" th:field="*{recruitId}" />
+        </div>
+        <div>
+            <button type="submit">신고 추가</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
