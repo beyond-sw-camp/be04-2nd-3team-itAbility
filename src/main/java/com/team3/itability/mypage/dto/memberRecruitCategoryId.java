@@ -1,10 +1,7 @@
 package com.team3.itability.mypage.dto;
 
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,6 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Embeddable
+@ToString
 public class memberRecruitCategoryId implements Serializable {
 
     private Integer memberId;
