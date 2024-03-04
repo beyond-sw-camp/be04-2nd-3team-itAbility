@@ -129,17 +129,17 @@ public class KakaoServiceImpl implements KakaoService {
         list.add(userId);
         list.add(imgId);
         list.add(name);
-//        list.add(birthYear + birthDay); //concat
         list.add(email);
+//        list.add(birthYear + birthDay); //concat
 //        list.add(phone);
 //        list.add(gender);
 
 
         //DB 저장
 //        Kakaouser kakaouser = new Kakaouser(userId, imgId, Provider.KAKAO, name, birthYear, birthDay, email, phone, gender);
-        Kakaouser kakaouser = new Kakaouser(userId, imgId, Provider.KAKAO, name, email);
-        kakaoRepository.save(kakaouser);
-        System.out.println("kakaouser = " + kakaouser);
+        Kakaouser kakaoouser = new Kakaouser(userId, imgId, name, email, Provider.KAKAO);
+        kakaoRepository.save(kakaoouser);
+        System.out.println("kakaouser = " + kakaoouser);
 
         return list;
     }
