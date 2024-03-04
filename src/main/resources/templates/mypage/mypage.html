@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <title>mypage</title>
 </head>
+<style>
+    img{
+        width: 400px;
+    }
+</style>
 <body>
 
 <h1 align="center"> mypage </h1>
+<img th:src="${profile.getImg().getPath()}" alt="">            <!--alt: 시각장애인과 같이 이미지를 보지못하는 경우 alt를 읽게 해줌-->
+<p th:text="${singleFileDescription}"></p>
 닉네임: <a th:text="${profile.nickname}"/> <br>
 이름: <a th:text="${profile.getMemberInfo().name}"/> <br>
 

@@ -7,6 +7,7 @@ import com.team3.itability.mypage.dto.ImageDTO;
 import com.team3.itability.mypage.dto.MemberProfileDTO;
 import com.team3.itability.mypage.service.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,8 @@ import java.util.List;
 @RequestMapping("/mypage")
 public class MypageController {
     private final MypageService mypageService;
+    @Autowired
+    private ResourceLoader resourceLoader;
     @Autowired
     public MypageController(MypageService mypageService) {
         this.mypageService = mypageService;

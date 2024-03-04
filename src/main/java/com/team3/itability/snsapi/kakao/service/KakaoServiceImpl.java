@@ -6,9 +6,12 @@ import com.google.gson.JsonParser;
 import com.team3.itability.member.dao.MemberInfoRepo;
 import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.mypage.dao.DegreeDAO;
+import com.team3.itability.mypage.dao.ImageDAO;
 import com.team3.itability.mypage.dao.MemberProfileDAO;
 import com.team3.itability.mypage.dto.DegreeDTO;
+import com.team3.itability.mypage.dto.ImageDTO;
 import com.team3.itability.mypage.dto.MemberProfileDTO;
+import com.team3.itability.mypage.enumData.IMG_USE;
 import com.team3.itability.snsapi.kakao.dao.KakaoRepository;
 import com.team3.itability.snsapi.kakao.domain.Kakaouser;
 import com.team3.itability.member.dto.Provider;
@@ -33,12 +36,14 @@ public class KakaoServiceImpl implements KakaoService {
     private final MemberInfoRepo memberInfoRepo;
     private final MemberProfileDAO memberProfileDAO;
     private final DegreeDAO degreeDAO;
+    private final ImageDAO imageDAO;
     @Autowired
-    public KakaoServiceImpl(KakaoRepository kakaoRepository, MemberInfoRepo memberInfoRepo, MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO) {
+    public KakaoServiceImpl(KakaoRepository kakaoRepository, MemberInfoRepo memberInfoRepo, MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO) {
         this.kakaoRepository = kakaoRepository;
         this.memberInfoRepo = memberInfoRepo;
         this.memberProfileDAO = memberProfileDAO;
         this.degreeDAO = degreeDAO;
+        this.imageDAO = imageDAO;
     }
 
     @Value("${kakao.client-id}")
@@ -156,9 +161,18 @@ public class KakaoServiceImpl implements KakaoService {
             member.setEmail(kakaoouser.getEmail());
             member.setProvider(kakaoouser.getProvider().name());
             System.out.println("member = " + member);
+
+            ImageDTO imageDTO = new ImageDTO();
+            imageDTO.setImgId(imgId);
+            imageDTO.setPath(imgId);
+            imageDTO.setImgUse(IMG_USE.profile);
+            imageDTO.setExt("link");
+            imageDAO.save(imageDTO);
+
             MemberProfileDTO profile = new MemberProfileDTO();
             profile.setMemberInfo(member);
             profile.setNickname(member.getName());
+            profile.setImg(imageDTO);
             System.out.println("profile = " + profile);
             DegreeDTO degree = new DegreeDTO();
             degreeDAO.save(degree);
