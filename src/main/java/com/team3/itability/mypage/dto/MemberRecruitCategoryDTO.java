@@ -7,8 +7,6 @@ import lombok.*;
 
 @Entity(name = "member_recruit_category_dtd")
 @Table(name = "member_recruit_category")
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @ToString
