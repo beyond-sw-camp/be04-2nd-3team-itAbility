@@ -1,5 +1,6 @@
 package com.team3.itability.recruitment.dto;
 
+import com.team3.itability.mypage.dto.SkillDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,12 +12,16 @@ import lombok.*;
 @Entity(name = "recruit_skill")
 @Table(name = "recruit_skill")
 public class RecruitSkillDTO {
-    @Id
-    @JoinColumn(name="recruit_id")
+    @EmbeddedId
+    private RecruitSkillId id;
+
+    @MapsId("recruitId")
     @ManyToOne
+    @JoinColumn(name="recruit_id")
     private RecruitDTO recruitId;
 
-//    @JoinColumn(name="skill_id")
-//    @ManyToOne
-//    private Skill skillDTO;
+    @MapsId("skillId")
+    @ManyToOne
+    @JoinColumn(name="skill_id")
+    private SkillDTO skillDTO;
 }

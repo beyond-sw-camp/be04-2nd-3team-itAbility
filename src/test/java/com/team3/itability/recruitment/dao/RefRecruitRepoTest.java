@@ -1,5 +1,6 @@
 package com.team3.itability.recruitment.dao;
 
+import com.team3.itability.recruitment.dto.RecruitSkillDTO;
 import com.team3.itability.recruitment.dto.RefRecruitCategoryDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,24 @@ import static org.junit.jupiter.api.Assertions.*;
 class RefRecruitRepoTest {
 
     @Autowired
-    private RefRecruitRepo refRecDAO;
+    private RefRecruitRepo refRecruitRepo;
+
+    @Autowired
+    private RecruitSkillRepo recruitSkillRepo;
 
     @Test
     void main(){
-        List<RefRecruitCategoryDTO> refList = refRecDAO.findAll();
+        List<RefRecruitCategoryDTO> refList = refRecruitRepo.findAll();
         refList.forEach(System.out::println);
         assertNotNull(refList);
     }
+
+    @Test
+    void main2(){
+        List<RecruitSkillDTO> recruitSkillList = recruitSkillRepo.findAll();
+        recruitSkillList.forEach(System.out::println);
+        assertNotNull(recruitSkillList);
+    }
+
 
 }

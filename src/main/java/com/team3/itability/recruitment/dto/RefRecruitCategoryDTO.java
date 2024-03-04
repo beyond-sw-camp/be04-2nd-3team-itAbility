@@ -2,7 +2,6 @@ package com.team3.itability.recruitment.dto;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.apache.ibatis.annotations.One;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,5 +23,6 @@ public class RefRecruitCategoryDTO {
     @ManyToOne
     @JoinColumn(name = "recruit_category_id")
     private RecruitCategoryDTO recruitCategory;
+
 
 }
