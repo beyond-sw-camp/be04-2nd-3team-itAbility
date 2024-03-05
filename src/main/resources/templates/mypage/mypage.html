@@ -6,18 +6,24 @@
 </head>
 <style>
     img{
-        width: 400px;
+        width: 100px;
     }
 </style>
 <body>
 
 <h1 align="center"> mypage </h1>
+<h2>프로필</h2>
 <img th:src="${profile.getImg().getPath()}" alt="">            <!--alt: 시각장애인과 같이 이미지를 보지못하는 경우 alt를 읽게 해줌-->
+<br>
+<button onclick="redirectToModifyImagePage()">이미지 수정</button>
+
+
+
 <p th:text="${singleFileDescription}"></p>
 닉네임: <a th:text="${profile.nickname}"/> <br>
 이름: <a th:text="${profile.getMemberInfo().name}"/> <br>
 
-<button onclick="redirectToModifyNamePage()">이름, 닉네임 수정</button>
+<button onclick="redirectToModifyNamePage()">이름,닉네임 수정</button>
 
 <br><br><br><br>
 <h2> 학력 </h2>
@@ -55,37 +61,22 @@
 </table>
 <button onclick="redirectToModifyCareerPage()">경력 조회</button>
 
-
-
-
-
-
-<script>
+<script th:inline="javascript">
+    // 현재 페이지의 URL 가져오기
+    var currentUrl = window.location.href;
+    // URL에서 memberId 값 추출
+    var memberId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
     function redirectToModifyNamePage() {
-        // 현재 페이지의 URL 가져오기
-        var currentUrl = window.location.href;
-        // URL에서 memberId 값 추출
-        var memberId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
         window.location.href = "http://localhost:8080/mypage/" + memberId + "/modify-name";
     }
-</script>
-
-<script>
     function redirectToModifyDegreePage() {
-        // 현재 페이지의 URL 가져오기
-        var currentUrl = window.location.href;
-        // URL에서 memberId 값 추출
-        var memberId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
         window.location.href = "http://localhost:8080/mypage/" + memberId + "/modify-degree";
     }
-</script>
-<script>
     function redirectToModifyCareerPage() {
-        // 현재 페이지의 URL 가져오기
-        var currentUrl = window.location.href;
-        // URL에서 memberId 값 추출
-        var memberId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
         window.location.href = "http://localhost:8080/mypage/" + memberId + "/career-list";
+    }
+    function redirectToModifyImagePage() {
+        window.location.href = "http://localhost:8080/mypage/" + memberId + "/modify-image";
     }
 </script>
 

@@ -154,16 +154,16 @@ public class KakaoServiceImpl implements KakaoService {
         //DB 저장
 //        Kakaouser kakaouser = new Kakaouser(userId, imgId, Provider.KAKAO, name, birthYear, birthDay, email, phone, gender);
         Kakaouser kakaoouser = new Kakaouser(userId, imgId, email, name, Provider.KAKAO);
+
         if(!memberInfoRepo.existsById(userId)) {
             MemberInfoDTO member = new MemberInfoDTO();
             member.setMemberId(userId);
             member.setName(kakaoouser.getName());
             member.setEmail(kakaoouser.getEmail());
             member.setProvider(kakaoouser.getProvider().name());
-            System.out.println("member = " + member);
 
             ImageDTO imageDTO = new ImageDTO();
-            imageDTO.setImgId(imgId);
+            imageDTO.setImgId(member.getMemberId()+"");
             imageDTO.setPath(imgId);
             imageDTO.setImgUse(IMG_USE.profile);
             imageDTO.setExt("link");
@@ -173,7 +173,6 @@ public class KakaoServiceImpl implements KakaoService {
             profile.setMemberInfo(member);
             profile.setNickname(member.getName());
             profile.setImg(imageDTO);
-            System.out.println("profile = " + profile);
             DegreeDTO degree = new DegreeDTO();
             degreeDAO.save(degree);
             profile.setDegree(degree);

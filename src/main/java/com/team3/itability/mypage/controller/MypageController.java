@@ -5,26 +5,33 @@ import com.team3.itability.mypage.dto.CareerDTO;
 import com.team3.itability.mypage.dto.DegreeDTO;
 import com.team3.itability.mypage.dto.ImageDTO;
 import com.team3.itability.mypage.dto.MemberProfileDTO;
+import com.team3.itability.mypage.enumData.IMG_USE;
 import com.team3.itability.mypage.service.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/mypage")
 public class MypageController {
     private final MypageService mypageService;
-    @Autowired
-    private ResourceLoader resourceLoader;
+
     @Autowired
     public MypageController(MypageService mypageService) {
         this.mypageService = mypageService;
     }
+
     /**
      * <h1>MyPage</h1>
      * 마이페이지 컨트롤러
@@ -32,6 +39,7 @@ public class MypageController {
     @GetMapping("/{memberId}")
     public String printMypage(@PathVariable long memberId, Model model){
         MemberProfileDTO profile = mypageService.printMypageData(memberId);
+        System.out.println("profile = " + profile);
         List<CareerDTO> careerList = mypageService.printCareerList(memberId);
         model.addAttribute("careerList",careerList);
         model.addAttribute("profile", profile);
@@ -107,7 +115,21 @@ public class MypageController {
         return "redirect:/mypage/" + memberId;
     }
 
+    /**<h2>modify-Image</h2>*/
+    @GetMapping("/{memberId}/modify-image")
+    public String showModifyImage(@PathVariable long memberId, Model model){
+        ImageDTO image = mypageService.getImageDTO(memberId);
+        System.out.println("image = " + image);
+        model.addAttribute(image);
+        model.addAttribute(memberId);
+        return "mypage/modify-image";
+    }@PostMapping("/{memberId}/mypage/modify-image")
+    public String modifyImage(Model model, @RequestParam MultipartFile imgFile, RedirectAttributes rttr, @RequestParam long memberId) throws IOException {
 
+        ImageDTO image = mypageService.modifyImageDTO(memberId,imgFile);
+        System.out.println("컨트롤러에 들어온 image = " + image);
 
-
+        return "redirect:/mypage/" + memberId;
+        //설명. 계속 새로고침하여 insert되는 것을 막기 위함!!
+    }
 }

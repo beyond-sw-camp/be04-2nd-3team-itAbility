@@ -69,10 +69,10 @@ public class FileUploadController {
     public String multiFileUpload(@RequestParam List<MultipartFile> multiFiles
             , @RequestParam String multiFileDescription, RedirectAttributes rttr) throws IOException {
 
-        String filePath = resourceLoader.getResource("classpath:static/UploadFiles/img/multi").getFile().getAbsolutePath();
+        String filePath = resourceLoader.getResource("classpath:static/images").getFile().getAbsolutePath();
+
         /*사용자가 올린 파일들을 다 rename하고 저장하는 작업 및 디비로 전달하기 위한 List에 쌓기*/
         List<Map<String,String>>files = new ArrayList<>(); // DB에 저장할 값들을 지닌 List
-
         List<String> saveFiles = new ArrayList<>(); /*화면에서 불러올 이미지 경로들(src 경로)*/
         try {
             for(int i=0; i< multiFiles.size();i++){
@@ -90,13 +90,10 @@ public class FileUploadController {
 
                 multiFiles.get(i).transferTo(new File(filePath+"/"+savedName));
 
-                saveFiles.add("uploadFiles/img/multi/"+savedName);
+                saveFiles.add("images"+savedName);
             }
-
             /*성공했다면 화면의 재료를 던져준다.*/
-            rttr.addFlashAttribute("message", "다중 파일 업로드");
             rttr.addFlashAttribute("imgs", saveFiles);
-            rttr.addFlashAttribute("multiFileDescription",multiFileDescription);
 
         }catch (Exception e){
             /* List<Map<String,String>> files로 쌓인 업로드된 파일들을 찾아 일일이 다시 지운다. */
@@ -105,7 +102,6 @@ public class FileUploadController {
                 new File(filePath+"/"+file.get("savedName")).delete();
             }
             /*실패 시 전달할 메시지*/
-            rttr.addFlashAttribute("message", "파일 업로드 실패");
         }
         return "redirect:/result";
     }
