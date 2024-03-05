@@ -44,19 +44,19 @@ public class RecruitController {
     @GetMapping("/regist")
     public void registPage() {}
 
-    // 설명. 모집군 카테고리
-    @GetMapping(value = "/recruit_category", produces = "application/json; charset=UTF-8")
-    @ResponseBody
-    public List<RecruitCategoryDTO> findRecruitCategoryList() {return recruitService.findAllRecruitCategory();}
-
-    // 설명. 기술 카테고리
-    @GetMapping(value = "/skill_category", produces = "application/json; charset=UTF-8")
-    @ResponseBody
-    public List<SkillDTO> findSkillList() {return recruitService.findAllSkill();}
+//    // 설명. 모집군 카테고리
+//    @GetMapping(value = "/recruit_category", produces = "application/json; charset=UTF-8")
+//    @ResponseBody
+//    public List<RecruitCategoryDTO> findRecruitCategoryList() {return recruitService.findAllRecruitCategory();}
+//
+//    // 설명. 기술 카테고리
+//    @GetMapping(value = "/skill_category", produces = "application/json; charset=UTF-8")
+//    @ResponseBody
+//    public List<SkillDTO> findSkillList() {return recruitService.findAllSkill();}
 
     @PostMapping("/regist")
-    public String registRecruit(RecruitDTO recruit) {
-        recruitService.registRecruit(recruit);
+    public String registRecruit(RecruitDTO recruit, @RequestParam long memberId) {
+        recruitService.registRecruit(recruit, memberId);
 
         return "redirect:/recruit/list";    // 리다이렉트 주소(모집글 목록?)
     }

@@ -1,5 +1,7 @@
 package com.team3.itability.recruitment.service;
 
+import com.team3.itability.member.dao.MemberInfoRepo;
+import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.mypage.dao.SkillDAO;
 import com.team3.itability.mypage.dto.SkillDTO;
 import com.team3.itability.recruitment.dao.RecruitCateRepo;
@@ -21,13 +23,15 @@ public class RecruitService {
     private final RecruitRepo recruitRepo;
     private final RecruitCateRepo recruitCateRepo;
     private final SkillDAO skillRepo;
+    private final MemberInfoRepo memberInfoRepo;
 
     @Autowired
-    public RecruitService(ModelMapper mapper, RecruitRepo recruitRepo, RecruitCateRepo recruitCateRepo, SkillDAO skillRepo) {
+    public RecruitService(ModelMapper mapper, RecruitRepo recruitRepo, RecruitCateRepo recruitCateRepo, SkillDAO skillRepo, MemberInfoRepo memberInfoRepo) {
         this.mapper = mapper;
         this.recruitRepo = recruitRepo;
         this.recruitCateRepo = recruitCateRepo;
         this.skillRepo = skillRepo;
+        this.memberInfoRepo = memberInfoRepo;
     }
 
     // 모집군 카테고리 조회
@@ -49,7 +53,10 @@ public class RecruitService {
 
     // 모집글 등록
     @Transactional
-    public void registRecruit(RecruitDTO recruit) {
+    public void registRecruit(RecruitDTO recruit, long memberId) {
+        MemberInfoDTO member = memberInfoRepo.findById(memberId).orElseThrow();
+        recruit.setMemberInfoDTO(member);
+
         recruitRepo.save(mapper.map(recruit, RecruitDTO.class));
     }
 
@@ -61,6 +68,8 @@ public class RecruitService {
         foundRecruit.setRecruitType(recruit.getRecruitType());
         foundRecruit.setRecruitTitle(recruit.getRecruitTitle());
         foundRecruit.setRecruitContent(recruit.getRecruitContent());
+        foundRecruit.setRecruitExpDate(recruit.getRecruitExpDate());
+        foundRecruit.setRecruitMbCnt(recruit.getRecruitMbCnt());
     }
 
     // 모집글 삭제

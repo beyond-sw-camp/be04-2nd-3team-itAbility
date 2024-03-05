@@ -7,8 +7,9 @@
 <body>
     <h1>모집글 등록</h1>
     <form action="/recruit/regist" method="post">
+        <input type="hidden" name="memberId" th:value="3"/>
         <label>모집 분류 : </label>
-        <select name="recruitCategory">
+        <select name="recruitType">
             <option value="O">외주</option>
             <option value="S">프로젝트</option>
         </select><br>
@@ -16,10 +17,10 @@
         <input type="text" name="recruitTitle"><br>
         <label>내용 : </label>
         <input type="text" name="recruitContent"><br>
-        <label>모집군 카테고리 : </label>
-        <select name="recruitCategoryId" id="recruitCategoryId"></select><br>
-        <label>기술 카테고리 : </label>
-        <select name="skillId" id="skillId"></select><br>
+<!--        <label>모집군 카테고리 : </label>-->
+<!--        <select name="recruitCategoryId" id="recruitCategoryId"></select><br>-->
+<!--        <label>기술 카테고리 : </label>-->
+<!--        <select name="skillId" id="skillId"></select><br>-->
         <label>만료일: </label><br>
         <input type="date" name="recruitExpDate" id="recruitExpDate" ><br>
         <label>인원: </label>
