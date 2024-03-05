@@ -46,6 +46,10 @@ public class MemberInfoDTO {
     @Column(name = "report_count")
     private int mbReportCount;
 
+    public void incrementBlacklistCount() {
+        this.blacklistCount += 1;
+    }
+
     // 연관 관계 설정 (MemberProfile)
 //    @OneToOne(mappedBy = "memberId", cascade = CascadeType.ALL)
 //    private MemberProfileDTO memberProfile;

@@ -36,6 +36,7 @@ public class BlackListService {
             blacklistDAO.save(blacklistDTO);
 
             member.setBlacklistStatus(true);
+            member.incrementBlacklistCount();
             memberInfoRepo.save(member);
         }
     }
