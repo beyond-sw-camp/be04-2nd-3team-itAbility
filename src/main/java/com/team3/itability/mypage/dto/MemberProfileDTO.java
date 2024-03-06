@@ -34,5 +34,10 @@ public class MemberProfileDTO {
     @JoinColumn(name = "Degree_id")
     private DegreeDTO degree;
 
-    
+
+    public MemberProfileDTO(MemberInfoDTO memberInfo, String nickname, ImageDTO img) {
+        this.memberInfo = memberInfo;
+        this.nickname = nickname;
+        this.img = img;
+    }
 }

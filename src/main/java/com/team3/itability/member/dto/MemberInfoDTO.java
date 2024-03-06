@@ -46,6 +46,14 @@ public class MemberInfoDTO {
     @Column(name = "report_count")
     private int mbReportCount;
 
+    public MemberInfoDTO(Long userId, String name, String email, Provider provider) {
+        this.memberId = userId;
+        this.name = name;
+        this.email = email;
+        this.provider = provider.name();
+    }
+
+
     public void incrementBlacklistCount() {
         this.blacklistCount += 1;
     }

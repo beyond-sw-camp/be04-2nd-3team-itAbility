@@ -13,16 +13,17 @@ import lombok.*;
 @ToString
 public class MemberSkillDTO {
     @EmbeddedId
-    private MemberSkillId memberId;
+    private MemberSkillId id;
+//    @MapsId("memberId")
+//    @ManyToOne
+//    @JoinColumn(name = "member_id")
+//    @Column(nullable = false)
+//    private long member_id;
 
-    @MapsId("memberId")
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private MemberProfileDTO memberProfile;
-
-    @MapsId("skillId")
-    @ManyToOne
-    @JoinColumn(name = "skill_id")
-    private SkillDTO skill;
+//    @MapsId("skillId")
+//    @ManyToOne
+//    @JoinColumn(name = "skill_id")
+//    @Column(nullable = false)
+//    private int skill;
 
 }

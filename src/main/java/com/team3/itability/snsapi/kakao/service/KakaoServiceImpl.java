@@ -156,23 +156,10 @@ public class KakaoServiceImpl implements KakaoService {
         Kakaouser kakaoouser = new Kakaouser(userId, imgId, email, name, Provider.KAKAO);
 
         if(!memberInfoRepo.existsById(userId)) {
-            MemberInfoDTO member = new MemberInfoDTO();
-            member.setMemberId(userId);
-            member.setName(kakaoouser.getName());
-            member.setEmail(kakaoouser.getEmail());
-            member.setProvider(kakaoouser.getProvider().name());
-
-            ImageDTO imageDTO = new ImageDTO();
-            imageDTO.setImgId(member.getMemberId()+"");
-            imageDTO.setPath(imgId);
-            imageDTO.setImgUse(IMG_USE.profile);
-            imageDTO.setExt("link");
+            MemberInfoDTO member = new MemberInfoDTO(userId,name,email,Provider.KAKAO);
+            ImageDTO imageDTO = new ImageDTO(userId, imgId, IMG_USE.profile, "link");
             imageDAO.save(imageDTO);
-
-            MemberProfileDTO profile = new MemberProfileDTO();
-            profile.setMemberInfo(member);
-            profile.setNickname(member.getName());
-            profile.setImg(imageDTO);
+            MemberProfileDTO profile = new MemberProfileDTO(member,member.getName(),imageDTO);
             DegreeDTO degree = new DegreeDTO();
             degreeDAO.save(degree);
             profile.setDegree(degree);

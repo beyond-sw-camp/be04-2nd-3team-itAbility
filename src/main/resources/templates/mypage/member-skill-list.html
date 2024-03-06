@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>modify</title>
+
+    <style>
+    th, td {
+        padding: 15px;
+    }
+    table {
+        margin-left:auto;margin-right:auto;
+    }
+
+    </style>
+</head>
+<body>
+
+<h1 align="center" > mypage-modify </h1>
+<button th:onclick="'redirectToAddSkillPage(\'' + ${memberId} + '\')'">추가</button><br>
+<table>
+    <tr>
+        <th>기술</th>
+        <th>삭제</th>
+    </tr>
+
+    <tr th:each="memberSkill : ${memberSkills}">
+        <td th:text="${memberSkill.getSkillName()}"></td>
+        <td><button th:onclick="'redirectToRemoveSkillPage(\'' + ${memberId} + '\', \'' + ${memberSkill.getSkillId()} + '\')'"> 삭제 </button></td>
+    </tr>
+
+</table>
+
+<script>
+    function redirectToRemoveSkillPage(memberId, skillId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId+ "/remove-skill"+"/"+skillId;
+    }
+    function redirectToAddSkillPage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId+ "/add-skill";
+    }
+</script>
+
+
+</body>
+</html>

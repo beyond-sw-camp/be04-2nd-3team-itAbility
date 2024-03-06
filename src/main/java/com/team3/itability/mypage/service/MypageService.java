@@ -1,10 +1,7 @@
 package com.team3.itability.mypage.service;
 
 import com.team3.itability.mypage.dao.*;
-import com.team3.itability.mypage.dto.CareerDTO;
-import com.team3.itability.mypage.dto.DegreeDTO;
-import com.team3.itability.mypage.dto.ImageDTO;
-import com.team3.itability.mypage.dto.MemberProfileDTO;
+import com.team3.itability.mypage.dto.*;
 import com.team3.itability.mypage.enumData.IMG_USE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -12,12 +9,13 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
+import java.util.Set;
 
 @Service
 
@@ -29,14 +27,16 @@ public class MypageService {
     MemberSkillDAO memberSkillDAO;
     @Autowired
     private ResourceLoader resourceLoader;
+    SkillDAO skillDAO;
 
     @Autowired
-    public MypageService(MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO, CareerDAO careerDAO, MemberSkillDAO memberSkillDAO) {
+    public MypageService(MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO, CareerDAO careerDAO, MemberSkillDAO memberSkillDAO, SkillDAO skillDAO) {
         this.memberProfileDAO = memberProfileDAO;
         this.degreeDAO = degreeDAO;
         this.imageDAO = imageDAO;
         this.careerDAO = careerDAO;
         this.memberSkillDAO = memberSkillDAO;
+        this.skillDAO = skillDAO;
     }
 
 
@@ -157,4 +157,25 @@ public class MypageService {
 
         return member.getImg();
     }
+
+    public List<SkillDTO> printMemberSkillList(Long memberId) {
+        List<MemberSkillDTO> memberSkills = memberSkillDAO.findByIdMemberId(memberId);
+        List<SkillDTO> skillDTOS = new ArrayList<>();
+        memberSkills.forEach(memberSkill->{
+            int skillId = memberSkill.getId().getSkillId();
+            System.out.println("skillId = " + skillId);
+            skillDTOS.add(skillDAO.findById(skillId).orElseThrow());
+        });
+        memberSkills.forEach(System.out::println);
+        return skillDTOS;
+    }
+
+    public void removeMemberSkill(long memberId, int skillId) {
+        System.out.println("삭제시작");
+        MemberSkillId memberSkillId = new MemberSkillId(memberId,skillId);
+        System.out.println("memberSkillId = " + memberSkillId);
+        memberSkillDAO.deleteById(memberSkillId);
+        System.out.println("삭제완료");
+    }
+
 }

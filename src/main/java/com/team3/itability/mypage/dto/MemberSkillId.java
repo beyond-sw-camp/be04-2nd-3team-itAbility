@@ -1,5 +1,5 @@
 package com.team3.itability.mypage.dto;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -8,23 +8,17 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 @Embeddable
 @ToString
+@EqualsAndHashCode
 public class MemberSkillId implements Serializable {
 
-    private Long memberId;
-    private Integer skillId;
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "member_id")
+    private long memberId;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MemberSkillId that)) return false;
-        return Objects.equals(getMemberId(), that.getMemberId()) && Objects.equals(getSkillId(), that.getSkillId());
-    }
+    @Column(name = "skill_id")
+//    @ManyToOne(fetch = FetchType.LAZY)
+    private int skillId;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getMemberId(), getSkillId());
-    }
 }

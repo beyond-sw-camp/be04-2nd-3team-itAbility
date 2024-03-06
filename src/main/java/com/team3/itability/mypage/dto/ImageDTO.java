@@ -25,4 +25,10 @@ public class ImageDTO {
     private String path;
 
 
+    public ImageDTO(Long imgId, String path, IMG_USE imgUse, String ext) {
+        this.imgId = String.valueOf(imgId);
+        this.path = path;
+        this.imgUse = imgUse;
+        this.ext = ext;
+    }
 }

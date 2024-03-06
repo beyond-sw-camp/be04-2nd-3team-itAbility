@@ -16,7 +16,7 @@ import lombok.*;
 public class SkillDTO {
     @Id
     @Column(name = "skill_id")
-    private Integer skillId;
+    private int skillId;
     @Column(name = "skill_name")
     private String skillName;
 }

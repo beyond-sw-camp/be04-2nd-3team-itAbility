@@ -1,16 +1,15 @@
 package com.team3.itability.mypage.controller;
 
 import com.team3.itability.member.dto.MemberInfoDTO;
-import com.team3.itability.mypage.dto.CareerDTO;
-import com.team3.itability.mypage.dto.DegreeDTO;
-import com.team3.itability.mypage.dto.ImageDTO;
-import com.team3.itability.mypage.dto.MemberProfileDTO;
+import com.team3.itability.mypage.dto.*;
+import com.team3.itability.mypage.entity.MemberSkillEntity;
 import com.team3.itability.mypage.enumData.IMG_USE;
 import com.team3.itability.mypage.service.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,9 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/mypage")
@@ -132,4 +129,24 @@ public class MypageController {
         return "redirect:/mypage/" + memberId;
         //설명. 계속 새로고침하여 insert되는 것을 막기 위함!!
     }
+
+    /**<h1>modify-MemberSkill</h1>*/
+    @GetMapping("/{memberId}/member-skill-list")
+    public String showMemberSkillList(@PathVariable Long memberId, Model model ){
+        List<SkillDTO> skillDTOS = mypageService.printMemberSkillList(memberId);
+        model.addAttribute("memberId",memberId);
+        model.addAttribute("memberSkills",skillDTOS);
+        return "mypage/member-skill-list";
+    }
+
+    @Transactional
+    @GetMapping("{memberId}/remove-skill/{skillId}")
+    public String removeSkill(@PathVariable long memberId, @PathVariable int skillId, Model model){
+        mypageService.removeMemberSkill(memberId,skillId);
+        List<SkillDTO> skillDTOS = mypageService.printMemberSkillList(memberId);
+        model.addAttribute("memberId",memberId);
+        model.addAttribute("memberSkills",skillDTOS);
+        return "mypage/member-skill-list";
+    }
+
 }

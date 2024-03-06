@@ -23,7 +23,7 @@ class MemberProfileDAOTest {
     @Autowired
     ImageDAO imageDAO;
 
-    private int memberCode =1;
+    private Long memberCode =1L;
 
     @Test
     void name() {
