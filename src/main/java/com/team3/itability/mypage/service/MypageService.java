@@ -96,10 +96,12 @@ public class MypageService {
 
         return careerDAO.findByMemberId(memberProfileDTO);
     }
+
     @Transactional(readOnly = true)
     public CareerDTO printCareer(int careerId) {
         return careerDAO.findById(careerId).orElseThrow();
     }
+
     @Transactional
     public CareerDTO modifyCareer(CareerDTO careerDTO) {
         CareerDTO career = careerDAO.findById(careerDTO.getCareerId()).orElseThrow();

@@ -12,6 +12,7 @@ import lombok.*;
 @Entity(name = "recruit")
 @Table(name = "recruit")
 public class RecruitDTO {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recruit_id")
@@ -36,5 +37,4 @@ public class RecruitDTO {
     @JoinColumn(name="member_id")
     @ManyToOne
     private MemberInfoDTO memberInfoDTO;
-
 }

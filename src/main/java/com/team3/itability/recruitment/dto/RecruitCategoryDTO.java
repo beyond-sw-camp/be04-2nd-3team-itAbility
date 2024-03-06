@@ -11,6 +11,7 @@ import lombok.*;
 @Entity(name = "recruit_category")
 @Table(name = "recruit_category")
 public class RecruitCategoryDTO {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recruit_category_id")
