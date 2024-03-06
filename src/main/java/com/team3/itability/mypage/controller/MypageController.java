@@ -47,7 +47,7 @@ public class MypageController {
     }
     /**
      * <h1>modify-name</h1>
-     * 이름, 닉네임 변경 컨트롤러
+     * 개인정보 수정 컨트롤러
      * */
     @GetMapping("/{memberId}/modify-name")
     public String modifyMypage(Model model, @PathVariable long memberId){
@@ -56,8 +56,8 @@ public class MypageController {
         return "mypage/modify";
     }
     @PostMapping("/modify-name")
-    public String modify(Model model, @RequestParam long memberId, @RequestParam String nickname, @RequestParam String name){
-        MemberProfileDTO profile = mypageService.modifyMypage(memberId,nickname,name);
+    public String modify(Model model, @RequestParam long memberId, @RequestParam String nickname, @RequestParam String name, @RequestParam String phone, @RequestParam String birthDate){
+        MemberProfileDTO profile = mypageService.modifyMypage(memberId,nickname,name,phone,birthDate);
         model.addAttribute(memberId);
         String redirectUrl = "redirect:/mypage/" + memberId;
         return redirectUrl;

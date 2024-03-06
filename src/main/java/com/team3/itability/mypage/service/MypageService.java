@@ -64,10 +64,12 @@ public class MypageService {
 
     /** <h1>2. 마이페이지 수정</h1>*/
     @Transactional
-    public MemberProfileDTO modifyMypage(long memberId, String nickname, String name) {
+    public MemberProfileDTO modifyMypage(long memberId, String nickname, String name, String phone, String birthdate) {
         MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberId).orElseThrow();
         memberProfileDTO.setNickname(nickname);
         memberProfileDTO.getMemberInfo().setName(name);
+        memberProfileDTO.getMemberInfo().setPhone(phone);
+        memberProfileDTO.getMemberInfo().setBirthDate(birthdate);
         return memberProfileDTO;
     }
     /**
@@ -138,11 +140,10 @@ public class MypageService {
         String originFileName= imgFile.getOriginalFilename();
         String ext = originFileName.substring(originFileName.lastIndexOf("."));
 
-        new File(filePath+"/"+image.getImgId()).delete();
+        new File(filePath+"/"+image.getImgId()+image.getExt()).delete();
 
         String saveName = memberId+ext;
-
-        /*3. 지정한 경로로 파일 저장하고 */
+        /*3. 지정한 경로로 파일 저장 */
         try {
             imgFile.transferTo(new File(filePath+"/"+saveName));
             image.setExt(ext);

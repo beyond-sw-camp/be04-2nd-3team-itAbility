@@ -22,6 +22,11 @@
 <p th:text="${singleFileDescription}"></p>
 닉네임: <a th:text="${profile.nickname}"/> <br>
 이름: <a th:text="${profile.getMemberInfo().name}"/> <br>
+전화번호: <a th:text="${profile.getMemberInfo().getPhone()}"/> <br>
+생년월일: <a th:text="${profile.getMemberInfo().getBirthDate()}"/> <br>
+신고수: <a th:text="${profile.getMemberInfo().getMbReportCount()}"/> <br>
+블랙횟수: <a th:text="${profile.getMemberInfo().getBlacklistCount()}"/> <br>
+
 
 <button onclick="redirectToModifyNamePage()">이름,닉네임 수정</button>
 

@@ -13,6 +13,8 @@
 
     닉네임: <input type="text" name="nickname" th:value="${profile.nickname}"/> <br>
     이름: <input type="text" name="name" th:value="${profile.getMemberInfo().name}"/> <br>
+    전화번호: <input type="text" name="phone" th:value="${profile.getMemberInfo().getPhone()}"/> <br>
+    생년월일: <input type="date" name="birthDate" th:value="${profile.getMemberInfo().getBirthDate()}"/> <br>
     <input type="submit" value="수정 완료">
 </form>
 
