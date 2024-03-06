@@ -1,6 +1,6 @@
 package com.team3.itability.blackllist.service;
 
-import com.team3.itability.blackllist.dao.BlacklistDAO;
+import com.team3.itability.blackllist.repository.BlacklistDAO;
 import com.team3.itability.blackllist.dto.BlacklistDTO;
 import com.team3.itability.member.dao.MemberInfoRepo;
 import com.team3.itability.member.dto.MemberInfoDTO;

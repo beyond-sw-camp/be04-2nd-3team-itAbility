@@ -1,4 +1,4 @@
-package com.team3.itability.blackllist.dao;
+package com.team3.itability.blackllist.repository;
 
 import com.team3.itability.blackllist.dto.BlacklistDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
