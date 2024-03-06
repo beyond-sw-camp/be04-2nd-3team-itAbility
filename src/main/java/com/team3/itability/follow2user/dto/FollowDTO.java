@@ -1,6 +1,7 @@
 package com.team3.itability.follow2user.dto;
 
 
+import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.mypage.dto.MemberProfileDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,21 +12,18 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-
-@Entity(name="follow_dto")
-@Table(name="follow")
 public class FollowDTO {
-
-    @Id
-    @Column(name="follow_id")
     private int followId;
 
-    @JoinColumn(name="member_id_following")
-    @ManyToOne
-    private MemberProfileDTO following;
+    private MemberInfoDTO following;
 
-    @JoinColumn(name="member_id_followed")
-    @ManyToOne
-    private MemberProfileDTO followed;
+    private MemberInfoDTO followed;
+    public String getfollowing_nickname() {
+        return following != null ? following.getName() : null;
+    }
+
+    public String getfollowed_nickname() {
+        return followed != null ? followed.getName() : null;
+    }
 
 }

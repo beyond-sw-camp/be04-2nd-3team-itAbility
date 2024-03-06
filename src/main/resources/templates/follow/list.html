@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>팔로우 목록</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>팔로우 목록</h2>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">following</th>
+            <th scope="col">followed</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="follow : ${followList}">
+            <td th:text="${follow.followId}">1</td>
+            <td th:text="${follow.getfollowing_nickname()}">following</td>
+            <td th:text="${follow.getfollowed_nickname()}">followed</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

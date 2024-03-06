@@ -1,6 +1,6 @@
 package com.team3.itability.blackllist;
 
-import com.team3.itability.blackllist.repository.BlacklistDAO;
+import com.team3.itability.blackllist.repository.BlacklistRepository;
 import com.team3.itability.blackllist.dto.BlacklistDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BlacklistDAOTest {
 
     @Autowired
-    BlacklistDAO blacklistDAO;
+    BlacklistRepository blacklistDAO;
 
     @Test
     void main() {

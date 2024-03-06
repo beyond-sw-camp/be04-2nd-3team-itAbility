@@ -1,6 +1,6 @@
 package com.team3.itability.follow2user;
 
-import com.team3.itability.follow2user.dao.FollowDAO;
+import com.team3.itability.follow2user.repository.FollowRepository;
 import com.team3.itability.follow2user.dto.FollowDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FollowDAOTest {
 
     @Autowired
-    private FollowDAO followDAO;
+    private FollowRepository followDAO;
 
     @Test
     void main(){
