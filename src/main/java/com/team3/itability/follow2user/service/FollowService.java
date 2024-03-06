@@ -3,6 +3,7 @@ package com.team3.itability.follow2user.service;
 import com.team3.itability.follow2user.aggregate.Follow;
 import com.team3.itability.follow2user.dto.FollowDTO;
 import com.team3.itability.follow2user.repository.FollowRepository;
+import com.team3.itability.member.dao.MemberInfoRepo;
 import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.member.service.MemberInfoService;
 import com.team3.itability.mypage.dto.MemberProfileDTO;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,13 +25,15 @@ public class FollowService {
     private final FollowRepository followRepository;
 
     private final MemberInfoService memberInfoService;
+    private final MemberInfoRepo memberInfoRepo;
 
     @Autowired
     public FollowService(ModelMapper modelMapper, FollowRepository followRepository
-            , MemberInfoService memberInfoService) {
+            , MemberInfoService memberInfoService, MemberInfoRepo memberInfoRepo) {
         this.modelMapper = modelMapper;
         this.followRepository = followRepository;
         this.memberInfoService = memberInfoService;
+        this.memberInfoRepo = memberInfoRepo;
     }
 
     public FollowDTO findFollowById(int followId){
@@ -60,4 +64,13 @@ public class FollowService {
 
         return followRepository.save(follow);
     }
+
+    public List<Follow> getFollowedByFollowingId(Long followingId) {
+        MemberInfoDTO following = memberInfoRepo.findById(followingId).orElse(null);
+        if (following == null) {
+            return Collections.emptyList();
+        }
+        return followRepository.findByFollowing(following);
+    }
+
 }

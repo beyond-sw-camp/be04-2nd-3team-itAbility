@@ -54,4 +54,11 @@ public class FollowController {
         return "redirect:/follow/list";
     }
 
+    @GetMapping("/follows/{followingId}")
+    public String getFollowedByFollowingId(@PathVariable Long followingId, Model model) {
+        List<Follow> followedList = followService.getFollowedByFollowingId(followingId);
+        model.addAttribute("followedList", followedList);
+        return "follow/followedList"; // Thymeleaf 템플릿의 경로를 반환
+    }
+
 }
