@@ -4,6 +4,7 @@ import com.team3.itability.feed.dto.CommentDTO;
 import com.team3.itability.feed.dto.FeedDTO;
 import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.recruitment.dto.RecruitDTO;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -46,14 +47,5 @@ public class ReportDTO {
     @ManyToOne
     @JoinColumn(name="recruit_id")
     private RecruitDTO recruitId;
-    public String getBoardTitle() {
-        return boardId != null ? boardId.getBoardTitile() : null;
-    }
 
-    public String getMemberName() {
-        return memberId != null ? memberId.getName() : null;
-    }
-    public String getCommentContent() {
-        return commentId != null ? commentId.getCmtContent() : null;
-    }
 }

@@ -5,17 +5,21 @@ import com.team3.itability.member.dto.MemberInfoDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-@Entity(name="feed_dto")
-@Table(name="board")
+@Entity(name = "feed_dto")
+@Table(name = "board")
 public class FeedDTO {
 
+
+
     @Id
-    @Column(name="board_id")
+    @Column(name = "board_id")
     private int boardId;
 
     @Column(name = "board_title")
@@ -43,5 +47,8 @@ public class FeedDTO {
     @JoinColumn(name = "img_id")
     @ManyToOne
     private ImgDTO imgId;
+
+    @OneToMany(mappedBy = "feed", fetch = FetchType.LAZY)
+    private List<CommentDTO> comments;
 
 }

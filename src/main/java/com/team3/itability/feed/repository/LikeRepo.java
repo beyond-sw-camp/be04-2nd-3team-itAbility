@@ -1,4 +1,4 @@
-package com.team3.itability.feed.dao;
+package com.team3.itability.feed.repository;
 
 
 import com.team3.itability.feed.dto.LikeDTO;

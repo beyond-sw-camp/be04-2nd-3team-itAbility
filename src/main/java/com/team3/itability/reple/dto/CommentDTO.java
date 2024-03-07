@@ -1,5 +1,7 @@
-package com.team3.itability.feed.dto;
+package com.team3.itability.reple.dto;
 
+
+import com.team3.itability.feed.dto.FeedDTO;
 import com.team3.itability.member.dto.MemberInfoDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +24,10 @@ public class CommentDTO {
 
     @Column(name = "report_count")
     private int reportCount;
+
+    @JoinColumn(name = "board_id")
+    @ManyToOne
+    private FeedDTO boardId;
 
     @JoinColumn(name = "member_id")
     @ManyToOne

@@ -36,12 +36,12 @@ class MemberProfileDAOTest {
      * <h2>showAll()</h2>
      * 프로필 관련 정보들 전부 불러오기 위한 것
      * */
-    @Test
-    void showAll(){
-        //userCode = 1;
-        MemberProfileDTO member = memberProfileDAO.findById(memberCode).orElseThrow();
-        System.out.println("member = " + member);
-
-    }
+//    @Test
+//    void showAll(){
+//        //userCode = 1;
+//        MemberProfileDTO member = memberProfileDAO.findById(memberCode).orElseThrow();
+//        System.out.println("member = " + member);
+//
+//    }
 
 }
