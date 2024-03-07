@@ -3,6 +3,10 @@ package com.team3.itability.snsapi.naver.service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.team3.itability.member.dto.Provider;
+import com.team3.itability.snsapi.naver.aggregate.NaverEntity;
+import com.team3.itability.snsapi.naver.repository.NaverRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +16,17 @@ import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class NaverServiceImpl implements NaverService {
+    private final NaverRepository naverRepository;
+
+    @Autowired
+    public NaverServiceImpl(NaverRepository naverRepository) {
+        this.naverRepository = naverRepository;
+    }
 
     @Value("${naver.client-id}")
     private String clientId;
@@ -73,7 +82,7 @@ public class NaverServiceImpl implements NaverService {
         con.setRequestMethod("GET");
         con.setRequestProperty("Authorization", "Bearer " + accessToken);
 
-        int responseCode = con.getResponseCode();
+        String responseCode = String.valueOf(con.getResponseCode());
         BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
@@ -87,19 +96,24 @@ public class NaverServiceImpl implements NaverService {
         JsonObject jsonObject = parser.parse(response.toString()).getAsJsonObject();
         JsonObject responseObj = jsonObject.getAsJsonObject("response");
 
-        if (responseObj != null) {
-            String id = responseObj.has("id") ? responseObj.get("id").getAsString() : null;
-            String email = responseObj.has("email") ? responseObj.get("email").getAsString() : null;
-            String name = responseObj.has("name") ? responseObj.get("name").getAsString() : null;
-            String profileImage = responseObj.has("profile_image") ? responseObj.get("profile_image").getAsString() : null;
+        String userId = responseObj.has("id") ? responseObj.get("id").getAsString() : null;
+        String email = responseObj.has("email") ? responseObj.get("email").getAsString() : null;
+        String name = responseObj.has("name") ? responseObj.get("name").getAsString() : null;
+        String imgId = responseObj.has("profile_image") ? responseObj.get("profile_image").getAsString() : null;
 
-            userInfoMap.put("id", id);
-            userInfoMap.put("email", email);
-            userInfoMap.put("name", name);
-            userInfoMap.put("profileImage", profileImage);
+        userInfoMap.put("userId", userId);
+        userInfoMap.put("email", email);
+        userInfoMap.put("name", name);
+        userInfoMap.put("imgId", imgId);
+
+        try {
+            NaverEntity naverEntity = new NaverEntity(userId, imgId, email, name, Provider.NAVER);
+            naverRepository.save(naverEntity);
+            System.out.println("저장이 됨:  " + naverEntity);
+        } catch (Exception e) {
+            System.err.println("저장이 안됨: " + e.getMessage());
         }
 
         return userInfoMap;
     }
-
 }

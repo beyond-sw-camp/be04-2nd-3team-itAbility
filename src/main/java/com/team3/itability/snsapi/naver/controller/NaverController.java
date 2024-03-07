@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 @RestController
@@ -44,7 +43,7 @@ public class NaverController {
     public ModelAndView naverLogin(@RequestParam("code") String code, @RequestParam("state") String state) throws Exception {
         String accessToken = naverService.getToken(code, state);
         Map<String, Object> userInfo = naverService.getUserInfo(accessToken);
-        ModelAndView mav = new ModelAndView("naverUserInfo");
+        ModelAndView mav = new ModelAndView("NaverUserInfo");
         mav.addObject("userInfo", userInfo);
         return mav;
     }
