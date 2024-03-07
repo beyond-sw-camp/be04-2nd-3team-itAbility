@@ -4,16 +4,14 @@ import com.team3.itability.member.dao.MemberInfoRepo;
 import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.recruitment.dto.MemberRecruitsInfoDTO;
 import com.team3.itability.recruitment.dto.RecruitDTO;
+import com.team3.itability.recruitment.dto.RecruitStatus;
 import com.team3.itability.recruitment.repository.MemberRecruitsInfoRepo;
 import com.team3.itability.recruitment.repository.MemberRecruitsMapper;
 import com.team3.itability.recruitment.repository.RecruitRepo;
 import com.team3.itability.recruitment.vo.MemberRecruitsInfoVO;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
 @Service
@@ -47,8 +45,26 @@ public class MemberRecruitsInfoService {
         memberRecruitsInfoRepo.save(memberRecruitsInfoDTO);
     }
 
+
+    public void acceptMemberRecruit(int memberRecruitInfoId) {
+
+        MemberRecruitsInfoDTO foundRecruit = memberRecruitsInfoRepo.findById(memberRecruitInfoId).orElseThrow(IllegalAccessError::new);
+
+        foundRecruit.setRecruitStatus(RecruitStatus.수락);
+        memberRecruitsInfoRepo.save(foundRecruit);
+    }
+
+    public void rejectMemberRecruit(int memberRecruitInfoId) {
+
+        MemberRecruitsInfoDTO foundRecruit = memberRecruitsInfoRepo.findById(memberRecruitInfoId).orElseThrow(IllegalAccessError::new);
+
+        foundRecruit.setRecruitStatus(RecruitStatus.거절);
+        memberRecruitsInfoRepo.save(foundRecruit);
+    }
+
     public void deleteMemberRecruit(int memberRecruitInfoId) {
 
         memberRecruitsInfoRepo.deleteById(memberRecruitInfoId);
     }
+
 }

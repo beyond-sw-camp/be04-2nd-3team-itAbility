@@ -44,6 +44,22 @@ public class MemberRecruitsInfoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
+    @PutMapping("/accept/{memberRecruitInfoId}")
+    public ResponseEntity<?> acceptMemberRecruit(@PathVariable int memberRecruitInfoId) {
+
+        memberRecruitsInfoService.acceptMemberRecruit(memberRecruitInfoId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+    }
+
+    @PutMapping("/reject/{memberRecruitInfoId}")
+    public ResponseEntity<?> rejectMemberRecruit(@PathVariable int memberRecruitInfoId) {
+
+        memberRecruitsInfoService.rejectMemberRecruit(memberRecruitInfoId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+    }
+
     @DeleteMapping("/{memberRecruitInfoId}")
     public ResponseEntity<?> deleteMemberRecruit(@PathVariable int memberRecruitInfoId) {
 
