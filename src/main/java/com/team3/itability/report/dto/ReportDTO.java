@@ -9,6 +9,8 @@ import com.team3.itability.reple.aggregate.CommentEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,37 +18,14 @@ import lombok.*;
 @Setter
 @ToString
 
-@Entity(name="report_dto")
-@Table(name="report")
 public class ReportDTO {
 
-    @Id
-    @Column(name = "report_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reportId;
-
-    @Column(name="report_date")
-    @Temporal(TemporalType.DATE)
-    private java.util.Date reportDate;
-
-    @ManyToOne
-    @JoinColumn(name="board_id")
-    private FeedDTO boardId;
-
-    @ManyToOne
-    @JoinColumn(name="member_id")
-    private MemberInfoDTO memberId;
-
-    @Column(name="report_category_id")
+    private Date reportDate = new Date();
     private int reportCategoryId;
+    private ReportTargetType reportTargetType;
+    private Long memberId;
+    private Long reportTargetId;
 
-    @ManyToOne
-    @JoinColumn(name="cmt_id")
-    private CommentEntity commentId;
-
-
-    @ManyToOne
-    @JoinColumn(name="recruit_id")
-    private RecruitDTO recruitId;
 
 }
