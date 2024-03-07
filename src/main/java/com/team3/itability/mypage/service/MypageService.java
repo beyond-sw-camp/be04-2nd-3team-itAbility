@@ -220,4 +220,14 @@ public class MypageService {
     }
 
 
+    public void removeMemberRecruitCagegory(long memberId, int recruitCategory) {
+        MemberRecruitCategoryId memberRecruitCategoryId = new MemberRecruitCategoryId(memberId,recruitCategory);
+        memberRecruitCategoryDAO.deleteById(memberRecruitCategoryId);
+    }
+
+    public void addMemberRecruitCagegory(long memberId, int recruitCategory) {
+        MemberRecruitCategoryId memberRecruitCategoryId = new MemberRecruitCategoryId(memberId,recruitCategory);
+        MemberRecruitCategoryDTO memberRecruitCategoryDTO = new MemberRecruitCategoryDTO(memberRecruitCategoryId);
+        memberRecruitCategoryDAO.save(memberRecruitCategoryDTO);
+    }
 }

@@ -35,9 +35,12 @@ public class MypageController {
         System.out.println("profile = " + profile);
         List<CareerDTO> careerList = mypageService.printCareerList(memberId);
         MemberAndRemainSkillEntity skillDTOS = mypageService.printMemberSkillList(memberId);
+        MemberAndRemainRecruitCategoryEntity RecruitCategoryDTOS = mypageService.printMemberRecruitList(memberId);
+        model.addAttribute("recruits", RecruitCategoryDTOS);
         model.addAttribute("skill",skillDTOS);
         model.addAttribute("careerList",careerList);
         model.addAttribute("profile", profile);
+
 
         return "mypage/mypage";
     }
@@ -158,11 +161,29 @@ public class MypageController {
 
 
     /**<h1>Modify Member Recruit Category</h1>*/
-    @GetMapping("{memberId}/MemberRecruitCategory")
+    @GetMapping("{memberId}/memberRecruitCategory")
     public String printMemberRecruitCategory(@PathVariable Long memberId, Model model ) {
         MemberAndRemainRecruitCategoryEntity RecruitCategoryDTOS = mypageService.printMemberRecruitList(memberId);
         model.addAttribute("recruits", RecruitCategoryDTOS);
         System.out.println("recruitcategory 조회 완");
+        return "mypage/member-recruit-category-list";
+    }
+    @Transactional
+    @GetMapping("{memberId}/remove-recruit-category/{recruitCategory}")
+    public String removeMemberRecruitCategory(@PathVariable long memberId, @PathVariable int recruitCategory, Model model){
+        mypageService.removeMemberRecruitCagegory(memberId,recruitCategory);
+        MemberAndRemainRecruitCategoryEntity RecruitCategoryDTOS = mypageService.printMemberRecruitList(memberId);
+        model.addAttribute("recruits",RecruitCategoryDTOS);
+        System.out.println("이전 페이지로 돌아갑니다.");
+        return "mypage/member-recruit-category-list";
+    }
+    @Transactional
+    @GetMapping("{memberId}/add-recruit-category/{recruitCategory}")
+    public String addMemberRecruitCategory(@PathVariable long memberId, @PathVariable int recruitCategory, Model model){
+        mypageService.addMemberRecruitCagegory(memberId,recruitCategory);
+        MemberAndRemainRecruitCategoryEntity RecruitCategoryDTOS = mypageService.printMemberRecruitList(memberId);
+        model.addAttribute("recruits",RecruitCategoryDTOS);
+        System.out.println("이전 페이지로 돌아갑니다.");
         return "mypage/member-recruit-category-list";
     }
 

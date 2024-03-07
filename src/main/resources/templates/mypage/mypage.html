@@ -79,6 +79,15 @@
 </table>
 <button onclick="redirectToSkillPage()">기술스택 수정하기</button>
 
+<h2>전문분야</h2>
+<table>
+    <tr th:each="memberRecruit : ${recruits.getMemberRecruitList()}">
+        <td th:text="${memberRecruit.getRecruitName()}"></td>
+    </tr>
+</table>
+<button onclick="redirectToMemberRecruitCategoryPage()">기술스택 수정하기</button>
+
+
 
 <script th:inline="javascript">
     // 현재 페이지의 URL 가져오기
@@ -99,6 +108,9 @@
     }
     function redirectToSkillPage() {
         window.location.href = "http://localhost:8080/mypage/" + memberId + "/member-skill-list";
+    }
+    function redirectToMemberRecruitCategoryPage() {
+        window.location.href = "http://localhost:8080/mypage/" + memberId + "/memberRecruitCategory";
     }
     function redirectToMain() {
         window.location.href = "http://localhost:8080";

@@ -5,7 +5,6 @@ import jakarta.persistence.Embeddable;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,7 +13,7 @@ import java.util.Objects;
 @Embeddable
 @ToString
 @EqualsAndHashCode
-public class memberRecruitCategoryId implements Serializable {
+public class MemberRecruitCategoryId implements Serializable {
     @Column(name = "member_id")
     private Long memberId;
     @Column(name = "recruit_category_id")

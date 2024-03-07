@@ -14,6 +14,6 @@ import lombok.*;
 @AllArgsConstructor
 public class MemberRecruitCategoryDTO {
     @EmbeddedId
-    private memberRecruitCategoryId Id;
+    private MemberRecruitCategoryId Id;
 
 }
