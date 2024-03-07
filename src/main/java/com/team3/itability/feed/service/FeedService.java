@@ -1,7 +1,7 @@
 package com.team3.itability.feed.service;
 
-import com.team3.itability.feed.dto.CommentDTO;
-import com.team3.itability.feed.repository.CommentRepo;
+import com.team3.itability.reple.aggregate.CommentEntity;
+import com.team3.itability.reple.repository.CommentRepo;
 import com.team3.itability.feed.repository.FeedRepo;
 import com.team3.itability.feed.dto.FeedDTO;
 import com.team3.itability.member.dao.MemberInfoRepo;
@@ -36,7 +36,7 @@ public class FeedService {
     /* 게시물 상세 조회시 댓글 출력 */
     public FeedDTO findFeedById(int id) {
         FeedDTO feed = feedRepo.findById(id).orElseThrow();
-        List<CommentDTO> comments = commentRepo.findByBoardId(id);
+        List<CommentEntity> comments = commentRepo.findByBoardId(id);
         feed.setComments(comments);
 
         return feed;

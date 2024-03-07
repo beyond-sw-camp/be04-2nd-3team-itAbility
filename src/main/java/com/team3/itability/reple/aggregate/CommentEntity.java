@@ -1,4 +1,5 @@
-package com.team3.itability.feed.dto;
+package com.team3.itability.reple.aggregate;
+
 
 import com.team3.itability.member.dto.MemberInfoDTO;
 import jakarta.persistence.*;
@@ -11,7 +12,7 @@ import lombok.*;
 @ToString
 @Entity(name = "comment_dto")
 @Table(name = "comment")
-public class CommentDTO {
+public class CommentEntity {
 
     @Id
     @Column(name = "cmt_id")
@@ -29,6 +30,5 @@ public class CommentDTO {
 
     @Column(name = "cmt_content")
     private String cmtContent;
-
 
 }
