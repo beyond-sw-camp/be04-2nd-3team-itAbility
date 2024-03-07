@@ -1,6 +1,6 @@
 package com.team3.itability.report;
 
-import com.team3.itability.report.dao.ReportDAO;
+import com.team3.itability.report.repository.ReportRepository;
 import com.team3.itability.report.dto.ReportDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ReportDAOTest {
 
     @Autowired
-    private ReportDAO reportDAO;
+    private ReportRepository reportDAO;
 
     @Test
     void main(){
