@@ -43,7 +43,6 @@ public class GoogleServiceImpl implements GoogleService {
     @Override
     public String getToken(String code) throws Exception {
         String access_Token = "";
-        // 올바른 엔드포인트로 수정합니다.
         final String requestUrl = "https://oauth2.googleapis.com/token";
 
         // HTTP 연결 설정
@@ -58,7 +57,7 @@ public class GoogleServiceImpl implements GoogleService {
         StringBuilder sb = new StringBuilder();
         sb.append("code=").append(URLEncoder.encode(code, "UTF-8"));
         sb.append("&client_id=").append(URLEncoder.encode("529642165041-sv8fd7c0sb7to66f25t1h98av3qhmomv.apps.googleusercontent.com", "UTF-8"));
-        sb.append("&client_secret=").append(URLEncoder.encode("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", "UTF-8")); // 클라이언트 시크릿 추가
+        sb.append("&client_secret=").append(URLEncoder.encode("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", "UTF-8"));
         sb.append("&redirect_uri=").append(URLEncoder.encode("http://localhost:8080/login/google", "UTF-8"));
         sb.append("&grant_type=authorization_code");
 
@@ -89,7 +88,7 @@ public class GoogleServiceImpl implements GoogleService {
             System.out.println("Access Token: " + access_Token);
         } else {
             // 토큰을 얻지 못했을 경우의 처리
-            System.out.println("토큰 못가져왔어요...");
+            System.out.println("토큰 못가져옴...");
         }
 
 

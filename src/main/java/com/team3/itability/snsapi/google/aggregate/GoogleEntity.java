@@ -16,6 +16,7 @@ public class GoogleEntity {
     private Long userId;
     private String profile;
     private String email;
+    private String name;
     @Enumerated(EnumType.STRING)
     private Provider provider;
 
