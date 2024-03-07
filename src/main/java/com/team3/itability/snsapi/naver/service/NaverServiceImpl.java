@@ -1,89 +1,105 @@
 package com.team3.itability.snsapi.naver.service;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class NaverServiceImpl implements NaverService {
 
     @Value("${naver.client-id}")
-    private String apiKey;
+    private String clientId;
+
+    @Value("${naver.client-secret}")
+    private String clientSecret;
 
     @Value("${naver.redirect-uri}")
     private String redirectUri;
 
-    @Value("${naver.client-secret}")
-    private String secretKey;
-
-    public void main(String[] args) {
-        String clientId = apiKey;
-        String clientSecret = secretKey;
-
-        String originalURL = redirectUri;
-        String apiURL = "https://openapi.naver.com/v1/util/shorturl?url=" + originalURL;
-
-        Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", clientId);
-        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-        String responseBody = get(apiURL,requestHeaders);
-
-        System.out.println(responseBody);
+    // CSRF 방지를 위한 상태 토큰 생성
+    @Override
+    public String generateState() {
+        SecureRandom random = new SecureRandom();
+        return new BigInteger(130, random).toString(32);
     }
 
-    private static String get(String apiUrl, Map<String, String> requestHeaders){
-        HttpURLConnection con = connect(apiUrl);
-        try {
-            con.setRequestMethod("GET");
-            for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
-                con.setRequestProperty(header.getKey(), header.getValue());
-            }
+    // 네이버 액세스 토큰 받아오기
+    @Override
+    public String getToken(String code, String state) throws Exception {
+        String requestUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code"
+                + "&client_id=" + clientId
+                + "&client_secret=" + clientSecret
+                + "&redirect_uri=" + redirectUri
+                + "&code=" + code
+                + "&state=" + state;
 
-            int responseCode = con.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
-                return readBody(con.getInputStream());
-            } else { // 에러 발생
-                return readBody(con.getErrorStream());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("API 요청과 응답 실패", e);
-        } finally {
-            con.disconnect();
+        URL url = new URL(requestUrl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String line;
+        StringBuilder response = new StringBuilder();
+        while ((line = br.readLine()) != null) {
+            response.append(line);
         }
+        br.close();
+
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(response.toString());
+        return element.getAsJsonObject().get("access_token").getAsString();
     }
 
-    private static HttpURLConnection connect(String apiUrl){
-        try {
-            URL url = new URL(apiUrl);
-            return (HttpURLConnection)url.openConnection();
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("API URL이 잘못되었습니다. : " + apiUrl, e);
-        } catch (IOException e) {
-            throw new RuntimeException("연결이 실패했습니다. : " + apiUrl, e);
+    // 네이버 사용자 프로필 정보 조회
+    @Override
+    public Map<String, Object> getUserInfo(String accessToken) throws Exception {
+        Map<String, Object> userInfoMap = new HashMap<>();
+        final String requestUrl = "https://openapi.naver.com/v1/nid/me";
+
+        URL url = new URL(requestUrl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Authorization", "Bearer " + accessToken);
+
+        int responseCode = con.getResponseCode();
+        BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        while ((inputLine = br.readLine()) != null) {
+            response.append(inputLine);
         }
-    }
+        br.close();
 
-    private static String readBody(InputStream body){
-        InputStreamReader streamReader = new InputStreamReader(body);
+        // JSON 파싱
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(response.toString()).getAsJsonObject();
+        JsonObject responseObj = jsonObject.getAsJsonObject("response");
 
-        try (BufferedReader lineReader = new BufferedReader(streamReader)) {
-            StringBuilder responseBody = new StringBuilder();
+        if (responseObj != null) {
+            String id = responseObj.has("id") ? responseObj.get("id").getAsString() : null;
+            String email = responseObj.has("email") ? responseObj.get("email").getAsString() : null;
+            String name = responseObj.has("name") ? responseObj.get("name").getAsString() : null;
+            String profileImage = responseObj.has("profile_image") ? responseObj.get("profile_image").getAsString() : null;
 
-            String line;
-            while ((line = lineReader.readLine()) != null) {
-                responseBody.append(line);
-            }
-
-            return responseBody.toString();
-        } catch (IOException e) {
-            throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
+            userInfoMap.put("id", id);
+            userInfoMap.put("email", email);
+            userInfoMap.put("name", name);
+            userInfoMap.put("profileImage", profileImage);
         }
+
+        return userInfoMap;
     }
+
 }
