@@ -6,7 +6,6 @@ import com.team3.itability.follow2user.repository.FollowRepository;
 import com.team3.itability.member.dao.MemberInfoRepo;
 import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.member.service.MemberInfoService;
-import com.team3.itability.mypage.dto.MemberProfileDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;

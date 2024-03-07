@@ -1,7 +1,6 @@
 package com.team3.itability.follow2user.aggregate;
 
 import com.team3.itability.member.dto.MemberInfoDTO;
-import com.team3.itability.mypage.dto.MemberProfileDTO;
 import lombok.*;
 import jakarta.persistence.*;
 @NoArgsConstructor

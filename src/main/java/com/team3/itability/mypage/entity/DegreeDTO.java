@@ -1,4 +1,4 @@
-package com.team3.itability.mypage.dto;
+package com.team3.itability.mypage.entity;
 
 
 import jakarta.persistence.*;
@@ -29,6 +29,12 @@ public class DegreeDTO {
     private boolean registerStatus;
 
 
-    
+    public void update(String finalEduName, String enrollDate, String graduateDate, String major, boolean registerStatus) {
+        this.finalEduName = finalEduName;
+        this.enrollDate = enrollDate;
+        this.graduateDate = graduateDate;
+        this.major = major;
+        this.registerStatus = registerStatus;
+    }
 }
 

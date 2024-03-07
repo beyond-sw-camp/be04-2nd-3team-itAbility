@@ -14,7 +14,7 @@
 
 <h1 align="center" > mypage-image </h1>
 
-<img th:src="${imageDTO.getPath()}" alt="">            <!--alt: 시각장애인과 같이 이미지를 보지못하는 경우 alt를 읽게 해줌-->
+<img th:src="${image.getPath()}" alt="">            <!--alt: 시각장애인과 같이 이미지를 보지못하는 경우 alt를 읽게 해줌-->
 
 <form action="mypage/modify-image" method="post" enctype="multipart/form-data"> <!--인코딩 타입을 지정해야한다!-->
     <input type="hidden" name="memberId" th:value="${memberId}" />

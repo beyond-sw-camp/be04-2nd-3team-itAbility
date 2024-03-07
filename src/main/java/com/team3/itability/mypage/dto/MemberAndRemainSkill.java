@@ -1,6 +1,6 @@
-package com.team3.itability.mypage.entity;
+package com.team3.itability.mypage.dto;
 
-import com.team3.itability.mypage.dto.SkillDTO;
+import com.team3.itability.mypage.entity.SkillDTO;
 import lombok.*;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class MemberAndRemainSkillEntity {
+public class MemberAndRemainSkill {
     private long memberId;
     private List<SkillDTO> memberSkillList;
     private List<SkillDTO> remainSkillList;

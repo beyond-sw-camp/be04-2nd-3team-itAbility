@@ -1,7 +1,5 @@
 package com.team3.itability.recruitment.controller;
 
-import com.team3.itability.mypage.dto.SkillDTO;
-import com.team3.itability.recruitment.dto.RecruitCategoryDTO;
 import com.team3.itability.recruitment.dto.RecruitDTO;
 import com.team3.itability.recruitment.service.RecruitService;
 import org.springframework.beans.factory.annotation.Autowired;

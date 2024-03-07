@@ -1,6 +1,6 @@
 package com.team3.itability.recruitment.dto;
 
-import com.team3.itability.mypage.dto.SkillDTO;
+import com.team3.itability.mypage.entity.SkillDTO;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -3,7 +3,6 @@ package com.team3.itability.mypage.dao;
 
 import com.team3.itability.member.dao.MemberInfoRepo;
 import com.team3.itability.member.dto.MemberInfoDTO;
-import com.team3.itability.mypage.dto.ImageDTO;
 //import com.team3.itability.mypage.dto.MemberProfileDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

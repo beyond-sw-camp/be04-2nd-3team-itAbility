@@ -1,7 +1,7 @@
 package com.team3.itability;
 
 import com.team3.itability.mypage.dao.DegreeDAO;
-import com.team3.itability.mypage.dto.DegreeDTO;
+import com.team3.itability.mypage.entity.DegreeDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

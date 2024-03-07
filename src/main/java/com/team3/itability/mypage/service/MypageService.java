@@ -2,11 +2,10 @@ package com.team3.itability.mypage.service;
 
 import com.team3.itability.mypage.dao.*;
 import com.team3.itability.mypage.dto.*;
-import com.team3.itability.mypage.entity.MemberAndRemainRecruitCategoryEntity;
-import com.team3.itability.mypage.entity.MemberAndRemainSkillEntity;
+import com.team3.itability.mypage.entity.*;
 import com.team3.itability.mypage.enumData.IMG_USE;
 import com.team3.itability.recruitment.dto.RecruitCategoryDTO;
-import com.team3.itability.recruitment.dto.RecruitDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -24,21 +23,23 @@ import java.util.Set;
 @Service
 
 public class MypageService {
-    MemberProfileDAO memberProfileDAO;
-    DegreeDAO degreeDAO;
-    ImageDAO imageDAO;
-    CareerDAO careerDAO;
-    MemberSkillDAO memberSkillDAO;
+    private final MemberProfileDAO memberProfileDAO;
+    private final DegreeDAO degreeDAO;
+    private final ImageDAO imageDAO;
+    private final CareerDAO careerDAO;
+    private final MemberSkillDAO memberSkillDAO;
     @Autowired
-    private ResourceLoader resourceLoader;
-    SkillDAO skillDAO;
+    private ResourceLoader resourceLoader;      //이미지용도
+    private final SkillDAO skillDAO;
     private final MemberRecruitCategoryDAO memberRecruitCategoryDAO;
     private final RecruitCategoryDAO recruitCategoryDAO;
+
+    private ModelMapper modelMapper;
 
     @Autowired
     public MypageService(MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO, CareerDAO careerDAO, MemberSkillDAO memberSkillDAO, SkillDAO skillDAO,
                          MemberRecruitCategoryDAO memberRecruitCategoryDAO,
-                         RecruitCategoryDAO recruitCategoryDAO
+                         RecruitCategoryDAO recruitCategoryDAO, ModelMapper modelMapper
                     ) {
         this.memberProfileDAO = memberProfileDAO;
         this.degreeDAO = degreeDAO;
@@ -48,6 +49,7 @@ public class MypageService {
         this.skillDAO = skillDAO;
         this.memberRecruitCategoryDAO = memberRecruitCategoryDAO;
         this.recruitCategoryDAO = recruitCategoryDAO;
+        this.modelMapper = modelMapper;
     }
 
 
@@ -84,108 +86,97 @@ public class MypageService {
         return memberProfileDTO;
     }
     /**
-     * <h1>3. 학력 수정</h1>
+     * <h1>3. 학력 수정 - fin</h1>
      * */
     @Transactional
-    public MemberProfileDTO modifyDegree(long memberId, DegreeDTO degreeDTO) {
+    public void modifyDegree(long memberId, Degree degree) {
 
         MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberId).orElseThrow();
-        memberProfileDTO.getDegree().setMajor(degreeDTO.getMajor());
-        memberProfileDTO.getDegree().setEnrollDate(degreeDTO.getEnrollDate());
-        memberProfileDTO.getDegree().setGraduateDate(degreeDTO.getGraduateDate());
-        memberProfileDTO.getDegree().setFinalEduName(degreeDTO.getFinalEduName());
-        memberProfileDTO.getDegree().setRegisterStatus(degreeDTO.isRegisterStatus());
-        System.out.println("memberProfileDTO = " + memberProfileDTO.getDegree());
-        /*egree=DegreeDTO{degreeId=1, finalEduName='서울대학교', enrollDate='2010-03-01', graduateDate='2014-02-28', major='컴퓨터 공학', registerStatus=false*/
-        return memberProfileDTO;
+        DegreeDTO degreeDTO = memberProfileDTO.getDegree();
+        degreeDTO.update(degree.getFinalEduName(),degree.getEnrollDate(),
+                degree.getGraduateDate() ,degree.getMajor(), degree.isRegisterStatus() );
     }
 
-    /**<h1>4. 경력 조회,수정,추가</h1>*/
+    /**<h1>4. 경력 조회,수정,추가 - fin</h1>*/
     @Transactional(readOnly = true)
-    public List<CareerDTO> printCareerList(long memberId){
+    public List<Career> printCareerList(long memberId){
         MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberId).orElseThrow();
-
-        return careerDAO.findByMemberId(memberProfileDTO);
+        List<CareerDTO> careerList =careerDAO.findByMemberId(memberProfileDTO);
+        List<Career> returnValue= new ArrayList<>();
+        careerList.forEach(careerEntity->{
+            returnValue.add(new Career(careerEntity.getCareerId(),careerEntity.getCompanyName(),careerEntity.getStartDate()
+            , careerEntity.getEndDate(),careerEntity.getRole(),careerEntity.getAssignedTask(), careerEntity.isCurrentJob()
+            ,careerEntity.getMemberId())
+            );
+        });
+        return returnValue;
     }
 
     @Transactional(readOnly = true)
-    public CareerDTO printCareer(int careerId) {
-        return careerDAO.findById(careerId).orElseThrow();
+    public Career printCareer(int careerId) {
+        return modelMapper.map(careerDAO.findById(careerId).orElseThrow(), Career.class);
     }
 
     @Transactional
-    public CareerDTO modifyCareer(CareerDTO careerDTO) {
-        CareerDTO career = careerDAO.findById(careerDTO.getCareerId()).orElseThrow();
-        career.setCompanyName(careerDTO.getCompanyName());
-        career.setStartDate(career.getStartDate());
-        career.setEndDate(career.getEndDate());
-        career.setRole(career.getRole());
-        career.setAssignedTask(career.getAssignedTask());
-        career.setCurrentJob(career.isCurrentJob());
-        return career;
+    public void modifyCareer(Career career) {
+        CareerDTO careerDTO = getCareerDTO(career);
+        careerDAO.save(careerDTO);
     }
 
     @Transactional
-    public CareerDTO addCareer(CareerDTO careerDTO, long memberId) {
+    public void addCareer(Career career, long memberId) {
         MemberProfileDTO member = memberProfileDAO.findById(memberId).orElseThrow();
+        CareerDTO careerDTO = getCareerDTO(career);
         careerDTO.setMemberId(member);
         careerDAO.save(careerDTO);
-        return careerDTO;
     }
 
-    public ImageDTO getImageDTO(long memberId) {
-        MemberProfileDTO member = memberProfileDAO.findById(memberId).orElseThrow();
+    private static CareerDTO getCareerDTO(Career career) {
+        return new CareerDTO(career.getCareerId(), career.getCompanyName(), career.getStartDate(),
+                career.getEndDate(), career.getRole(), career.getAssignedTask(), career.isCurrentJob(),
+                career.getMemberId());
+    }
 
-        return member.getImg();
+    /**<h1>5.이미지 조회, 수정 - fin</h1>*/
+    public Image getImage(long memberId) {
+        MemberProfileDTO member = memberProfileDAO.findById(memberId).orElseThrow();
+        return modelMapper.map(member.getImg(),Image.class);
     }
 
     @Transactional
-    public ImageDTO modifyImageDTO(long memberId, MultipartFile imgFile) throws IOException {
-
+    public void modifyImageDTO(long memberId, MultipartFile imgFile) throws IOException {
         MemberProfileDTO member = memberProfileDAO.findById(memberId).orElseThrow();
         ImageDTO image = member.getImg();
-
-        /*1. build 경로의 static에 있는 파일 업로드 할 곳의 경로를 받아온다.(미리 경로에 해당하는 디렉토리 생성 및 빌드 확인할 것)*/
         Resource resource = resourceLoader.getResource("classpath:static/images/profile");
         String filePath =resource.getFile().getAbsolutePath();
-
-        /*2. 사용자가 넘긴 파일을 확인하고, rename 해보기 (날짜로 이름을 변경하는 방식과 랜덤 uuid를 만드는 방식이 있는데 후자 방식으로 하는 예시)*/
         String originFileName= imgFile.getOriginalFilename();
         String ext = originFileName.substring(originFileName.lastIndexOf("."));
-
         new File(filePath+"/"+image.getImgId()+image.getExt()).delete();
-
         String saveName = memberId+ext;
-        /*3. 지정한 경로로 파일 저장 */
         try {
             imgFile.transferTo(new File(filePath+"/"+saveName));
-            image.setExt(ext);
-            image.setImgUse(IMG_USE.profile);
-            image.setPath("/images/profile/"+saveName);
-
+            image= new ImageDTO(member.getMemberId(),"/images/profile/"+saveName,IMG_USE.profile,ext);
+            imageDAO.save(image);
         } catch(IOException e){
-            /*설명. try 구문 안에서(디비를 다녀오는 비즈니스 로직 처리) 예외가 발생하면 파일만 올라가면 안되므로 찾아서 다시 지워줌*/
             new File(filePath+"/"+saveName).delete();
         }
-
-        return member.getImg();
     }
 
-    public MemberAndRemainSkillEntity printMemberSkillList(Long memberId) {
+
+
+    /**<h1>6. 기술스택</h1>*/
+    public MemberAndRemainSkill printMemberSkillList(Long memberId) {
         List<MemberSkillDTO> memberSkills = memberSkillDAO.findByIdMemberId(memberId);
         List<SkillDTO> memberSkillList = new ArrayList<>();
-        // 없는 스킬 찾기
         List<SkillDTO> skills = skillDAO.findAll();
         Set<SkillDTO> remainSkillList = new HashSet<>(skills);
-
         memberSkills.forEach(memberSkill->{
             int skillId = memberSkill.getId().getSkillId();
             SkillDTO memberskillDTO =skillDAO.findById(skillId).orElseThrow();
             memberSkillList.add(memberskillDTO);
             remainSkillList.remove(memberskillDTO);
         });
-        memberSkills.forEach(System.out::println);
-        MemberAndRemainSkillEntity returnValue = new MemberAndRemainSkillEntity(memberId,memberSkillList,new ArrayList<>(remainSkillList));
+        MemberAndRemainSkill returnValue = new MemberAndRemainSkill(memberId,memberSkillList,new ArrayList<>(remainSkillList));
         return returnValue;
     }
 
@@ -200,7 +191,7 @@ public class MypageService {
         memberSkillDAO.save(memberSkillDTO);
     }
 
-    public MemberAndRemainRecruitCategoryEntity printMemberRecruitList(Long memberId) {
+    public MemberAndRemainRecruitCategory printMemberRecruitList(Long memberId) {
         List<MemberRecruitCategoryDTO> memberSkills = memberRecruitCategoryDAO.findByIdMemberId(memberId);
         List<RecruitCategoryDTO> memberRecruitList = new ArrayList<>();
         // 없는 스킬 찾기
@@ -214,7 +205,7 @@ public class MypageService {
             remainSkillList.remove(memberskillDTO);
         });
         memberSkills.forEach(System.out::println);
-        MemberAndRemainRecruitCategoryEntity returnValue = new MemberAndRemainRecruitCategoryEntity(memberId,memberRecruitList,
+        MemberAndRemainRecruitCategory returnValue = new MemberAndRemainRecruitCategory(memberId,memberRecruitList,
                                                                             new ArrayList<>(remainSkillList));
         return returnValue;
     }

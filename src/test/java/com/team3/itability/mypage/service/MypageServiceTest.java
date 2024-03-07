@@ -2,9 +2,8 @@ package com.team3.itability.mypage.service;
 
 import com.team3.itability.mypage.dao.MemberProfileDAO;
 import com.team3.itability.mypage.dao.MemberSkillDAO;
-import com.team3.itability.mypage.dto.MemberProfileDTO;
-import com.team3.itability.mypage.dto.MemberSkillDTO;
-import com.team3.itability.mypage.dto.MemberSkillId;
+import com.team3.itability.mypage.entity.MemberProfileDTO;
+import com.team3.itability.mypage.entity.MemberSkillDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.BeforeAll;

@@ -1,4 +1,4 @@
-package com.team3.itability.mypage.dto;
+package com.team3.itability.mypage.entity;
 
 //import com.team3.itability.mypage.MemberProfileDTO;
 import jakarta.persistence.*;

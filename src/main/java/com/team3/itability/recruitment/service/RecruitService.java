@@ -3,7 +3,7 @@ package com.team3.itability.recruitment.service;
 import com.team3.itability.member.dao.MemberInfoRepo;
 import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.mypage.dao.SkillDAO;
-import com.team3.itability.mypage.dto.SkillDTO;
+import com.team3.itability.mypage.entity.SkillDTO;
 import com.team3.itability.recruitment.repository.RecruitCateRepo;
 import com.team3.itability.recruitment.repository.RecruitRepo;
 import com.team3.itability.recruitment.dto.RecruitCategoryDTO;

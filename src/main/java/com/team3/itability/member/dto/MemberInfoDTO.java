@@ -1,6 +1,5 @@
 package com.team3.itability.member.dto;
 
-import com.team3.itability.mypage.dto.MemberProfileDTO;
 //import com.team3.itability.mypage.MemberProfileDTO;
 import jakarta.persistence.*;
 import lombok.*;
