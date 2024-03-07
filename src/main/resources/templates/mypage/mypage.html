@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>mypage</title>
 </head>
+
 <style>
     img{
         width: 100px;
@@ -12,6 +13,7 @@
 <body>
 
 <h1 align="center"> mypage </h1>
+<button STYLE="width: 75px; height: 50px; font-size: 10px" onclick="redirectToMain()">메인으로</button>
 <h2>프로필</h2>
 <img th:src="${profile.getImg().getPath()}" alt="">            <!--alt: 시각장애인과 같이 이미지를 보지못하는 경우 alt를 읽게 해줌-->
 <br>
@@ -66,6 +68,18 @@
 </table>
 <button onclick="redirectToModifyCareerPage()">경력 조회</button>
 
+<h2>기술스택</h2>
+<table>
+    <tr>
+        <th>기술명</th>
+    </tr>
+    <tr th:each="memberSkill : ${skill.getMemberSkillList()}">
+        <td th:text="${memberSkill.getSkillName()}"></td>
+    </tr>
+</table>
+<button onclick="redirectToSkillPage()">기술스택 수정하기</button>
+
+
 <script th:inline="javascript">
     // 현재 페이지의 URL 가져오기
     var currentUrl = window.location.href;
@@ -83,13 +97,16 @@
     function redirectToModifyImagePage() {
         window.location.href = "http://localhost:8080/mypage/" + memberId + "/modify-image";
     }
+    function redirectToSkillPage() {
+        window.location.href = "http://localhost:8080/mypage/" + memberId + "/member-skill-list";
+    }
+    function redirectToMain() {
+        window.location.href = "http://localhost:8080";
+    }
 </script>
 
-<!--<table>-->
-<!--    <tr>-->
-<!--        <td th:text="${profile.nickname}"/>-->
-<!--        <td th:text="${img.getPath()}"/>-->
-<!--    </tr>-->
-<!--</table>-->
+
+
+
 </body>
 </html>

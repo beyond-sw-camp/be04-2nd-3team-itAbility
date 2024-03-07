@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -129,6 +130,20 @@ public class GoogleServiceImpl implements GoogleService {
         String email = jsonObject.has("email") ? jsonObject.get("email").getAsString() : null;
         String name = jsonObject.has("name") ? jsonObject.get("name").getAsString() : null;
         String profilePicture = jsonObject.has("picture") ? jsonObject.get("picture").getAsString() : null;
+        Long userId;
+        String first12Digits = id.substring(0, 12);
+        userId = Long.valueOf(first12Digits);
+
+        if(!memberInfoRepo.existsById(userId)) {
+            MemberInfoDTO member = new MemberInfoDTO(userId,name,email,Provider.GOOGLE);
+            ImageDTO imageDTO = new ImageDTO(userId, profilePicture, IMG_USE.profile, "link");
+            imageDAO.save(imageDTO);
+            MemberProfileDTO profile = new MemberProfileDTO(member,member.getName(),imageDTO);
+            DegreeDTO degree = new DegreeDTO();
+            degreeDAO.save(degree);
+            profile.setDegree(degree);
+            memberProfileDAO.save(profile);
+        }
 
         // 정보 출력 (디버깅 목적)
         System.out.println("ID: " + id);

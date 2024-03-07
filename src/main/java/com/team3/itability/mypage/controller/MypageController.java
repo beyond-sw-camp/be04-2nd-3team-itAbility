@@ -1,13 +1,9 @@
 package com.team3.itability.mypage.controller;
 
-import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.mypage.dto.*;
-import com.team3.itability.mypage.entity.MemberSkillEntity;
-import com.team3.itability.mypage.enumData.IMG_USE;
+import com.team3.itability.mypage.entity.MemberAndRemainSkillEntity;
 import com.team3.itability.mypage.service.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -15,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -38,8 +33,11 @@ public class MypageController {
         MemberProfileDTO profile = mypageService.printMypageData(memberId);
         System.out.println("profile = " + profile);
         List<CareerDTO> careerList = mypageService.printCareerList(memberId);
+        MemberAndRemainSkillEntity skillDTOS = mypageService.printMemberSkillList(memberId);
+        model.addAttribute("skill",skillDTOS);
         model.addAttribute("careerList",careerList);
         model.addAttribute("profile", profile);
+
         return "mypage/mypage";
     }
     /**
@@ -133,9 +131,8 @@ public class MypageController {
     /**<h1>modify-MemberSkill</h1>*/
     @GetMapping("/{memberId}/member-skill-list")
     public String showMemberSkillList(@PathVariable Long memberId, Model model ){
-        List<SkillDTO> skillDTOS = mypageService.printMemberSkillList(memberId);
-        model.addAttribute("memberId",memberId);
-        model.addAttribute("memberSkills",skillDTOS);
+        MemberAndRemainSkillEntity skillDTOS = mypageService.printMemberSkillList(memberId);
+        model.addAttribute("skill",skillDTOS);
         return "mypage/member-skill-list";
     }
 
@@ -143,10 +140,18 @@ public class MypageController {
     @GetMapping("{memberId}/remove-skill/{skillId}")
     public String removeSkill(@PathVariable long memberId, @PathVariable int skillId, Model model){
         mypageService.removeMemberSkill(memberId,skillId);
-        List<SkillDTO> skillDTOS = mypageService.printMemberSkillList(memberId);
-        model.addAttribute("memberId",memberId);
-        model.addAttribute("memberSkills",skillDTOS);
+        MemberAndRemainSkillEntity skillDTOS = mypageService.printMemberSkillList(memberId);
+        model.addAttribute("skill",skillDTOS);
+        System.out.println("이전 페이지로 돌아갑니다.");
         return "mypage/member-skill-list";
     }
-
+    @Transactional
+    @GetMapping("{memberId}/add-skill/{skillId}")
+    public String addSkill(@PathVariable long memberId, @PathVariable int skillId, Model model){
+        mypageService.addMemberSkill(memberId,skillId);
+        MemberAndRemainSkillEntity skillDTOS = mypageService.printMemberSkillList(memberId);
+        model.addAttribute("skill",skillDTOS);
+        System.out.println("이전 페이지로 돌아갑니다.");
+        return "mypage/member-skill-list";
+    }
 }

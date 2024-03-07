@@ -14,16 +14,4 @@ import lombok.*;
 public class MemberSkillDTO {
     @EmbeddedId
     private MemberSkillId id;
-//    @MapsId("memberId")
-//    @ManyToOne
-//    @JoinColumn(name = "member_id")
-//    @Column(nullable = false)
-//    private long member_id;
-
-//    @MapsId("skillId")
-//    @ManyToOne
-//    @JoinColumn(name = "skill_id")
-//    @Column(nullable = false)
-//    private int skill;
-
 }

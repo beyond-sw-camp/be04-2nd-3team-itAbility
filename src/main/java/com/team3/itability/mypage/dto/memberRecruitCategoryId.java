@@ -1,5 +1,6 @@
 package com.team3.itability.mypage.dto;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 
@@ -12,20 +13,11 @@ import java.util.Objects;
 @Setter
 @Embeddable
 @ToString
+@EqualsAndHashCode
 public class memberRecruitCategoryId implements Serializable {
-
+    @Column(name = "member_id")
     private Long memberId;
+    @Column(name = "recruit_category_id")
     private Integer recruitCategoryId;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof memberRecruitCategoryId that)) return false;
-        return Objects.equals(memberId, that.memberId) && Objects.equals(recruitCategoryId, that.recruitCategoryId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(memberId, recruitCategoryId);
-    }
 }
