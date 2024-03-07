@@ -49,7 +49,7 @@ public class FeedDTO {
     @ManyToOne
     private ImgDTO imgId;
 
-    @OneToMany(mappedBy = "boardId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cmtId", fetch = FetchType.LAZY)
     private List<CommentEntity> comments;
 
 }

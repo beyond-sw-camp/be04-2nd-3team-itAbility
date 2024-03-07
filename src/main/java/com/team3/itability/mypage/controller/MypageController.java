@@ -1,7 +1,6 @@
 package com.team3.itability.mypage.controller;
 
 import com.team3.itability.mypage.dto.*;
-import com.team3.itability.mypage.entity.*;
 import com.team3.itability.mypage.service.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +29,7 @@ public class MypageController {
      * */
     @GetMapping("/{memberId}")
     public String printMypage(@PathVariable long memberId, Model model){
-        MemberProfileDTO profile = mypageService.printMypageData(memberId);
+        MemberProfile profile = mypageService.printMypageData(memberId);
         System.out.println("profile = " + profile);
         List<Career> careerList = mypageService.printCareerList(memberId);
         MemberAndRemainSkill skillDTOS = mypageService.printMemberSkillList(memberId);
@@ -47,14 +46,13 @@ public class MypageController {
      * */
     @GetMapping("/{memberId}/modify-name")
     public String modifyMypage(Model model, @PathVariable long memberId){
-
-        MemberProfileDTO profile = mypageService.printMypageData(memberId);
+        MemberProfile profile = mypageService.printMypageData(memberId);
         model.addAttribute("profile", profile);
         return "mypage/modify";
     }
     @PostMapping("/modify-name")
     public String modify(Model model, @RequestParam long memberId, @RequestParam String nickname, @RequestParam String name, @RequestParam String phone, @RequestParam String birthDate){
-        MemberProfileDTO profile = mypageService.modifyMypage(memberId,nickname,name,phone,birthDate);
+        mypageService.modifyMypage(memberId,nickname,name,phone,birthDate);
         model.addAttribute(memberId);
         String redirectUrl = "redirect:/mypage/" + memberId;
         return redirectUrl;
@@ -65,7 +63,7 @@ public class MypageController {
      * */
     @GetMapping("/{memberId}/modify-degree")
     public String modifyDegree(Model model, @PathVariable long memberId){
-        MemberProfileDTO profile = mypageService.printMypageData(memberId);
+        MemberProfile profile = mypageService.printMypageData(memberId);
         model.addAttribute("profile", profile);
         return "mypage/modify-degree";
     }
@@ -81,7 +79,6 @@ public class MypageController {
     @GetMapping("/{memberId}/career-list")
     public String printCareerList(Model model, @PathVariable long memberId){
         List<Career> careerList = mypageService.printCareerList(memberId);
-//        List<CareerDTO> careerList = mypageService.printCareerList(memberId);
         model.addAttribute("memberId",memberId);
         model.addAttribute("careerList",careerList);
         return "mypage/career-list";

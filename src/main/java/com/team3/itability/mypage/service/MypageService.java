@@ -1,5 +1,7 @@
 package com.team3.itability.mypage.service;
 
+import com.team3.itability.member.dao.MemberInfoRepo;
+import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.mypage.dao.*;
 import com.team3.itability.mypage.dto.*;
 import com.team3.itability.mypage.entity.*;
@@ -22,7 +24,6 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-
 public class MypageService {
     private final MemberProfileDAO memberProfileDAO;
     private final DegreeDAO degreeDAO;
@@ -36,6 +37,8 @@ public class MypageService {
     private final RecruitCategoryDAO recruitCategoryDAO;
 
     private ModelMapper modelMapper;
+    @Autowired
+    private MemberInfoRepo memberInfoRepo;
 
     @Autowired
     public MypageService(MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO, CareerDAO careerDAO, MemberSkillDAO memberSkillDAO, SkillDAO skillDAO,
@@ -55,36 +58,27 @@ public class MypageService {
 
 
 
-    /** <h1> 1. 자신의 마이페이지 정보 조회</h1> */
+    /** <h1> 1. 자신의 마이페이지 정보 조회 - fin</h1> */
     @Transactional
-    public MemberProfileDTO printMypageData(long memberId){
+    public MemberProfile printMypageData(long memberId){
 
         MemberProfileDTO memberProfileDTO =memberProfileDAO.findById(memberId).orElseThrow();
         if(memberProfileDTO.getImg()==null){
-            ImageDTO image = new ImageDTO();
-            image.setImgId(memberProfileDTO.getMemberId()+"");
-            image.setExt("link");
-            image.setPath("none");
-            image.setImgUse(IMG_USE.profile);
+            ImageDTO image = new ImageDTO(memberProfileDTO.getMemberId()+"",IMG_USE.profile,"link","none" );
             image =  imageDAO.save(image);
-            System.out.println("사진 저장 image = " + image);
             memberProfileDTO.setImg(image);
-            System.out.println("사진 저장 memberProfileDTO = " + memberProfileDTO.getImg());
         }
-        System.out.println("memberProfileDTO = " + memberProfileDTO);
-
-        return memberProfileDTO;
+        return modelMapper.map(memberProfileDTO,MemberProfile.class);
     }
 
     /** <h1>2. 마이페이지 수정</h1>*/
     @Transactional
-    public MemberProfileDTO modifyMypage(long memberId, String nickname, String name, String phone, String birthdate) {
+    public void modifyMypage(long memberId, String nickname, String name, String phone, String birthdate) {
         MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberId).orElseThrow();
         memberProfileDTO.setNickname(nickname);
-        memberProfileDTO.getMemberInfo().setName(name);
-        memberProfileDTO.getMemberInfo().setPhone(phone);
-        memberProfileDTO.getMemberInfo().setBirthDate(birthdate);
-        return memberProfileDTO;
+        MemberInfoDTO memberInfoDTO = memberProfileDTO.getMemberInfo();
+        memberInfoDTO.update(name,phone,birthdate);
+        memberInfoRepo.save(memberInfoDTO);
     }
     /**
      * <h1>3. 학력 수정 - fin</h1>

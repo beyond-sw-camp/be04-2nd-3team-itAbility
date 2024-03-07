@@ -34,7 +34,7 @@ public class CommentEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
-    private FeedDTO feed;
+    private FeedDTO boardId;
 
     public String getNickname() {
         return memberId != null ? memberId.getName() : null;

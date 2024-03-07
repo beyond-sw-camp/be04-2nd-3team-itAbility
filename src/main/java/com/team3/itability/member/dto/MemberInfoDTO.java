@@ -57,8 +57,11 @@ public class MemberInfoDTO {
         this.blacklistCount += 1;
     }
 
-    // 연관 관계 설정 (MemberProfile)
-//    @OneToOne(mappedBy = "memberId", cascade = CascadeType.ALL)
-//    private MemberProfileDTO memberProfile;
+    public void update(String name, String phone, String birthdate) {
+        this.name=name;
+        this.phone=phone;
+        this.birthDate=birthdate;
+    }
+
 
 }
