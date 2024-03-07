@@ -2,7 +2,6 @@ package com.team3.itability.report.aggregate;
 
 import com.team3.itability.feed.dto.FeedDTO;
 import com.team3.itability.member.dto.MemberInfoDTO;
-import com.team3.itability.recruitment.dto.RecruitDTO;
 
 import com.team3.itability.reple.aggregate.CommentEntity;
 import com.team3.itability.report.dto.ReportTargetType;

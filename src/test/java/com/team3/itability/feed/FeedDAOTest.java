@@ -1,14 +1,15 @@
 package com.team3.itability.feed;
 
 
+
 import com.team3.itability.feed.dto.FeedDTO;
 import com.team3.itability.feed.dto.ImgDTO;
 import com.team3.itability.feed.dto.LikeDTO;
+import com.team3.itability.reple.repository.CommentRepo;
 import com.team3.itability.feed.repository.FeedRepo;
 import com.team3.itability.feed.repository.ImgRepo;
 import com.team3.itability.feed.repository.LikeRepo;
 import com.team3.itability.reple.aggregate.CommentEntity;
-import com.team3.itability.reple.repository.CommentRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

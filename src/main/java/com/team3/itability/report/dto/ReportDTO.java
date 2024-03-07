@@ -2,10 +2,9 @@ package com.team3.itability.report.dto;
 
 import com.team3.itability.feed.dto.FeedDTO;
 import com.team3.itability.member.dto.MemberInfoDTO;
-import com.team3.itability.recruitment.aggregate.RecruitDTO;
+
 
 import com.team3.itability.reple.aggregate.CommentEntity;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +17,7 @@ import java.util.Date;
 @Setter
 @ToString
 
+
 public class ReportDTO {
 
     private int reportId;
@@ -26,6 +26,5 @@ public class ReportDTO {
     private ReportTargetType reportTargetType;
     private Long memberId;
     private Long reportTargetId;
-
 
 }

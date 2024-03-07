@@ -32,7 +32,11 @@ public class CommentEntity {
     @Column(name = "cmt_content")
     private String cmtContent;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
-    private FeedDTO boardId;
+    private FeedDTO feed;
+
+    public String getNickname() {
+        return memberId != null ? memberId.getName() : null;
+    }
 }

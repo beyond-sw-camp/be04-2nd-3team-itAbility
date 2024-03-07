@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface CommentRepo extends JpaRepository<CommentEntity,Integer> {
     List<CommentEntity> findByBoardId(FeedDTO boardId);
+
+
 }
