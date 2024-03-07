@@ -1,4 +1,4 @@
-package com.team3.itability.snsapi.kakao.domain;
+package com.team3.itability.snsapi.kakao.aggregate;
 
 import com.team3.itability.member.dto.Provider;
 import jakarta.persistence.*;
