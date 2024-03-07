@@ -92,7 +92,6 @@ public class RecruitService {
     public void modifyRecruit(RecruitDTO recruit, int recruitCategoryId, int skillId) {
 
         RecruitDTO foundRecruit = recruitRepo.findById(recruit.getRecruitId()).orElseThrow(IllegalAccessError::new);
-//        RefRecruitCategoryDTO foundRefRecruit = refRecruitRepo.findByRecruitCategoryId()
 
         foundRecruit.setRecruitType(recruit.getRecruitType());
         foundRecruit.setRecruitTitle(recruit.getRecruitTitle());

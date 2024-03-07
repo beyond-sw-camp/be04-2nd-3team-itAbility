@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RefRecruitRepo extends JpaRepository<RefRecruitCategoryDTO, Integer> {
     void deleteByIdRecruitId(Integer id_recruitId);
+
 }
