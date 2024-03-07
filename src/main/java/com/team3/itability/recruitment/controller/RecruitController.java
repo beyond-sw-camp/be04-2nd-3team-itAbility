@@ -69,9 +69,9 @@ public class RecruitController {
     public void modifyPage() {}
 
     @PostMapping("/modify")
-    public String modifyRecruit(RecruitDTO recruit, @RequestParam int recruitCategoryId, @RequestParam int skillId) {
+    public String modifyRecruit(RecruitDTO recruit) {
 
-        recruitService.modifyRecruit(recruit, recruitCategoryId, skillId);
+        recruitService.modifyRecruit(recruit);
 
         return "redirect:/recruit/" + recruit.getRecruitId();    // 리다이렉트 주소(모집글 상세 페이지?)
     }

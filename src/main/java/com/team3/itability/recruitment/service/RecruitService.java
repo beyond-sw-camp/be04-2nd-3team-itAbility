@@ -89,7 +89,7 @@ public class RecruitService {
 
     // 모집글 수정
     @Transactional
-    public void modifyRecruit(RecruitDTO recruit, int recruitCategoryId, int skillId) {
+    public void modifyRecruit(RecruitDTO recruit) {
 
         RecruitDTO foundRecruit = recruitRepo.findById(recruit.getRecruitId()).orElseThrow(IllegalAccessError::new);
 

@@ -29,36 +29,36 @@
         <input type="submit" value="수정">
     </form>
 
-    <script>
-        fetch('/recruit/recruit_category')
-            .then(res => res.json())
-            .then(data => {
-                const $recruitCategoryId = document.getElementById('recruitCategoryId');
-                console.log($recruitCategoryId)
+<!--    <script>-->
+<!--        fetch('/recruit/recruit_category')-->
+<!--            .then(res => res.json())-->
+<!--            .then(data => {-->
+<!--                const $recruitCategoryId = document.getElementById('recruitCategoryId');-->
+<!--                console.log($recruitCategoryId)-->
 
-                for(let index in data){
-                    const $option = document.createElement('option');
-                    $option.value = data[index].recruitCategoryId;
-                    $option.textContent = data[index].recruitName;
+<!--                for(let index in data){-->
+<!--                    const $option = document.createElement('option');-->
+<!--                    $option.value = data[index].recruitCategoryId;-->
+<!--                    $option.textContent = data[index].recruitName;-->
 
-                    $recruitCategoryId.appendChild($option);
-                }
-            });
+<!--                    $recruitCategoryId.appendChild($option);-->
+<!--                }-->
+<!--            });-->
 
-        fetch('/recruit/skill_category')
-            .then(res => res.json())
-            .then(data => {
-                const $skillId = document.getElementById('skillId');
-                console.log($skillId)
+<!--        fetch('/recruit/skill_category')-->
+<!--            .then(res => res.json())-->
+<!--            .then(data => {-->
+<!--                const $skillId = document.getElementById('skillId');-->
+<!--                console.log($skillId)-->
 
-                for(let index in data){
-                    const $option = document.createElement('option');
-                    $option.value = data[index].skillId;
-                    $option.textContent = data[index].skillName;
+<!--                for(let index in data){-->
+<!--                    const $option = document.createElement('option');-->
+<!--                    $option.value = data[index].skillId;-->
+<!--                    $option.textContent = data[index].skillName;-->
 
-                    $skillId.appendChild($option);
-                }
-            });
-    </script>
+<!--                    $skillId.appendChild($option);-->
+<!--                }-->
+<!--            });-->
+<!--    </script>-->
 </body>
 </html>
