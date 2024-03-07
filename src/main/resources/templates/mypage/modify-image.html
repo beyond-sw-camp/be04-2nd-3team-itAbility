@@ -23,7 +23,7 @@
     <img id="preview" /><br>
     <input type="submit" value="Upload file" accept="image/png, image/jpeg">
 </form>
-
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${memberId} + '\')'">돌아가기</button>
 
 <script>
     const imageInput = document.getElementsByName("imgFile");
@@ -48,6 +48,9 @@
             preview.innerHTML = '';
         }
     });
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId;
+    }
 </script>
 
 </body>

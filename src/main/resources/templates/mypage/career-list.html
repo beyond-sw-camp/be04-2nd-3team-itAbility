@@ -40,7 +40,7 @@
         <td><button th:onclick="'redirectToModifyCareerPage(\'' + ${memberId} + '\', \'' + ${career.careerId} + '\')'"> 수정하기 </button></td>
     </tr>
 </table>
-
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${memberId} + '\')'">돌아가기</button>
 <script>
     function redirectToModifyCareerPage(memberId, careerId) {
         window.location.href = "http://localhost:8080/mypage/" + memberId+ "/modify-career"+"/"+careerId;
@@ -50,6 +50,9 @@
 <script>
     function redirectToAddCareerPage(memberId) {
         window.location.href = "http://localhost:8080/mypage/" + memberId+ "/add-career";
+    }
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId;
     }
 </script>
 

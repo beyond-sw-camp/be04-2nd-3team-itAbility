@@ -18,13 +18,16 @@
 
     <input type="submit" value="수정 완료">
 </form>
-
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${profile.getMemberId()} + '\')'">돌아가기</button>
 <script>
     // memberId 값을 JavaScript 변수로 설정
     var memberId = "${profile.getMemberId()}";
 
     // memberId 값을 hidden input 필드에 설정
     document.getElementById("memberIdInput").value = memberId;
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId;
+    }
 </script>
 
 </body>

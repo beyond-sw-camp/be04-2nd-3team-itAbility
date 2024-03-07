@@ -2,6 +2,7 @@ package com.team3.itability.mypage.service;
 
 import com.team3.itability.mypage.dao.*;
 import com.team3.itability.mypage.dto.*;
+import com.team3.itability.mypage.entity.MemberAndRemainSkillEntity;
 import com.team3.itability.mypage.enumData.IMG_USE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -160,24 +161,32 @@ public class MypageService {
         return member.getImg();
     }
 
-    public List<SkillDTO> printMemberSkillList(Long memberId) {
+    public MemberAndRemainSkillEntity printMemberSkillList(Long memberId) {
         List<MemberSkillDTO> memberSkills = memberSkillDAO.findByIdMemberId(memberId);
-        List<SkillDTO> skillDTOS = new ArrayList<>();
+        List<SkillDTO> memberSkillList = new ArrayList<>();
+        // 없는 스킬 찾기
+        List<SkillDTO> skills = skillDAO.findAll();
+        Set<SkillDTO> remainSkillList = new HashSet<>(skills);
+
         memberSkills.forEach(memberSkill->{
             int skillId = memberSkill.getId().getSkillId();
-            System.out.println("skillId = " + skillId);
-            skillDTOS.add(skillDAO.findById(skillId).orElseThrow());
+            SkillDTO memberskillDTO =skillDAO.findById(skillId).orElseThrow();
+            memberSkillList.add(memberskillDTO);
+            remainSkillList.remove(memberskillDTO);
         });
         memberSkills.forEach(System.out::println);
-        return skillDTOS;
+        MemberAndRemainSkillEntity returnValue = new MemberAndRemainSkillEntity(memberId,memberSkillList,new ArrayList<>(remainSkillList));
+        return returnValue;
     }
 
     public void removeMemberSkill(long memberId, int skillId) {
-        System.out.println("삭제시작");
         MemberSkillId memberSkillId = new MemberSkillId(memberId,skillId);
-        System.out.println("memberSkillId = " + memberSkillId);
         memberSkillDAO.deleteById(memberSkillId);
-        System.out.println("삭제완료");
     }
 
+    public void addMemberSkill(long memberId, int skillId) {
+        MemberSkillId memberSkillId = new MemberSkillId(memberId,skillId);
+        MemberSkillDTO memberSkillDTO = new MemberSkillDTO(memberSkillId);
+        memberSkillDAO.save(memberSkillDTO);
+    }
 }

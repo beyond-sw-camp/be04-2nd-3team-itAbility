@@ -26,5 +26,16 @@
 
 </table>
 
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:attr="data-memberId=${list[0]}" onclick="redirectTomypage(this.getAttribute('data-memberId'))">마이페이지</button>
+
+<script>
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + truncateToTwelveDigits(memberId);
+    }
+    function truncateToTwelveDigits(value) {
+        return value.substring(0, 12);
+    }
+</script>
+
 </body>
 </html>

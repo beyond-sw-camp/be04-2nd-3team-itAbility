@@ -37,5 +37,15 @@
 <!--    </tr>-->
 </table>
 
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${list[0]} + '\')'">마이페이지</button>
+
+<script>
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId;
+    }
+</script>
+
+
+
 </body>
 </html>
