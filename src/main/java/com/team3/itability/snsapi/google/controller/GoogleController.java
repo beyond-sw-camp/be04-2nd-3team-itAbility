@@ -3,6 +3,7 @@ package com.team3.itability.snsapi.google.controller;
 import com.team3.itability.snsapi.google.service.GoogleService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,12 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/")
 public class GoogleController {
+
+    @Value("${google.client-id}")
+    private String clientId;
+
+    @Value("${google.redirect-uri}")
+    private String redirectUri;
     private final GoogleService googleService;
 
     @Autowired
@@ -26,8 +33,8 @@ public class GoogleController {
     @GetMapping("google")
     public RedirectView googleConnect(HttpSession session) {
         String url = UriComponentsBuilder.fromHttpUrl("https://accounts.google.com/o/oauth2/auth")
-                .queryParam("client_id", "529642165041-sv8fd7c0sb7to66f25t1h98av3qhmomv.apps.googleusercontent.com")
-                .queryParam("redirect_uri", "http://localhost:8080/login/google")
+                .queryParam("client_id", clientId)
+                .queryParam("redirect_uri", redirectUri)
                 .queryParam("response_type", "code")
                 .queryParam("scope", "email profile openid")
                 .toUriString();

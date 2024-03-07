@@ -15,6 +15,7 @@ import com.team3.itability.mypage.entity.MemberProfileEntity;
 import com.team3.itability.mypage.enumData.IMG_USE;
 import com.team3.itability.snsapi.google.repository.GoogleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -25,6 +26,16 @@ import java.util.ArrayList;
 
 @Service
 public class GoogleServiceImpl implements GoogleService {
+
+    @Value("${google.client-id}")
+    private String clientId;
+
+    @Value("${google.client-secret}")
+    private String clientSecret;
+
+    @Value("${google.redirect-uri}")
+    private String redirectUri;
+
     private final GoogleRepository googleRepository;
     private final MemberInfoRepo memberInfoRepo;
     private final MemberProfileDAO memberProfileDAO;
