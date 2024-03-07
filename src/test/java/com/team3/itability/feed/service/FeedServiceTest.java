@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-import com.team3.itability.feed.dao.FeedRepo;
+import com.team3.itability.feed.repository.FeedRepo;
 import com.team3.itability.feed.dto.FeedDTO;
 import com.team3.itability.member.dao.MemberInfoRepo;
 import com.team3.itability.member.dto.MemberInfoDTO;
