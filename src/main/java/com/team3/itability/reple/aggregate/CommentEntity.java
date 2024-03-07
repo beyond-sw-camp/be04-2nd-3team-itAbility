@@ -1,6 +1,7 @@
 package com.team3.itability.reple.aggregate;
 
 
+import com.team3.itability.feed.dto.FeedDTO;
 import com.team3.itability.member.dto.MemberInfoDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,4 +32,7 @@ public class CommentEntity {
     @Column(name = "cmt_content")
     private String cmtContent;
 
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private FeedDTO boardId;
 }

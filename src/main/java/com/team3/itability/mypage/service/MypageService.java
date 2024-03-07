@@ -2,8 +2,11 @@ package com.team3.itability.mypage.service;
 
 import com.team3.itability.mypage.dao.*;
 import com.team3.itability.mypage.dto.*;
+import com.team3.itability.mypage.entity.MemberAndRemainRecruitCategoryEntity;
 import com.team3.itability.mypage.entity.MemberAndRemainSkillEntity;
 import com.team3.itability.mypage.enumData.IMG_USE;
+import com.team3.itability.recruitment.dto.RecruitCategoryDTO;
+import com.team3.itability.recruitment.dto.RecruitDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -29,15 +32,22 @@ public class MypageService {
     @Autowired
     private ResourceLoader resourceLoader;
     SkillDAO skillDAO;
+    private final MemberRecruitCategoryDAO memberRecruitCategoryDAO;
+    private final RecruitCategoryDAO recruitCategoryDAO;
 
     @Autowired
-    public MypageService(MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO, CareerDAO careerDAO, MemberSkillDAO memberSkillDAO, SkillDAO skillDAO) {
+    public MypageService(MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO, CareerDAO careerDAO, MemberSkillDAO memberSkillDAO, SkillDAO skillDAO,
+                         MemberRecruitCategoryDAO memberRecruitCategoryDAO,
+                         RecruitCategoryDAO recruitCategoryDAO
+                    ) {
         this.memberProfileDAO = memberProfileDAO;
         this.degreeDAO = degreeDAO;
         this.imageDAO = imageDAO;
         this.careerDAO = careerDAO;
         this.memberSkillDAO = memberSkillDAO;
         this.skillDAO = skillDAO;
+        this.memberRecruitCategoryDAO = memberRecruitCategoryDAO;
+        this.recruitCategoryDAO = recruitCategoryDAO;
     }
 
 
@@ -189,4 +199,25 @@ public class MypageService {
         MemberSkillDTO memberSkillDTO = new MemberSkillDTO(memberSkillId);
         memberSkillDAO.save(memberSkillDTO);
     }
+
+    public MemberAndRemainRecruitCategoryEntity printMemberRecruitList(Long memberId) {
+        List<MemberRecruitCategoryDTO> memberSkills = memberRecruitCategoryDAO.findByIdMemberId(memberId);
+        List<RecruitCategoryDTO> memberRecruitList = new ArrayList<>();
+        // 없는 스킬 찾기
+        List<RecruitCategoryDTO> skills = recruitCategoryDAO.findAll();
+        Set<RecruitCategoryDTO> remainSkillList = new HashSet<>(skills);
+
+        memberSkills.forEach(memberSkill->{
+            int skillId = memberSkill.getId().getRecruitCategoryId();
+            RecruitCategoryDTO memberskillDTO =recruitCategoryDAO.findById(skillId).orElseThrow();
+            memberRecruitList.add(memberskillDTO);
+            remainSkillList.remove(memberskillDTO);
+        });
+        memberSkills.forEach(System.out::println);
+        MemberAndRemainRecruitCategoryEntity returnValue = new MemberAndRemainRecruitCategoryEntity(memberId,memberRecruitList,
+                                                                            new ArrayList<>(remainSkillList));
+        return returnValue;
+    }
+
+
 }

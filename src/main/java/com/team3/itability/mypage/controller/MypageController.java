@@ -1,6 +1,7 @@
 package com.team3.itability.mypage.controller;
 
 import com.team3.itability.mypage.dto.*;
+import com.team3.itability.mypage.entity.MemberAndRemainRecruitCategoryEntity;
 import com.team3.itability.mypage.entity.MemberAndRemainSkillEntity;
 import com.team3.itability.mypage.service.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,4 +155,15 @@ public class MypageController {
         System.out.println("이전 페이지로 돌아갑니다.");
         return "mypage/member-skill-list";
     }
+
+
+    /**<h1>Modify Member Recruit Category</h1>*/
+    @GetMapping("{memberId}/MemberRecruitCategory")
+    public String printMemberRecruitCategory(@PathVariable Long memberId, Model model ) {
+        MemberAndRemainRecruitCategoryEntity RecruitCategoryDTOS = mypageService.printMemberRecruitList(memberId);
+        model.addAttribute("recruits", RecruitCategoryDTOS);
+        System.out.println("recruitcategory 조회 완");
+        return "mypage/member-recruit-category-list";
+    }
+
 }

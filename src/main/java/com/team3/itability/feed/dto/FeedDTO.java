@@ -3,7 +3,6 @@ package com.team3.itability.feed.dto;
 
 import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.reple.aggregate.CommentEntity;
-import com.team3.itability.reple.dto.CommentDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,7 +49,7 @@ public class FeedDTO {
     @ManyToOne
     private ImgDTO imgId;
 
-    @OneToMany(mappedBy = "feed", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "boardId", fetch = FetchType.LAZY)
     private List<CommentEntity> comments;
 
 }

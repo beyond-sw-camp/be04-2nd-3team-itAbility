@@ -36,7 +36,7 @@ public class FeedService {
     /* 게시물 상세 조회시 댓글 출력 */
     public FeedDTO findFeedById(int id) {
         FeedDTO feed = feedRepo.findById(id).orElseThrow();
-        List<CommentEntity> comments = commentRepo.findByBoardId(id);
+        List<CommentEntity> comments = commentRepo.findByBoardId(feed);
         feed.setComments(comments);
 
         return feed;
