@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -71,6 +72,11 @@ public class FollowService {
             return Collections.emptyList();
         }
         return followRepository.findByFollowing(following);
+    }
+
+    @Transactional
+    public void deleteFollow(int followId) {
+        followRepository.deleteById(followId);
     }
 
 }

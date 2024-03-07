@@ -61,4 +61,16 @@ public class FollowController {
         return "follow/followedList"; // Thymeleaf 템플릿의 경로를 반환
     }
 
+    @GetMapping("/delete")
+    public void deleteFollowPage(){}
+
+
+    @PostMapping("/delete")
+    public String deleteFollow(@RequestParam int followId) {
+        followService.deleteFollow(followId);
+
+        return "redirect:/follow/list";
+    }
+
+
 }
