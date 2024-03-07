@@ -29,14 +29,14 @@ public class MypageController {
      * */
     @GetMapping("/{memberId}")
     public String printMypage(@PathVariable long memberId, Model model){
-        MemberProfile profile = mypageService.printMypageData(memberId);
+        MemberProfileDTO profile = mypageService.printMypageData(memberId);
         System.out.println("profile = " + profile);
-        List<Career> careerList = mypageService.printCareerList(memberId);
-        MemberAndRemainSkill skillDTOS = mypageService.printMemberSkillList(memberId);
-        MemberAndRemainRecruitCategory RecruitCategoryDTOS = mypageService.printMemberRecruitList(memberId);
+        List<CareerDTO> careerDTOList = mypageService.printCareerList(memberId);
+        MemberAndRemainSkillDTO skillDTOS = mypageService.printMemberSkillList(memberId);
+        MemberAndRemainRecruitCategoryDTO RecruitCategoryDTOS = mypageService.printMemberRecruitList(memberId);
         model.addAttribute("recruits", RecruitCategoryDTOS);
         model.addAttribute("skill",skillDTOS);
-        model.addAttribute("careerList",careerList);
+        model.addAttribute("careerList", careerDTOList);
         model.addAttribute("profile", profile);
         return "mypage/mypage";
     }
@@ -46,7 +46,7 @@ public class MypageController {
      * */
     @GetMapping("/{memberId}/modify-name")
     public String modifyMypage(Model model, @PathVariable long memberId){
-        MemberProfile profile = mypageService.printMypageData(memberId);
+        MemberProfileDTO profile = mypageService.printMypageData(memberId);
         model.addAttribute("profile", profile);
         return "mypage/modify";
     }
@@ -63,13 +63,13 @@ public class MypageController {
      * */
     @GetMapping("/{memberId}/modify-degree")
     public String modifyDegree(Model model, @PathVariable long memberId){
-        MemberProfile profile = mypageService.printMypageData(memberId);
+        MemberProfileDTO profile = mypageService.printMypageData(memberId);
         model.addAttribute("profile", profile);
         return "mypage/modify-degree";
     }
     @PostMapping("/modify-degree")
-    public String modifySubmitDegree(Model model, @RequestParam long memberId, @ModelAttribute Degree degree){
-        mypageService.modifyDegree(memberId, degree);
+    public String modifySubmitDegree(Model model, @RequestParam long memberId, @ModelAttribute DegreeDTO degreeDTO){
+        mypageService.modifyDegree(memberId, degreeDTO);
         String redirectUrl = "redirect:/mypage/" + memberId;
         return redirectUrl;
     }
@@ -78,23 +78,23 @@ public class MypageController {
      * 경력 수정 컨트롤러*/
     @GetMapping("/{memberId}/career-list")
     public String printCareerList(Model model, @PathVariable long memberId){
-        List<Career> careerList = mypageService.printCareerList(memberId);
+        List<CareerDTO> careerList = mypageService.printCareerList(memberId);
         model.addAttribute("memberId",memberId);
-        model.addAttribute("careerList",careerList);
+        model.addAttribute("careerList", careerList);
         return "mypage/career-list";
     }
     @GetMapping("/{memberId}/modify-career/{careerId}")
     public String modifyCareer(Model model, @PathVariable long memberId, @PathVariable int careerId){
-        Career career = mypageService.printCareer(careerId);
-        model.addAttribute("career", career);
+        CareerDTO careerDTO = mypageService.printCareer(careerId);
+        model.addAttribute("career", careerDTO);
         model.addAttribute("memberId",memberId);
         return "mypage/modify-career";
     }
     @PostMapping("/modify-career")
-    public String modifySubmitCareer(Model model, @ModelAttribute Career career){
-        System.out.println("careerDTO = " + career);
-        mypageService.modifyCareer(career);
-        return "redirect:/mypage/" + career.getMemberId().getMemberId();
+    public String modifySubmitCareer(Model model, @ModelAttribute CareerDTO careerDTO){
+        System.out.println("careerDTO = " + careerDTO);
+        mypageService.modifyCareer(careerDTO);
+        return "redirect:/mypage/" + careerDTO.getMemberId().getMemberId();
     }
     @GetMapping("/{memberId}/add-career")
     public String showAddCareer(Model model, @PathVariable long memberId){
@@ -102,17 +102,17 @@ public class MypageController {
         return "mypage/add-career";
     }
     @PostMapping("/add-career")
-    public String AddCareer(Model model, @ModelAttribute Career career, @RequestParam long memberId){
-        mypageService.addCareer(career,memberId);
-        System.out.println("career = " + career);
+    public String AddCareer(Model model, @ModelAttribute CareerDTO careerDTO, @RequestParam long memberId){
+        mypageService.addCareer(careerDTO,memberId);
+        System.out.println("career = " + careerDTO);
         return "redirect:/mypage/" + memberId;
     }
 
     /**<h2>modify-Image</h2>*/
     @GetMapping("/{memberId}/modify-image")
     public String showModifyImage(@PathVariable long memberId, Model model){
-        Image image = mypageService.getImage(memberId);
-        model.addAttribute(image);
+        ImageDTO image = mypageService.getImage(memberId);
+        model.addAttribute("image",image);
         model.addAttribute(memberId);
         return "mypage/modify-image";
     }
@@ -125,7 +125,7 @@ public class MypageController {
     /**<h1>modify-MemberSkill</h1>*/
     @GetMapping("/{memberId}/member-skill-list")
     public String showMemberSkillList(@PathVariable Long memberId, Model model ){
-        MemberAndRemainSkill skill = mypageService.printMemberSkillList(memberId);
+        MemberAndRemainSkillDTO skill = mypageService.printMemberSkillList(memberId);
         model.addAttribute("skill",skill);
         return "mypage/member-skill-list";
     }
@@ -146,7 +146,7 @@ public class MypageController {
     /**<h1>Modify Member Recruit Category</h1>*/
     @GetMapping("{memberId}/memberRecruitCategory")
     public String printMemberRecruitCategory(@PathVariable Long memberId, Model model ) {
-        MemberAndRemainRecruitCategory RecruitCategory = mypageService.printMemberRecruitList(memberId);
+        MemberAndRemainRecruitCategoryDTO RecruitCategory = mypageService.printMemberRecruitList(memberId);
         model.addAttribute("recruits", RecruitCategory);
         return "mypage/member-recruit-category-list";
     }

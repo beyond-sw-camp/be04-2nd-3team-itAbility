@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DegreeDTO {
+public class DegreeEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

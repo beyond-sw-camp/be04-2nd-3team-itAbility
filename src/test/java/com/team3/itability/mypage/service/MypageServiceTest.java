@@ -2,8 +2,8 @@ package com.team3.itability.mypage.service;
 
 import com.team3.itability.mypage.dao.MemberProfileDAO;
 import com.team3.itability.mypage.dao.MemberSkillDAO;
-import com.team3.itability.mypage.entity.MemberProfileDTO;
-import com.team3.itability.mypage.entity.MemberSkillDTO;
+import com.team3.itability.mypage.entity.MemberProfileEntity;
+import com.team3.itability.mypage.entity.MemberSkillEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.BeforeAll;
@@ -33,8 +33,8 @@ class MypageServiceTest {
      * */
     @Test
     void printMypageData(){
-        MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberCode).orElseThrow();
-        System.out.println("memberProfileDTO = " + memberProfileDTO);
+        MemberProfileEntity memberProfileEntity = memberProfileDAO.findById(memberCode).orElseThrow();
+        System.out.println("memberProfileDTO = " + memberProfileEntity);
     }
 
     /** <h2>2. 닉네임 설정</h2>
@@ -43,25 +43,25 @@ class MypageServiceTest {
     @Transactional
     @Test
     void updateNickname(){
-        MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberCode).orElseThrow();
+        MemberProfileEntity memberProfileEntity = memberProfileDAO.findById(memberCode).orElseThrow();
         String name = "nick";
 //        memberProfileDTO.setNickname(name);
-        System.out.println("memberProfileDTO = " + memberProfileDTO);
-        MemberProfileDTO memberProfileDTO2 = memberProfileDAO.findById(memberCode).orElseThrow();
-        System.out.println("memberProfileDTO2 = " + memberProfileDTO2);
+        System.out.println("memberProfileDTO = " + memberProfileEntity);
+        MemberProfileEntity memberProfileEntity2 = memberProfileDAO.findById(memberCode).orElseThrow();
+        System.out.println("memberProfileDTO2 = " + memberProfileEntity2);
     }
 
     /**3. 프로필 사진 등록 및 수정*/
     @Transactional
     @Test
     void updateProfileImage(){
-        MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberCode).orElseThrow();
+        MemberProfileEntity memberProfileEntity = memberProfileDAO.findById(memberCode).orElseThrow();
     }
 
     @Test
     void printskills(){
 
-        List<MemberSkillDTO> memberSkills = memberSkillDAO.findByIdMemberId(1L);
+        List<MemberSkillEntity> memberSkills = memberSkillDAO.findByIdMemberId(1L);
         memberSkills.forEach(System.out::println);
     }
 

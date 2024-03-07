@@ -1,4 +1,4 @@
-package com.team3.itability.mypage.dto;
+package com.team3.itability.mypage.entity;
 
 import com.team3.itability.mypage.enumData.IMG_USE;
 import jakarta.persistence.*;
@@ -8,15 +8,24 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity(name = "image_dto")
+@Table(name = "image")
 @ToString
-public class Image {
+public class ImageEntity {
+
+    @Id
     @Column(name = "img_id")
     private String imgId;
+    @Column(name = "img_use")
+    @Enumerated(EnumType.STRING)
     private IMG_USE imgUse;
+    @Column(name = "ext")
     private String ext;
+    @Column(name = "path")
     private String path;
 
-    public Image(Long imgId, String path, IMG_USE imgUse, String ext) {
+
+    public ImageEntity(Long imgId, String path, IMG_USE imgUse, String ext) {
         this.imgId = String.valueOf(imgId);
         this.path = path;
         this.imgUse = imgUse;

@@ -1,7 +1,5 @@
 package com.team3.itability.mypage.dto;
 
-import com.team3.itability.mypage.entity.MemberProfileDTO;
-import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -9,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Degree {
+public class DegreeDTO {
     private int degreeId;
     private String finalEduName;
     private String enrollDate;

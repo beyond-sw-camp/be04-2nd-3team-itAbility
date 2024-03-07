@@ -1,6 +1,6 @@
 package com.team3.itability.recruitment.controller;
 
-import com.team3.itability.mypage.entity.SkillDTO;
+import com.team3.itability.mypage.entity.SkillEntity;
 import com.team3.itability.recruitment.aggregate.RecruitCategoryDTO;
 import com.team3.itability.recruitment.aggregate.RecruitDTO;
 import com.team3.itability.recruitment.service.RecruitService;
@@ -54,7 +54,7 @@ public class RecruitController {
     // 설명. 기술 카테고리
     @GetMapping(value = "/skill_category", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public List<SkillDTO> findSkillList() {return recruitService.findAllSkill();}
+    public List<SkillEntity> findSkillList() {return recruitService.findAllSkill();}
 
     @PostMapping("/regist")
     public String registRecruit(RecruitDTO recruit, @RequestParam long memberId, @RequestParam int recruitCategoryId, @RequestParam int skillId) {

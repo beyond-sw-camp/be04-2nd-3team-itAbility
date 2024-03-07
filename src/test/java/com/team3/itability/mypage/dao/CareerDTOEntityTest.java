@@ -1,6 +1,6 @@
 package com.team3.itability.mypage.dao;
 
-import com.team3.itability.mypage.entity.CareerDTO;
+import com.team3.itability.mypage.entity.CareerEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,13 +10,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class CareerDTOTest {
+class CareerDTOEntityTest {
     @Autowired
     CareerDAO careerDAO;
 
     @Test
     void name(){
-        List<CareerDTO> careerList = careerDAO.findAll();
+        List<CareerEntity> careerList = careerDAO.findAll();
         careerList.forEach(System.out::println);
         assertNotNull(careerList);
     }

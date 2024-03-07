@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberRecruitCategoryDTO {
+public class MemberRecruitCategoryEntity {
     @EmbeddedId
     private MemberRecruitCategoryId Id;
 

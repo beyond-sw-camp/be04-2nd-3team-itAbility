@@ -3,7 +3,7 @@ package com.team3.itability.recruitment.service;
 import com.team3.itability.member.dao.MemberInfoRepo;
 import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.mypage.dao.SkillDAO;
-import com.team3.itability.mypage.entity.SkillDTO;
+import com.team3.itability.mypage.entity.SkillEntity;
 import com.team3.itability.recruitment.aggregate.*;
 import com.team3.itability.recruitment.repository.*;
 import com.team3.itability.recruitment.vo.RecruitVO;
@@ -60,11 +60,11 @@ public class RecruitService {
     // 기술 카테고리 조회
     // mypage SkillDAO 사용
     @Transactional(readOnly = true)
-    public List<SkillDTO> findAllSkill() {
+    public List<SkillEntity> findAllSkill() {
 
-        List<SkillDTO> skillList = skillRepo.findAll();
+        List<SkillEntity> skillList = skillRepo.findAll();
 
-        return skillList.stream().map(recruit -> mapper.map(recruit, SkillDTO.class)).collect(Collectors.toList());
+        return skillList.stream().map(recruit -> mapper.map(recruit, SkillEntity.class)).collect(Collectors.toList());
     }
 
     // 모집글 등록
@@ -78,9 +78,9 @@ public class RecruitService {
         RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruit.getRecruitId(), recruitCategoryId);
         RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruit, recruitCategoryDTO);
 
-        SkillDTO skillDTO = skillRepo.findById(skillId).orElseThrow();
+        SkillEntity skillEntity = skillRepo.findById(skillId).orElseThrow();
         RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), skillId);
-        RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruit, skillDTO);
+        RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruit, skillEntity);
 
         recruitRepo.save(mapper.map(recruit, RecruitDTO.class));
         refRecruitRepo.save(refRecruitCategoryDTO);

@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class MemberSkillDTO {
+public class MemberSkillEntity {
     @EmbeddedId
     private MemberSkillId id;
 }

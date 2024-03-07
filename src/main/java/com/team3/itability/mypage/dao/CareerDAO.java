@@ -1,15 +1,15 @@
 package com.team3.itability.mypage.dao;
 
-import com.team3.itability.mypage.entity.CareerDTO;
-import com.team3.itability.mypage.entity.MemberProfileDTO;
+import com.team3.itability.mypage.entity.CareerEntity;
+import com.team3.itability.mypage.entity.MemberProfileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface CareerDAO extends JpaRepository<CareerDTO,Integer> {
+public interface CareerDAO extends JpaRepository<CareerEntity,Integer> {
 
-    List<CareerDTO> findByMemberId(MemberProfileDTO member);
+    List<CareerEntity> findByMemberId(MemberProfileEntity member);
 
 }

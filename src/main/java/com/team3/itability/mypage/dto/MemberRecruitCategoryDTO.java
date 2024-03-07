@@ -1,6 +1,5 @@
 package com.team3.itability.mypage.dto;
 
-import jakarta.persistence.Column;
 import lombok.*;
 
 @NoArgsConstructor
@@ -8,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class MemberRecruitCategory {
+public class MemberRecruitCategoryDTO {
     private long memberId;
     private int recruitCategoryId;
 }

@@ -9,9 +9,9 @@ import com.team3.itability.member.dto.Provider;
 import com.team3.itability.mypage.dao.DegreeDAO;
 import com.team3.itability.mypage.dao.ImageDAO;
 import com.team3.itability.mypage.dao.MemberProfileDAO;
-import com.team3.itability.mypage.entity.DegreeDTO;
-import com.team3.itability.mypage.entity.ImageDTO;
-import com.team3.itability.mypage.entity.MemberProfileDTO;
+import com.team3.itability.mypage.entity.DegreeEntity;
+import com.team3.itability.mypage.entity.ImageEntity;
+import com.team3.itability.mypage.entity.MemberProfileEntity;
 import com.team3.itability.mypage.enumData.IMG_USE;
 import com.team3.itability.snsapi.google.repository.GoogleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,10 +131,10 @@ public class GoogleServiceImpl implements GoogleService {
 
         if(!memberInfoRepo.existsById(userId)) {
             MemberInfoDTO member = new MemberInfoDTO(userId,name,email,Provider.GOOGLE);
-            ImageDTO imageDTO = new ImageDTO(userId, profilePicture, IMG_USE.profile, "link");
-            imageDAO.save(imageDTO);
-            MemberProfileDTO profile = new MemberProfileDTO(member,member.getName(),imageDTO);
-            DegreeDTO degree = new DegreeDTO();
+            ImageEntity imageEntity = new ImageEntity(userId, profilePicture, IMG_USE.profile, "link");
+            imageDAO.save(imageEntity);
+            MemberProfileEntity profile = new MemberProfileEntity(member,member.getName(), imageEntity);
+            DegreeEntity degree = new DegreeEntity();
             degreeDAO.save(degree);
             profile.setDegree(degree);
             memberProfileDAO.save(profile);

@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class MemberAndRemainRecruitCategory {
+public class MemberAndRemainRecruitCategoryDTO {
     private long memberId;
     private List<RecruitCategoryDTO> memberRecruitList;
     private List<RecruitCategoryDTO> remainRecruitList;

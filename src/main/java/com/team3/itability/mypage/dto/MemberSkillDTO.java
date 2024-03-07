@@ -1,7 +1,5 @@
 package com.team3.itability.mypage.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
 import lombok.*;
 
 @NoArgsConstructor
@@ -9,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class MemberSkill {
+public class MemberSkillDTO {
     private long memberId;
     private int skillId;
 }

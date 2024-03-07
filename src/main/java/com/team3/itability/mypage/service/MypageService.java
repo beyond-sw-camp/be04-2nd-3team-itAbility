@@ -60,23 +60,23 @@ public class MypageService {
 
     /** <h1> 1. 자신의 마이페이지 정보 조회 - fin</h1> */
     @Transactional
-    public MemberProfile printMypageData(long memberId){
+    public MemberProfileDTO printMypageData(long memberId){
 
-        MemberProfileDTO memberProfileDTO =memberProfileDAO.findById(memberId).orElseThrow();
-        if(memberProfileDTO.getImg()==null){
-            ImageDTO image = new ImageDTO(memberProfileDTO.getMemberId()+"",IMG_USE.profile,"link","none" );
+        MemberProfileEntity memberProfileEntity =memberProfileDAO.findById(memberId).orElseThrow();
+        if(memberProfileEntity.getImg()==null){
+            ImageEntity image = new ImageEntity(memberProfileEntity.getMemberId()+"",IMG_USE.profile,"link","none" );
             image =  imageDAO.save(image);
-            memberProfileDTO.setImg(image);
+            memberProfileEntity.setImg(image);
         }
-        return modelMapper.map(memberProfileDTO,MemberProfile.class);
+        return modelMapper.map(memberProfileEntity, MemberProfileDTO.class);
     }
 
     /** <h1>2. 마이페이지 수정</h1>*/
     @Transactional
     public void modifyMypage(long memberId, String nickname, String name, String phone, String birthdate) {
-        MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberId).orElseThrow();
-        memberProfileDTO.setNickname(nickname);
-        MemberInfoDTO memberInfoDTO = memberProfileDTO.getMemberInfo();
+        MemberProfileEntity memberProfileEntity = memberProfileDAO.findById(memberId).orElseThrow();
+        memberProfileEntity.setNickname(nickname);
+        MemberInfoDTO memberInfoDTO = memberProfileEntity.getMemberInfo();
         memberInfoDTO.update(name,phone,birthdate);
         memberInfoRepo.save(memberInfoDTO);
     }
@@ -84,22 +84,22 @@ public class MypageService {
      * <h1>3. 학력 수정 - fin</h1>
      * */
     @Transactional
-    public void modifyDegree(long memberId, Degree degree) {
+    public void modifyDegree(long memberId, DegreeDTO degreeDTO) {
 
-        MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberId).orElseThrow();
-        DegreeDTO degreeDTO = memberProfileDTO.getDegree();
-        degreeDTO.update(degree.getFinalEduName(),degree.getEnrollDate(),
-                degree.getGraduateDate() ,degree.getMajor(), degree.isRegisterStatus() );
+        MemberProfileEntity memberProfileEntity = memberProfileDAO.findById(memberId).orElseThrow();
+        DegreeEntity degreeEntity = memberProfileEntity.getDegree();
+        degreeEntity.update(degreeDTO.getFinalEduName(), degreeDTO.getEnrollDate(),
+                degreeDTO.getGraduateDate() , degreeDTO.getMajor(), degreeDTO.isRegisterStatus() );
     }
 
     /**<h1>4. 경력 조회,수정,추가 - fin</h1>*/
     @Transactional(readOnly = true)
-    public List<Career> printCareerList(long memberId){
-        MemberProfileDTO memberProfileDTO = memberProfileDAO.findById(memberId).orElseThrow();
-        List<CareerDTO> careerList =careerDAO.findByMemberId(memberProfileDTO);
-        List<Career> returnValue= new ArrayList<>();
+    public List<CareerDTO> printCareerList(long memberId){
+        MemberProfileEntity memberProfileEntity = memberProfileDAO.findById(memberId).orElseThrow();
+        List<CareerEntity> careerList =careerDAO.findByMemberId(memberProfileEntity);
+        List<CareerDTO> returnValue= new ArrayList<>();
         careerList.forEach(careerEntity->{
-            returnValue.add(new Career(careerEntity.getCareerId(),careerEntity.getCompanyName(),careerEntity.getStartDate()
+            returnValue.add(new CareerDTO(careerEntity.getCareerId(),careerEntity.getCompanyName(),careerEntity.getStartDate()
             , careerEntity.getEndDate(),careerEntity.getRole(),careerEntity.getAssignedTask(), careerEntity.isCurrentJob()
             ,careerEntity.getMemberId())
             );
@@ -108,40 +108,40 @@ public class MypageService {
     }
 
     @Transactional(readOnly = true)
-    public Career printCareer(int careerId) {
-        return modelMapper.map(careerDAO.findById(careerId).orElseThrow(), Career.class);
+    public CareerDTO printCareer(int careerId) {
+        return modelMapper.map(careerDAO.findById(careerId).orElseThrow(), CareerDTO.class);
     }
 
     @Transactional
-    public void modifyCareer(Career career) {
-        CareerDTO careerDTO = getCareerDTO(career);
-        careerDAO.save(careerDTO);
+    public void modifyCareer(CareerDTO careerDTO) {
+        CareerEntity careerEntity = getCareerDTO(careerDTO);
+        careerDAO.save(careerEntity);
     }
 
     @Transactional
-    public void addCareer(Career career, long memberId) {
-        MemberProfileDTO member = memberProfileDAO.findById(memberId).orElseThrow();
-        CareerDTO careerDTO = getCareerDTO(career);
-        careerDTO.setMemberId(member);
-        careerDAO.save(careerDTO);
+    public void addCareer(CareerDTO careerDTO, long memberId) {
+        MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
+        CareerEntity careerEntity = getCareerDTO(careerDTO);
+        careerEntity.setMemberId(member);
+        careerDAO.save(careerEntity);
     }
 
-    private static CareerDTO getCareerDTO(Career career) {
-        return new CareerDTO(career.getCareerId(), career.getCompanyName(), career.getStartDate(),
-                career.getEndDate(), career.getRole(), career.getAssignedTask(), career.isCurrentJob(),
-                career.getMemberId());
+    private static CareerEntity getCareerDTO(CareerDTO careerDTO) {
+        return new CareerEntity(careerDTO.getCareerId(), careerDTO.getCompanyName(), careerDTO.getStartDate(),
+                careerDTO.getEndDate(), careerDTO.getRole(), careerDTO.getAssignedTask(), careerDTO.isCurrentJob(),
+                careerDTO.getMemberId());
     }
 
     /**<h1>5.이미지 조회, 수정 - fin</h1>*/
-    public Image getImage(long memberId) {
-        MemberProfileDTO member = memberProfileDAO.findById(memberId).orElseThrow();
-        return modelMapper.map(member.getImg(),Image.class);
+    public ImageDTO getImage(long memberId) {
+        MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
+        return modelMapper.map(member.getImg(), ImageDTO.class);
     }
 
     @Transactional
     public void modifyImageDTO(long memberId, MultipartFile imgFile) throws IOException {
-        MemberProfileDTO member = memberProfileDAO.findById(memberId).orElseThrow();
-        ImageDTO image = member.getImg();
+        MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
+        ImageEntity image = member.getImg();
         Resource resource = resourceLoader.getResource("classpath:static/images/profile");
         String filePath =resource.getFile().getAbsolutePath();
         String originFileName= imgFile.getOriginalFilename();
@@ -150,7 +150,7 @@ public class MypageService {
         String saveName = memberId+ext;
         try {
             imgFile.transferTo(new File(filePath+"/"+saveName));
-            image= new ImageDTO(member.getMemberId(),"/images/profile/"+saveName,IMG_USE.profile,ext);
+            image= new ImageEntity(member.getMemberId(),"/images/profile/"+saveName,IMG_USE.profile,ext);
             imageDAO.save(image);
         } catch(IOException e){
             new File(filePath+"/"+saveName).delete();
@@ -160,18 +160,18 @@ public class MypageService {
 
 
     /**<h1>6. 기술스택</h1>*/
-    public MemberAndRemainSkill printMemberSkillList(Long memberId) {
-        List<MemberSkillDTO> memberSkills = memberSkillDAO.findByIdMemberId(memberId);
-        List<SkillDTO> memberSkillList = new ArrayList<>();
-        List<SkillDTO> skills = skillDAO.findAll();
-        Set<SkillDTO> remainSkillList = new HashSet<>(skills);
+    public MemberAndRemainSkillDTO printMemberSkillList(Long memberId) {
+        List<MemberSkillEntity> memberSkills = memberSkillDAO.findByIdMemberId(memberId);
+        List<SkillEntity> memberSkillList = new ArrayList<>();
+        List<SkillEntity> skills = skillDAO.findAll();
+        Set<SkillEntity> remainSkillList = new HashSet<>(skills);
         memberSkills.forEach(memberSkill->{
             int skillId = memberSkill.getId().getSkillId();
-            SkillDTO memberskillDTO =skillDAO.findById(skillId).orElseThrow();
-            memberSkillList.add(memberskillDTO);
-            remainSkillList.remove(memberskillDTO);
+            SkillEntity memberskillEntity =skillDAO.findById(skillId).orElseThrow();
+            memberSkillList.add(memberskillEntity);
+            remainSkillList.remove(memberskillEntity);
         });
-        MemberAndRemainSkill returnValue = new MemberAndRemainSkill(memberId,memberSkillList,new ArrayList<>(remainSkillList));
+        MemberAndRemainSkillDTO returnValue = new MemberAndRemainSkillDTO(memberId,memberSkillList,new ArrayList<>(remainSkillList));
         return returnValue;
     }
 
@@ -182,12 +182,12 @@ public class MypageService {
 
     public void addMemberSkill(long memberId, int skillId) {
         MemberSkillId memberSkillId = new MemberSkillId(memberId,skillId);
-        MemberSkillDTO memberSkillDTO = new MemberSkillDTO(memberSkillId);
-        memberSkillDAO.save(memberSkillDTO);
+        MemberSkillEntity memberSkillEntity = new MemberSkillEntity(memberSkillId);
+        memberSkillDAO.save(memberSkillEntity);
     }
 
-    public MemberAndRemainRecruitCategory printMemberRecruitList(Long memberId) {
-        List<MemberRecruitCategoryDTO> memberSkills = memberRecruitCategoryDAO.findByIdMemberId(memberId);
+    public MemberAndRemainRecruitCategoryDTO printMemberRecruitList(Long memberId) {
+        List<MemberRecruitCategoryEntity> memberSkills = memberRecruitCategoryDAO.findByIdMemberId(memberId);
         List<RecruitCategoryDTO> memberRecruitList = new ArrayList<>();
         // 없는 스킬 찾기
         List<RecruitCategoryDTO> skills = recruitCategoryDAO.findAll();
@@ -200,7 +200,7 @@ public class MypageService {
             remainSkillList.remove(memberskillDTO);
         });
         memberSkills.forEach(System.out::println);
-        MemberAndRemainRecruitCategory returnValue = new MemberAndRemainRecruitCategory(memberId,memberRecruitList,
+        MemberAndRemainRecruitCategoryDTO returnValue = new MemberAndRemainRecruitCategoryDTO(memberId,memberRecruitList,
                                                                             new ArrayList<>(remainSkillList));
         return returnValue;
     }
@@ -213,7 +213,7 @@ public class MypageService {
 
     public void addMemberRecruitCagegory(long memberId, int recruitCategory) {
         MemberRecruitCategoryId memberRecruitCategoryId = new MemberRecruitCategoryId(memberId,recruitCategory);
-        MemberRecruitCategoryDTO memberRecruitCategoryDTO = new MemberRecruitCategoryDTO(memberRecruitCategoryId);
-        memberRecruitCategoryDAO.save(memberRecruitCategoryDTO);
+        MemberRecruitCategoryEntity memberRecruitCategoryEntity = new MemberRecruitCategoryEntity(memberRecruitCategoryId);
+        memberRecruitCategoryDAO.save(memberRecruitCategoryEntity);
     }
 }

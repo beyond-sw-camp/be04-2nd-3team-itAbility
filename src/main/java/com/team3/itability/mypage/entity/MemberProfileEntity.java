@@ -12,7 +12,7 @@ import lombok.*;
 @Table(name="member_profile")
 @Getter
 @ToString
-public class MemberProfileDTO {
+public class MemberProfileEntity {
     @Id
     @Column(name = "member_id")
     private long memberId;
@@ -28,14 +28,14 @@ public class MemberProfileDTO {
 
     @OneToOne
     @JoinColumn(name = "img_id")
-    private ImageDTO img;
+    private ImageEntity img;
 
     @ManyToOne
     @JoinColumn(name = "Degree_id")
-    private DegreeDTO degree;
+    private DegreeEntity degree;
 
 
-    public MemberProfileDTO(MemberInfoDTO memberInfo, String nickname, ImageDTO img) {
+    public MemberProfileEntity(MemberInfoDTO memberInfo, String nickname, ImageEntity img) {
         this.memberInfo = memberInfo;
         this.nickname = nickname;
         this.img = img;

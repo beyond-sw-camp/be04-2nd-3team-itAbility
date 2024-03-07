@@ -1,6 +1,6 @@
 package com.team3.itability.recruitment.aggregate;
 
-import com.team3.itability.mypage.entity.SkillDTO;
+import com.team3.itability.mypage.entity.SkillEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,5 +23,5 @@ public class RecruitSkillDTO {
     @MapsId("skillId")
     @ManyToOne
     @JoinColumn(name="skill_id")
-    private SkillDTO skillDTO;
+    private SkillEntity skillEntity;
 }

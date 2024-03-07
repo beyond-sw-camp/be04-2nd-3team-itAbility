@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CareerDTO {
+public class CareerEntity {
 
     @Id
     @Column(name = "career_id")
@@ -31,7 +31,7 @@ public class CareerDTO {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private MemberProfileDTO memberId;
+    private MemberProfileEntity memberId;
 
 }
 

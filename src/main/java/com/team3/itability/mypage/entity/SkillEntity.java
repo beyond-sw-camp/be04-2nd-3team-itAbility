@@ -13,7 +13,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class SkillDTO {
+public class SkillEntity {
     @Id
     @Column(name = "skill_id")
     private int skillId;
