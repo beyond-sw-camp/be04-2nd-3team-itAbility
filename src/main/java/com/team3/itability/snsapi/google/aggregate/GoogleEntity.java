@@ -14,7 +14,7 @@ import lombok.*;
 public class GoogleEntity {
     @Id
     private Long userId;
-    private String profile;
+    private String imgId;
     private String email;
     private String name;
     @Enumerated(EnumType.STRING)

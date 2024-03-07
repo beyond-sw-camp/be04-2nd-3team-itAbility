@@ -13,7 +13,9 @@ import com.team3.itability.mypage.entity.DegreeEntity;
 import com.team3.itability.mypage.entity.ImageEntity;
 import com.team3.itability.mypage.entity.MemberProfileEntity;
 import com.team3.itability.mypage.enumData.IMG_USE;
+import com.team3.itability.snsapi.google.aggregate.GoogleEntity;
 import com.team3.itability.snsapi.google.repository.GoogleRepository;
+import com.team3.itability.snsapi.naver.aggregate.NaverEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -139,6 +141,15 @@ public class GoogleServiceImpl implements GoogleService {
         String first12Digits = id.substring(0, 12);
         userId = Long.valueOf(first12Digits);
 
+        try {
+            GoogleEntity googleEntity = new GoogleEntity(userId, email, name, profilePicture, Provider.GOOGLE);
+            googleRepository.save(googleEntity);
+            System.out.println("저장이 됨: " + googleEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("저장이 안됨: " + e.getMessage());
+        }
+
         if(!memberInfoRepo.existsById(userId)) {
             MemberInfoDTO member = new MemberInfoDTO(userId,name,email,Provider.GOOGLE);
             ImageEntity imageEntity = new ImageEntity(userId, profilePicture, IMG_USE.profile, "link");
@@ -150,7 +161,6 @@ public class GoogleServiceImpl implements GoogleService {
             memberProfileDAO.save(profile);
         }
 
-        // 정보 출력 (디버깅 목적)
         System.out.println("ID: " + id);
         System.out.println("Email: " + email);
         System.out.println("Name: " + name);
