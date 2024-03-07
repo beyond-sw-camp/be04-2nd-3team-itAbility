@@ -2,9 +2,10 @@ package com.team3.itability.report.dto;
 
 import com.team3.itability.feed.dto.FeedDTO;
 import com.team3.itability.member.dto.MemberInfoDTO;
-import com.team3.itability.recruitment.dto.RecruitDTO;
+import com.team3.itability.recruitment.aggregate.RecruitDTO;
 
 import com.team3.itability.reple.aggregate.CommentEntity;
+
 import jakarta.persistence.*;
 import lombok.*;
 

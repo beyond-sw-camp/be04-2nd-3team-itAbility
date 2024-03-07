@@ -1,6 +1,5 @@
 package com.team3.itability.recruitment.controller;
 
-import com.team3.itability.recruitment.dto.MemberRecruitsInfoDTO;
 import com.team3.itability.recruitment.service.MemberRecruitsInfoService;
 import com.team3.itability.recruitment.vo.MemberRecruitsInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;

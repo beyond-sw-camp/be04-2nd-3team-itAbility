@@ -3,8 +3,9 @@ package com.team3.itability.mypage.service;
 import com.team3.itability.mypage.dao.*;
 import com.team3.itability.mypage.dto.*;
 import com.team3.itability.mypage.entity.*;
+import com.team3.itability.mypage.entity.MemberRecruitCategoryId;
 import com.team3.itability.mypage.enumData.IMG_USE;
-import com.team3.itability.recruitment.dto.RecruitCategoryDTO;
+import com.team3.itability.recruitment.aggregate.RecruitCategoryDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -200,7 +201,7 @@ public class MypageService {
 
         memberSkills.forEach(memberSkill->{
             int skillId = memberSkill.getId().getRecruitCategoryId();
-            RecruitCategoryDTO memberskillDTO =recruitCategoryDAO.findById(skillId).orElseThrow();
+            RecruitCategoryDTO memberskillDTO = recruitCategoryDAO.findById(skillId).orElseThrow();
             memberRecruitList.add(memberskillDTO);
             remainSkillList.remove(memberskillDTO);
         });

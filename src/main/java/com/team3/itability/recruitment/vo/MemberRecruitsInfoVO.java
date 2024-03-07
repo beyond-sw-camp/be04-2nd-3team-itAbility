@@ -1,6 +1,6 @@
 package com.team3.itability.recruitment.vo;
 
-import com.team3.itability.recruitment.dto.RecruitStatus;
+import com.team3.itability.recruitment.aggregate.RecruitStatus;
 import lombok.*;
 
 @NoArgsConstructor

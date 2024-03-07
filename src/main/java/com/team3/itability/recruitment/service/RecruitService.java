@@ -4,10 +4,9 @@ import com.team3.itability.member.dao.MemberInfoRepo;
 import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.mypage.dao.SkillDAO;
 import com.team3.itability.mypage.entity.SkillDTO;
-import com.team3.itability.recruitment.repository.RecruitCateRepo;
-import com.team3.itability.recruitment.repository.RecruitRepo;
-import com.team3.itability.recruitment.dto.RecruitCategoryDTO;
-import com.team3.itability.recruitment.dto.RecruitDTO;
+import com.team3.itability.recruitment.aggregate.*;
+import com.team3.itability.recruitment.repository.*;
+import com.team3.itability.recruitment.vo.RecruitVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,23 +19,39 @@ import java.util.stream.Collectors;
 public class RecruitService {
 
     private final ModelMapper mapper;
+    private final RecruitMapper recruitMapper;
     private final RecruitRepo recruitRepo;
     private final RecruitCateRepo recruitCateRepo;
     private final SkillDAO skillRepo;
     private final MemberInfoRepo memberInfoRepo;
+    private final RefRecruitRepo refRecruitRepo;
+    private final RecruitSkillRepo recruitSkillRepo;
 
     @Autowired
-    public RecruitService(ModelMapper mapper, RecruitRepo recruitRepo, RecruitCateRepo recruitCateRepo, SkillDAO skillRepo, MemberInfoRepo memberInfoRepo) {
+    public RecruitService(
+                            ModelMapper mapper,
+                            RecruitMapper recruitMapper,
+                            RecruitRepo recruitRepo,
+                            MemberInfoRepo memberInfoRepo,
+                            RecruitCateRepo recruitCateRepo,
+                            RefRecruitRepo refRecruitRepo,
+                            SkillDAO skillRepo,
+                            RecruitSkillRepo recruitSkillRepo)
+    {
         this.mapper = mapper;
+        this.recruitMapper = recruitMapper;
         this.recruitRepo = recruitRepo;
-        this.recruitCateRepo = recruitCateRepo;
-        this.skillRepo = skillRepo;
         this.memberInfoRepo = memberInfoRepo;
+        this.recruitCateRepo = recruitCateRepo;
+        this.refRecruitRepo = refRecruitRepo;
+        this.skillRepo = skillRepo;
+        this.recruitSkillRepo = recruitSkillRepo;
     }
 
     // 모집군 카테고리 조회
     @Transactional(readOnly = true)
     public List<RecruitCategoryDTO> findAllRecruitCategory() {
+
         List<RecruitCategoryDTO> recruitCategoryList = recruitCateRepo.findAll();
 
         return recruitCategoryList.stream().map(recruit -> mapper.map(recruit, RecruitCategoryDTO.class)).collect(Collectors.toList());
@@ -46,6 +61,7 @@ public class RecruitService {
     // mypage SkillDAO 사용
     @Transactional(readOnly = true)
     public List<SkillDTO> findAllSkill() {
+
         List<SkillDTO> skillList = skillRepo.findAll();
 
         return skillList.stream().map(recruit -> mapper.map(recruit, SkillDTO.class)).collect(Collectors.toList());
@@ -53,17 +69,30 @@ public class RecruitService {
 
     // 모집글 등록
     @Transactional
-    public void registRecruit(RecruitDTO recruit, long memberId) {
+    public void registRecruit(RecruitDTO recruit, long memberId, int recruitCategoryId, int skillId) {
+
         MemberInfoDTO member = memberInfoRepo.findById(memberId).orElseThrow();
         recruit.setMemberInfoDTO(member);
 
+        RecruitCategoryDTO recruitCategoryDTO = recruitCateRepo.findById(recruitCategoryId).orElseThrow();
+        RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruit.getRecruitId(), recruitCategoryId);
+        RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruit, recruitCategoryDTO);
+
+        SkillDTO skillDTO = skillRepo.findById(skillId).orElseThrow();
+        RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), skillId);
+        RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruit, skillDTO);
+
         recruitRepo.save(mapper.map(recruit, RecruitDTO.class));
+        refRecruitRepo.save(refRecruitCategoryDTO);
+        recruitSkillRepo.save(recruitSkillDTO);
     }
 
     // 모집글 수정
     @Transactional
-    public void modifyRecruit(RecruitDTO recruit) {
+    public void modifyRecruit(RecruitDTO recruit, int recruitCategoryId, int skillId) {
+
         RecruitDTO foundRecruit = recruitRepo.findById(recruit.getRecruitId()).orElseThrow(IllegalAccessError::new);
+//        RefRecruitCategoryDTO foundRefRecruit = refRecruitRepo.findByRecruitCategoryId()
 
         foundRecruit.setRecruitType(recruit.getRecruitType());
         foundRecruit.setRecruitTitle(recruit.getRecruitTitle());
@@ -80,10 +109,11 @@ public class RecruitService {
 
     // 모집글 목록
     @Transactional(readOnly = true)
-    public List<RecruitDTO> findRecruitList() {
-        List<RecruitDTO> recruitList = recruitRepo.findAll();
+    public List<RecruitVO> findRecruitList() {
 
-        return recruitList.stream().map(recruit -> mapper.map(recruit, RecruitDTO.class)).collect(Collectors.toList());
+        List<RecruitVO> recruitList = recruitMapper.findRecruitList();
+
+        return recruitList;
     }
 
     // 모집글 필터
@@ -91,6 +121,7 @@ public class RecruitService {
     // 모집글 상세 페이지
     @Transactional(readOnly = true)
     public RecruitDTO findRecruitById(int recruitId) {
+
         RecruitDTO recruit = recruitRepo.findById(recruitId).orElseThrow(IllegalArgumentException::new);
 
         return mapper.map(recruit, RecruitDTO.class);

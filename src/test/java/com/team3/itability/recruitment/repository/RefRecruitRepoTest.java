@@ -1,7 +1,7 @@
 package com.team3.itability.recruitment.repository;
 
-import com.team3.itability.recruitment.dto.RecruitSkillDTO;
-import com.team3.itability.recruitment.dto.RefRecruitCategoryDTO;
+import com.team3.itability.recruitment.aggregate.RecruitSkillDTO;
+import com.team3.itability.recruitment.aggregate.RefRecruitCategoryDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

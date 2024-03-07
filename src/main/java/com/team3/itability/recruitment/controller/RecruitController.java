@@ -1,7 +1,10 @@
 package com.team3.itability.recruitment.controller;
 
-import com.team3.itability.recruitment.dto.RecruitDTO;
+import com.team3.itability.mypage.entity.SkillDTO;
+import com.team3.itability.recruitment.aggregate.RecruitCategoryDTO;
+import com.team3.itability.recruitment.aggregate.RecruitDTO;
 import com.team3.itability.recruitment.service.RecruitService;
+import com.team3.itability.recruitment.vo.RecruitVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,17 +25,18 @@ public class RecruitController {
     // 상세 페이지
     @GetMapping("/{recruitId}")
     public String findRecruitById(@PathVariable int recruitId, Model model) {
+
         RecruitDTO recruit = recruitService.findRecruitById(recruitId);
         model.addAttribute("recruit", recruit);
 
         return "recruit/detail";
     }
 
-
     // 목록 조회
     @GetMapping("/list")
     public String findRecruitList(Model model) {
-        List<RecruitDTO> recruitList = recruitService.findRecruitList();
+
+        List<RecruitVO> recruitList = recruitService.findRecruitList();
         model.addAttribute("recruitList", recruitList);
 
         return "recruit/list";
@@ -42,19 +46,20 @@ public class RecruitController {
     @GetMapping("/regist")
     public void registPage() {}
 
-//    // 설명. 모집군 카테고리
-//    @GetMapping(value = "/recruit_category", produces = "application/json; charset=UTF-8")
-//    @ResponseBody
-//    public List<RecruitCategoryDTO> findRecruitCategoryList() {return recruitService.findAllRecruitCategory();}
-//
-//    // 설명. 기술 카테고리
-//    @GetMapping(value = "/skill_category", produces = "application/json; charset=UTF-8")
-//    @ResponseBody
-//    public List<SkillDTO> findSkillList() {return recruitService.findAllSkill();}
+    // 설명. 모집군 카테고리
+    @GetMapping(value = "/recruit_category", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<RecruitCategoryDTO> findRecruitCategoryList() {return recruitService.findAllRecruitCategory();}
+
+    // 설명. 기술 카테고리
+    @GetMapping(value = "/skill_category", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<SkillDTO> findSkillList() {return recruitService.findAllSkill();}
 
     @PostMapping("/regist")
-    public String registRecruit(RecruitDTO recruit, @RequestParam long memberId) {
-        recruitService.registRecruit(recruit, memberId);
+    public String registRecruit(RecruitDTO recruit, @RequestParam long memberId, @RequestParam int recruitCategoryId, @RequestParam int skillId) {
+
+        recruitService.registRecruit(recruit, memberId, recruitCategoryId, skillId);
 
         return "redirect:/recruit/list";    // 리다이렉트 주소(모집글 목록?)
     }
@@ -64,8 +69,9 @@ public class RecruitController {
     public void modifyPage() {}
 
     @PostMapping("/modify")
-    public String modifyRecruit(RecruitDTO recruit) {
-        recruitService.modifyRecruit(recruit);
+    public String modifyRecruit(RecruitDTO recruit, @RequestParam int recruitCategoryId, @RequestParam int skillId) {
+
+        recruitService.modifyRecruit(recruit, recruitCategoryId, skillId);
 
         return "redirect:/recruit/" + recruit.getRecruitId();    // 리다이렉트 주소(모집글 상세 페이지?)
     }
@@ -76,6 +82,7 @@ public class RecruitController {
 
     @PostMapping("/delete")
     public String deleteRecruit(@RequestParam int recruitId) {
+
         recruitService.deleteRecruit(recruitId);
 
         return "redirect:/recruit/list";    // 리다이렉트 주소(모집글 목록?)

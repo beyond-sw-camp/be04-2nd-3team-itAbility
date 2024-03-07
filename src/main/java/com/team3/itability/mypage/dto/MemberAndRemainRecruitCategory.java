@@ -1,6 +1,7 @@
 package com.team3.itability.mypage.dto;
 
-import com.team3.itability.recruitment.dto.RecruitCategoryDTO;
+
+import com.team3.itability.recruitment.aggregate.RecruitCategoryDTO;
 import lombok.*;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.team3.itability.recruitment.dto;
+package com.team3.itability.recruitment.aggregate;
 
 import com.team3.itability.mypage.entity.SkillDTO;
 import jakarta.persistence.*;
