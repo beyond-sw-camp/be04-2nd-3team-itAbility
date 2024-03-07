@@ -52,7 +52,7 @@ public class GoogleController {
         ArrayList<Object> list = googleService.getUserInfo(access_token);
 
         // list 모델에 담아 view로 넘김
-        ModelAndView modelAndView = new ModelAndView("googleUserInfo");
+        ModelAndView modelAndView = new ModelAndView("GoogleUserInfo");
         modelAndView.addObject("list", list);
         return modelAndView;
     }

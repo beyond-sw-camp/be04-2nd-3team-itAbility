@@ -136,23 +136,14 @@ public class KakaoServiceImpl implements KakaoService {
         String imgId = properties.getAsJsonObject().get("thumbnail_image").getAsString();
         String name = properties.getAsJsonObject().get("nickname").getAsString();
         String email = kakao_account.getAsJsonObject().get("email").getAsString();
-//        String gender = kakao_account.getAsJsonObject().get("gender").getAsString();
-//        String birthYear = kakao_account.getAsJsonObject().get("birthyear").getAsString();
-//        String birthDay = kakao_account.getAsJsonObject().get("birthday").getAsString();
-//        String phone = kakao_account.getAsJsonObject().get("phone_number").getAsString();
-
 
         list.add(userId);
         list.add(imgId);
         list.add(name);
         list.add(email);
-//        list.add(birthYear + birthDay); //concat
-//        list.add(phone);
-//        list.add(gender);
 
 
         //DB 저장
-//        Kakaouser kakaouser = new Kakaouser(userId, imgId, Provider.KAKAO, name, birthYear, birthDay, email, phone, gender);
         Kakaouser kakaoouser = new Kakaouser(userId, imgId, email, name, Provider.KAKAO);
 
         if(!memberInfoRepo.existsById(userId)) {

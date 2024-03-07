@@ -20,9 +20,4 @@ public class Kakaouser {
     private String name;
     @Enumerated(EnumType.STRING)
     private Provider provider;
-//    private String birthYear; // java,time localdate localtime
-//    private String birthDay;
-//    private String phone;
-//    private String gender;
-
 }
