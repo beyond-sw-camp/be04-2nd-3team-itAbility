@@ -74,7 +74,15 @@ public class MypageRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
     //9. 맴버 분야 추가
-
+    @PutMapping("/{memberId}/recruit")
+    public ResponseEntity<List<MemberRecruitCategoryDTO>> putMemberRecruit(@PathVariable long memberId, @RequestBody RequestRecruitId recruitId ){
+        List<MemberRecruitCategoryDTO> returnValue = mypageService.putMemberRecruitCategory(memberId, recruitId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
+    }
     //10. 맴버 분야 삭제
-
+    @DeleteMapping("/{memberId}/recruit")
+    public ResponseEntity<List<MemberRecruitCategoryDTO>> deleteMemberRecruit(@PathVariable long memberId, @RequestBody RequestRecruitId recruitCategory){
+        List<MemberRecruitCategoryDTO> returnValue = mypageService.deleteMemberRecruitCategory(memberId, recruitCategory);
+        return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
+    }
 }

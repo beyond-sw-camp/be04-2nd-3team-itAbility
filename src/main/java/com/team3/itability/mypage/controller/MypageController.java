@@ -152,14 +152,14 @@ public class MypageController {
     @Transactional
     @GetMapping("{memberId}/remove-recruit-category/{recruitCategory}")
     public String removeMemberRecruitCategory(@PathVariable long memberId, @PathVariable int recruitCategory, Model model){
-        mypageService.removeMemberRecruitCagegory(memberId,recruitCategory);
+        mypageService.removeMemberRecruitCategory(memberId,recruitCategory);
         System.out.println("이전 페이지로 돌아갑니다.");
         return "redirect:/mypage/" + memberId + "/memberRecruitCategory";
     }
     @Transactional
     @GetMapping("{memberId}/add-recruit-category/{recruitCategory}")
     public String addMemberRecruitCategory(@PathVariable long memberId, @PathVariable int recruitCategory, Model model){
-        mypageService.addMemberRecruitCagegory(memberId,recruitCategory);
+        mypageService.addMemberRecruitCategory(memberId,recruitCategory);
         return "redirect:/mypage/" + memberId + "/memberRecruitCategory";
     }
 

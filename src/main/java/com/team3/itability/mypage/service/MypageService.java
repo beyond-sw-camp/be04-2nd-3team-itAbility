@@ -11,7 +11,6 @@ import com.team3.itability.mypage.entity.*;
 import com.team3.itability.mypage.entity.MemberRecruitCategoryId;
 import com.team3.itability.img.enumData.IMG_USE;
 import com.team3.itability.recruitment.aggregate.RecruitCategoryDTO;
-import org.apache.ibatis.jdbc.Null;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -209,12 +208,12 @@ public class MypageService {
     }
 
 
-    public void removeMemberRecruitCagegory(long memberId, int recruitCategory) {
+    public void removeMemberRecruitCategory(long memberId, int recruitCategory) {
         MemberRecruitCategoryId memberRecruitCategoryId = new MemberRecruitCategoryId(memberId,recruitCategory);
         memberRecruitCategoryDAO.deleteById(memberRecruitCategoryId);
     }
 
-    public void addMemberRecruitCagegory(long memberId, int recruitCategory) {
+    public void addMemberRecruitCategory(long memberId, int recruitCategory) {
 
         MemberRecruitCategoryId memberRecruitCategoryId = new MemberRecruitCategoryId(memberId,recruitCategory);
         MemberRecruitCategoryEntity memberRecruitCategoryEntity = new MemberRecruitCategoryEntity(memberRecruitCategoryId);
@@ -284,4 +283,28 @@ public class MypageService {
         memberSkills.forEach(skill -> returnValue.getSkillList().add(modelMapper.map( skill.getId(),MemberSkillId.class)));
         return returnValue;
     }
+
+    @Transactional
+    public List<MemberRecruitCategoryDTO> putMemberRecruitCategory(long memberId, RequestRecruitId recruitCategory) {
+
+        MemberRecruitCategoryId memberRecruitCategoryId = new MemberRecruitCategoryId(memberId,recruitCategory.getRecruitId());
+        MemberRecruitCategoryEntity memberRecruitCategoryEntity = new MemberRecruitCategoryEntity(memberRecruitCategoryId);
+        memberRecruitCategoryDAO.save(memberRecruitCategoryEntity);
+        List<MemberRecruitCategoryEntity> recruitList = memberRecruitCategoryDAO.findByIdMemberId(memberId);
+        List<MemberRecruitCategoryDTO> returnValue = new ArrayList<>();
+        recruitList.forEach(recruit-> returnValue.add(modelMapper.map(recruit,MemberRecruitCategoryDTO.class)));
+        return returnValue;
+    }
+
+    @Transactional
+    public List<MemberRecruitCategoryDTO> deleteMemberRecruitCategory(long memberId, RequestRecruitId recruitCategory) {
+        MemberRecruitCategoryId memberRecruitCategoryId = new MemberRecruitCategoryId(memberId,recruitCategory.getRecruitId());
+        memberRecruitCategoryDAO.deleteById(memberRecruitCategoryId);
+        List<MemberRecruitCategoryEntity> recruitList = memberRecruitCategoryDAO.findByIdMemberId(memberId);
+        List<MemberRecruitCategoryDTO> returnValue = new ArrayList<>();
+        recruitList.forEach(recruit-> returnValue.add(modelMapper.map(recruit,MemberRecruitCategoryDTO.class)));
+        return returnValue;
+    }
+
+
 }
