@@ -4,12 +4,12 @@ import com.team3.itability.member.dao.MemberInfoRepo;
 import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.member.dto.Provider;
 import com.team3.itability.mypage.dao.DegreeDAO;
-import com.team3.itability.mypage.dao.ImageDAO;
+import com.team3.itability.img.dao.ImageDAO;
 import com.team3.itability.mypage.dao.MemberProfileDAO;
 import com.team3.itability.mypage.entity.DegreeEntity;
-import com.team3.itability.mypage.entity.ImageEntity;
+import com.team3.itability.img.entity.ImageEntity;
 import com.team3.itability.mypage.entity.MemberProfileEntity;
-import com.team3.itability.mypage.enumData.IMG_USE;
+import com.team3.itability.img.enumData.IMG_USE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

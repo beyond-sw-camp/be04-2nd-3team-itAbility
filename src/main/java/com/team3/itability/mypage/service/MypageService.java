@@ -1,12 +1,15 @@
 package com.team3.itability.mypage.service;
 
+import com.team3.itability.img.dao.ImageDAO;
+import com.team3.itability.img.dto.ImageDTO;
+import com.team3.itability.img.entity.ImageEntity;
 import com.team3.itability.member.dao.MemberInfoRepo;
 import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.mypage.dao.*;
 import com.team3.itability.mypage.dto.*;
 import com.team3.itability.mypage.entity.*;
 import com.team3.itability.mypage.entity.MemberRecruitCategoryId;
-import com.team3.itability.mypage.enumData.IMG_USE;
+import com.team3.itability.img.enumData.IMG_USE;
 import com.team3.itability.recruitment.aggregate.RecruitCategoryDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -192,7 +195,6 @@ public class MypageService {
         // 없는 스킬 찾기
         List<RecruitCategoryDTO> skills = recruitCategoryDAO.findAll();
         Set<RecruitCategoryDTO> remainSkillList = new HashSet<>(skills);
-
         memberSkills.forEach(memberSkill->{
             int skillId = memberSkill.getId().getRecruitCategoryId();
             RecruitCategoryDTO memberskillDTO = recruitCategoryDAO.findById(skillId).orElseThrow();

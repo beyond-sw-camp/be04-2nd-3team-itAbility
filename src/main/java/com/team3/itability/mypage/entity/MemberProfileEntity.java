@@ -1,5 +1,6 @@
 package com.team3.itability.mypage.entity;
 
+import com.team3.itability.img.entity.ImageEntity;
 import com.team3.itability.member.dto.MemberInfoDTO;
 import jakarta.persistence.*;
 import lombok.*;

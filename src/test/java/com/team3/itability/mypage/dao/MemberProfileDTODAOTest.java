@@ -1,5 +1,6 @@
 package com.team3.itability.mypage.dao;
 
+import com.team3.itability.img.dao.ImageDAO;
 import com.team3.itability.mypage.entity.MemberProfileEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

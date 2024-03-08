@@ -1,5 +1,6 @@
 package com.team3.itability.mypage.controller;
 
+import com.team3.itability.img.dto.ImageDTO;
 import com.team3.itability.mypage.dto.*;
 import com.team3.itability.mypage.service.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import java.util.*;
 @RequestMapping("/mypage")
 public class MypageController {
     private final MypageService mypageService;
-
     @Autowired
     public MypageController(MypageService mypageService) {
         this.mypageService = mypageService;
@@ -28,7 +28,7 @@ public class MypageController {
      * 마이페이지 컨트롤러
      * */
     @GetMapping("/{memberId}")
-    public String printMypage(@PathVariable long memberId, Model model){
+    public String getMypage(@PathVariable long memberId, Model model){
         MemberProfileDTO profile = mypageService.printMypageData(memberId);
         System.out.println("profile = " + profile);
         List<CareerDTO> careerDTOList = mypageService.printCareerList(memberId);

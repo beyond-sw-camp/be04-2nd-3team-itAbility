@@ -1,6 +1,6 @@
-package com.team3.itability.mypage.dao;
+package com.team3.itability.img.dao;
 
-import com.team3.itability.mypage.entity.ImageEntity;
+import com.team3.itability.img.entity.ImageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

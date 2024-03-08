@@ -1,6 +1,6 @@
-package com.team3.itability.mypage.dto;
+package com.team3.itability.img.dto;
 
-import com.team3.itability.mypage.enumData.IMG_USE;
+import com.team3.itability.img.enumData.IMG_USE;
 import jakarta.persistence.*;
 import lombok.*;
 
