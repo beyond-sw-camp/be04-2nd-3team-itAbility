@@ -64,4 +64,10 @@ public class MemberInfoDTO {
     }
 
 
+    public void decrementReportCount(int decrementValue) {
+        this.mbReportCount -= decrementValue;
+        if (this.mbReportCount < 0) {
+            this.mbReportCount = 0;
+        }
+    }
 }
