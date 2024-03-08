@@ -25,6 +25,7 @@
             , b.member_id
         FROM ref_recruit_category a
         JOIN recruit b ON (a.recruit_id = b.recruit_id)
-        JOIN recruit_category c ON (a.recruit_category_id = c.recruit_category_id);
+        JOIN recruit_category c ON (a.recruit_category_id = c.recruit_category_id)
+       ORDER BY recruit_id;
     </select>
 </mapper>
