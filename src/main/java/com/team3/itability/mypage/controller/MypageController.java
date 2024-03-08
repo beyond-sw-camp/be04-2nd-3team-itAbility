@@ -29,7 +29,7 @@ public class MypageController {
      * */
     @GetMapping("/{memberId}")
     public String getMypage(@PathVariable long memberId, Model model){
-        MemberProfileDTO profile = mypageService.printMypageData(memberId);
+        MemberProfileDTO profile = mypageService.printMypage(memberId);
         System.out.println("profile = " + profile);
         List<CareerDTO> careerDTOList = mypageService.printCareerList(memberId);
         MemberAndRemainSkillDTO skillDTOS = mypageService.printMemberSkillList(memberId);
@@ -46,7 +46,7 @@ public class MypageController {
      * */
     @GetMapping("/{memberId}/modify-name")
     public String modifyMypage(Model model, @PathVariable long memberId){
-        MemberProfileDTO profile = mypageService.printMypageData(memberId);
+        MemberProfileDTO profile = mypageService.printMypage(memberId);
         model.addAttribute("profile", profile);
         return "mypage/modify";
     }
@@ -63,7 +63,7 @@ public class MypageController {
      * */
     @GetMapping("/{memberId}/modify-degree")
     public String modifyDegree(Model model, @PathVariable long memberId){
-        MemberProfileDTO profile = mypageService.printMypageData(memberId);
+        MemberProfileDTO profile = mypageService.printMypage(memberId);
         model.addAttribute("profile", profile);
         return "mypage/modify-degree";
     }
@@ -92,7 +92,6 @@ public class MypageController {
     }
     @PostMapping("/modify-career")
     public String modifySubmitCareer(Model model, @ModelAttribute CareerDTO careerDTO){
-        System.out.println("careerDTO = " + careerDTO);
         mypageService.modifyCareer(careerDTO);
         return "redirect:/mypage/" + careerDTO.getMemberId().getMemberId();
     }

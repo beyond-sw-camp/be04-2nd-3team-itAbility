@@ -11,6 +11,7 @@ import com.team3.itability.mypage.entity.*;
 import com.team3.itability.mypage.entity.MemberRecruitCategoryId;
 import com.team3.itability.img.enumData.IMG_USE;
 import com.team3.itability.recruitment.aggregate.RecruitCategoryDTO;
+import org.apache.ibatis.jdbc.Null;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -63,7 +64,7 @@ public class MypageService {
 
     /** <h1> 1. 자신의 마이페이지 정보 조회 - fin</h1> */
     @Transactional
-    public MemberProfileDTO printMypageData(long memberId){
+    public MemberProfileDTO printMypage(long memberId){
 
         MemberProfileEntity memberProfileEntity =memberProfileDAO.findById(memberId).orElseThrow();
         if(memberProfileEntity.getImg()==null){
@@ -130,7 +131,7 @@ public class MypageService {
     }
 
     private static CareerEntity getCareerDTO(CareerDTO careerDTO) {
-        return new CareerEntity(careerDTO.getCareerId(), careerDTO.getCompanyName(), careerDTO.getStartDate(),
+        return new CareerEntity(careerDTO.getCareerId(),careerDTO.getCompanyName(), careerDTO.getStartDate(),
                 careerDTO.getEndDate(), careerDTO.getRole(), careerDTO.getAssignedTask(), careerDTO.isCurrentJob(),
                 careerDTO.getMemberId());
     }
@@ -214,8 +215,74 @@ public class MypageService {
     }
 
     public void addMemberRecruitCagegory(long memberId, int recruitCategory) {
+
         MemberRecruitCategoryId memberRecruitCategoryId = new MemberRecruitCategoryId(memberId,recruitCategory);
         MemberRecruitCategoryEntity memberRecruitCategoryEntity = new MemberRecruitCategoryEntity(memberRecruitCategoryId);
         memberRecruitCategoryDAO.save(memberRecruitCategoryEntity);
+    }
+
+    /**<h1>REST-API</h1>*/
+    @Transactional
+    public MemberProfileDTO PostMypage(RequestMember member, Long memberId) {
+        MemberProfileEntity memberProfileEntity = memberProfileDAO.findById(memberId).orElseThrow();
+        memberProfileEntity.setNickname(member.getNickname());
+        MemberInfoDTO memberInfoDTO = memberProfileEntity.getMemberInfo();
+        memberInfoDTO.update(member.getName(),member.getPhone(), member.getBirthDate());
+        memberInfoRepo.save(memberInfoDTO);
+        return modelMapper.map(memberProfileEntity,MemberProfileDTO.class);
+    }
+
+    @Transactional
+    public ResponseDegree postDegree(long memberId, DegreeDTO degreeDTO) {
+        MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
+        DegreeEntity degree = member.getDegree();
+        degree.update(degreeDTO.getFinalEduName(), degreeDTO.getEnrollDate(),
+                degreeDTO.getGraduateDate() , degreeDTO.getMajor(), degreeDTO.isRegisterStatus() );
+
+        ResponseDegree response= new ResponseDegree(modelMapper.map(member,MemberProfileDTO.class)
+                                    ,modelMapper.map(degree,DegreeDTO.class)   );
+
+        return response;
+    }
+    @Transactional
+    public CareerDTO postCareer(CareerDTO careerDTO, long memberId) {
+        CareerEntity careerEntity = getCareerDTO(careerDTO);
+
+        careerEntity.setMemberId(memberProfileDAO.findById(memberId).orElseThrow());
+        careerDAO.save(careerEntity);
+        return modelMapper.map(careerEntity,CareerDTO.class);
+    }
+    @Transactional
+    public CareerDTO putCareer(CareerDTO careerDTO, long memberId) {
+        MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
+        CareerEntity careerEntity = getCareerDTO(careerDTO);
+        careerEntity.setMemberId(member);
+        careerDAO.save(careerEntity);
+        return modelMapper.map(careerEntity,CareerDTO.class);
+    }
+
+    @Transactional
+    public ResponseSkillList putMemberSkill(long memberId, RequestSkillId skillId) {
+
+        MemberSkillId memberSkillId = new MemberSkillId(memberId,skillId.getSkillId());
+        MemberSkillEntity memberSkillEntity = new MemberSkillEntity(memberSkillId);
+        if(memberSkillDAO.existsById(memberSkillId))
+            memberSkillDAO.save(memberSkillEntity);
+
+        List<MemberSkillEntity> memberSkills = memberSkillDAO.findByIdMemberId(memberId);
+        ResponseSkillList returnValue = new ResponseSkillList();
+        returnValue.setSkillList(new ArrayList<>());
+        memberSkills.forEach(skill -> returnValue.getSkillList().add(modelMapper.map( skill,MemberSkillId.class)));
+        return returnValue;
+    }
+    @Transactional
+    public ResponseSkillList deleteMemberSkill(long memberId, RequestSkillId skillId) {
+        MemberSkillId memberSkillId = new MemberSkillId(memberId,skillId.getSkillId());
+        memberSkillDAO.deleteById(memberSkillId);
+        List<MemberSkillEntity> memberSkills = memberSkillDAO.findByIdMemberId(memberId);
+        ResponseSkillList returnValue = new ResponseSkillList();
+        returnValue.setSkillList(new ArrayList<>());
+        memberSkills.forEach(skill -> returnValue.getSkillList().add(modelMapper.map( skill,MemberSkillId.class)));
+        return returnValue;
     }
 }
