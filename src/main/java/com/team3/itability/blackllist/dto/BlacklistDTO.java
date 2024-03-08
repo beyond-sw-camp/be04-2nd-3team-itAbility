@@ -15,7 +15,7 @@ import lombok.*;
 public class BlacklistDTO {
 
     private Long blacklistId;
-    private java.util.Date blackist_date;
+    private String blacklist_date;
     private Long memberId;
 
 }

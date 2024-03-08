@@ -13,6 +13,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,6 +40,7 @@ public class BlackListService {
         for (MemberInfoDTO member : membersToBlacklist) {
             BlacklistDTO blacklistDTO = new BlacklistDTO();
             blacklistDTO.setMemberId(member.getMemberId());
+            blacklistDTO.setBlacklist_date( new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
             BlacklistEntity blacklistEntity = modelMapper.map(blacklistDTO, BlacklistEntity.class);
             blacklistDAO.save(blacklistEntity);
 

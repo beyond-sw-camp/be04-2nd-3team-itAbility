@@ -18,8 +18,7 @@ public class BlacklistEntity {
     private Long blacklistId;
 
     @Column(name="blacklist_date")
-    @Temporal(TemporalType.DATE)
-    private java.util.Date blackist_date;
+    private String blacklist_date;
 
     @Column(name = "member_id")
     private Long memberId;
