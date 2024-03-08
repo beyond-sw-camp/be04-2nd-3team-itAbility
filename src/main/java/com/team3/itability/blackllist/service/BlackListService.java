@@ -25,20 +25,20 @@ public class BlackListService {
         this.blacklistDAO = blacklistDAO;
     }
 
-    @Scheduled(fixedRate = 3600000) // 1시간마다 실행
-    @Transactional
-    public void checkAndBlacklistMembers() {
-        List<MemberInfoDTO> membersToBlacklist = memberInfoRepo.findByMbReportCountGreaterThanEqual(5);
-
-        for (MemberInfoDTO member : membersToBlacklist) {
-            BlacklistDTO blacklistDTO = new BlacklistDTO();
-            blacklistDTO.setMemberId(member.getMemberId());
-            blacklistDAO.save(blacklistDTO);
-
-            member.setBlacklistStatus(true);
-            member.incrementBlacklistCount();
-            member.decrementReportCount(5);
-            memberInfoRepo.save(member);
-        }
-    }
+//    @Scheduled(fixedRate = 3600000) // 1시간마다 실행
+//    @Transactional
+//    public void checkAndBlacklistMembers() {
+//        List<MemberInfoDTO> membersToBlacklist = memberInfoRepo.findByMbReportCountGreaterThanEqual(5);
+//
+//        for (MemberInfoDTO member : membersToBlacklist) {
+//            BlacklistDTO blacklistDTO = new BlacklistDTO();
+//            blacklistDTO.setMemberId(member.getMemberId());
+//            blacklistDAO.save(blacklistDTO);
+//
+//            member.setBlacklistStatus(true);
+//            member.incrementBlacklistCount();
+//            member.decrementReportCount(5);
+//            memberInfoRepo.save(member);
+//        }
+//    }
 }
