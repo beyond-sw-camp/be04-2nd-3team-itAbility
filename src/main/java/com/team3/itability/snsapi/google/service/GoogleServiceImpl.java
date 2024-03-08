@@ -13,6 +13,7 @@ import com.team3.itability.mypage.entity.DegreeEntity;
 import com.team3.itability.mypage.entity.ImageEntity;
 import com.team3.itability.mypage.entity.MemberProfileEntity;
 import com.team3.itability.mypage.enumData.IMG_USE;
+import com.team3.itability.snsapi.common.CommonService;
 import com.team3.itability.snsapi.google.aggregate.GoogleEntity;
 import com.team3.itability.snsapi.google.repository.GoogleRepository;
 import com.team3.itability.snsapi.naver.aggregate.NaverEntity;
@@ -39,18 +40,11 @@ public class GoogleServiceImpl implements GoogleService {
     private String redirectUri;
 
     private final GoogleRepository googleRepository;
-    private final MemberInfoRepo memberInfoRepo;
-    private final MemberProfileDAO memberProfileDAO;
-    private final DegreeDAO degreeDAO;
-    private final ImageDAO imageDAO;
-
+    private final CommonService commonService;
     @Autowired
-    public GoogleServiceImpl(GoogleRepository googleRepository, MemberInfoRepo memberInfoRepo, MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO) {
+    public GoogleServiceImpl(GoogleRepository googleRepository, CommonService commonService) {
         this.googleRepository = googleRepository;
-        this.memberInfoRepo = memberInfoRepo;
-        this.memberProfileDAO = memberProfileDAO;
-        this.degreeDAO = degreeDAO;
-        this.imageDAO = imageDAO;
+        this.commonService = commonService;
     }
 
     @Override
@@ -150,16 +144,10 @@ public class GoogleServiceImpl implements GoogleService {
             System.out.println("저장이 안됨: " + e.getMessage());
         }
 
-        if(!memberInfoRepo.existsById(userId)) {
-            MemberInfoDTO member = new MemberInfoDTO(userId,name,email,Provider.GOOGLE);
-            ImageEntity imageEntity = new ImageEntity(userId, profilePicture, IMG_USE.profile, "link");
-            imageDAO.save(imageEntity);
-            MemberProfileEntity profile = new MemberProfileEntity(member,member.getName(), imageEntity);
-            DegreeEntity degree = new DegreeEntity();
-            degreeDAO.save(degree);
-            profile.setDegree(degree);
-            memberProfileDAO.save(profile);
+        if(commonService.existMember(userId)==0){
+            commonService.addUserLogin(userId,profilePicture,name,email,Provider.GOOGLE);
         }
+
 
         System.out.println("ID: " + id);
         System.out.println("Email: " + email);

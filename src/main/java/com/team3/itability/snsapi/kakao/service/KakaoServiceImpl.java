@@ -12,6 +12,7 @@ import com.team3.itability.mypage.entity.DegreeEntity;
 import com.team3.itability.mypage.entity.ImageEntity;
 import com.team3.itability.mypage.entity.MemberProfileEntity;
 import com.team3.itability.mypage.enumData.IMG_USE;
+import com.team3.itability.snsapi.common.CommonService;
 import com.team3.itability.snsapi.kakao.repository.KakaoRepository;
 import com.team3.itability.snsapi.kakao.aggregate.Kakaouser;
 import com.team3.itability.member.dto.Provider;
@@ -33,17 +34,11 @@ import java.util.ArrayList;
 public class KakaoServiceImpl implements KakaoService {
 
     private final KakaoRepository kakaoRepository;
-    private final MemberInfoRepo memberInfoRepo;
-    private final MemberProfileDAO memberProfileDAO;
-    private final DegreeDAO degreeDAO;
-    private final ImageDAO imageDAO;
+    private final CommonService commonService;
     @Autowired
-    public KakaoServiceImpl(KakaoRepository kakaoRepository, MemberInfoRepo memberInfoRepo, MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO) {
+    public KakaoServiceImpl(KakaoRepository kakaoRepository, CommonService commonService) {
         this.kakaoRepository = kakaoRepository;
-        this.memberInfoRepo = memberInfoRepo;
-        this.memberProfileDAO = memberProfileDAO;
-        this.degreeDAO = degreeDAO;
-        this.imageDAO = imageDAO;
+        this.commonService = commonService;
     }
 
     @Value("${kakao.client-id}")
@@ -146,15 +141,8 @@ public class KakaoServiceImpl implements KakaoService {
         //DB 저장
         Kakaouser kakaoouser = new Kakaouser(userId, imgId, email, name, Provider.KAKAO);
 
-        if(!memberInfoRepo.existsById(userId)) {
-            MemberInfoDTO member = new MemberInfoDTO(userId,name,email,Provider.KAKAO);
-            ImageEntity imageEntity = new ImageEntity(userId, imgId, IMG_USE.profile, "link");
-            imageDAO.save(imageEntity);
-            MemberProfileEntity profile = new MemberProfileEntity(member,member.getName(), imageEntity);
-            DegreeEntity degree = new DegreeEntity();
-            degreeDAO.save(degree);
-            profile.setDegree(degree);
-            memberProfileDAO.save(profile);
+        if(commonService.existMember(userId)==0){
+            commonService.addUserLogin(userId,imgId,name,email,Provider.KAKAO);
         }
 
         kakaoRepository.save(kakaoouser);

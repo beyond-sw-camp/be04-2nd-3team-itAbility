@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.team3.itability.member.dto.Provider;
+import com.team3.itability.snsapi.common.CommonService;
 import com.team3.itability.snsapi.naver.aggregate.NaverEntity;
 import com.team3.itability.snsapi.naver.repository.NaverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,9 +25,13 @@ import java.util.Map;
 public class NaverServiceImpl implements NaverService {
     private final NaverRepository naverRepository;
 
+    private final CommonService commonService;
+
+
     @Autowired
-    public NaverServiceImpl(NaverRepository naverRepository) {
+    public NaverServiceImpl(NaverRepository naverRepository, CommonService commonService) {
         this.naverRepository = naverRepository;
+        this.commonService = commonService;
     }
 
     @Value("${naver.client-id}")
@@ -101,14 +107,23 @@ public class NaverServiceImpl implements NaverService {
         String name = responseObj.has("name") ? responseObj.get("name").getAsString() : null;
         String imgId = responseObj.has("profile_image") ? responseObj.get("profile_image").getAsString() : null;
 
-        userInfoMap.put("userId", userId);
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] digest = md.digest(userId.getBytes());
+        long hashId = new BigInteger(digest).longValue();
+        System.out.println("sha256: " +hashId );
+
+        userInfoMap.put("userId", hashId);
         userInfoMap.put("email", email);
         userInfoMap.put("name", name);
         userInfoMap.put("imgId", imgId);
 
         try {
-            NaverEntity naverEntity = new NaverEntity(userId, imgId, email, name, Provider.NAVER);
+            NaverEntity naverEntity = new NaverEntity(String.valueOf(hashId), imgId, email, name, Provider.NAVER);
             naverRepository.save(naverEntity);
+            if(commonService.existMember(hashId)==0){
+                commonService.addUserLogin(hashId,imgId,name,email,Provider.NAVER);
+            }
+
             System.out.println("저장이 됨:  " + naverEntity);
         } catch (Exception e) {
             System.err.println("저장이 안됨: " + e.getMessage());
