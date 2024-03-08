@@ -7,10 +7,13 @@ import com.team3.itability.member.dto.MemberInfoDTO;
 import com.team3.itability.reple.aggregate.CommentEntity;
 import com.team3.itability.reple.dto.CommentDTO;
 import com.team3.itability.reple.repository.CommentRepo;
+import com.team3.itability.reple.vo.RequestCommentVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class CommentService {
@@ -39,30 +42,35 @@ public class CommentService {
 
     /* 댓글 생성 */
     @Transactional
-    public CommentDTO createComment(int boardId, CommentDTO commentDTO) {
-        ModelMapper modelMapper = new ModelMapper();
-        CommentEntity commentEntity = modelMapper.map(commentDTO, CommentEntity.class);
-        FeedDTO feed = feedRepo.findById(boardId).orElseThrow();
+    public CommentDTO createComment(int boardId, RequestCommentVO requestCommentVO) {
+        CommentEntity commentEntity = modelMapper.map(requestCommentVO, CommentEntity.class);
+        FeedDTO feed = feedRepo.findById(requestCommentVO.getBoardId()).orElseThrow();
         CommentEntity savedComment = commentRepo.save(commentEntity);
 
         return modelMapper.map(savedComment, CommentDTO.class);
     }
 
     /* 댓글 수정 */
-    @Transactional
-    public CommentDTO modifyComment(int cmtId, Long memberId, CommentDTO commentDTO) {
-        CommentEntity comment = commentRepo.findById(cmtId).orElseThrow();
-        MemberInfoDTO memberInfo = memberInfoRepo.findById(memberId).orElseThrow();
 
-        /* 추후 개발 예정. 자신이 작성한 댓글이 아닐 경우 수정 불가능 */
-//        if (!comment.getMemberId().equals(memberId)) {
+    @Transactional
+    public CommentDTO modifyComment(int cmtId, RequestCommentVO requestCommentVO) {
+
+        CommentEntity comment = commentRepo.findById(cmtId)
+                                           .orElseThrow(() -> new ResponseStatusException(
+                                                   HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다."));
+        MemberInfoDTO memberInfo = memberInfoRepo.findById( requestCommentVO.getMemberId())
+                                                 .orElseThrow(() -> new ResponseStatusException(
+                                                         HttpStatus.NOT_FOUND, "멤버 정보를 찾을 수 없습니다."));
+
+//        /* 추후 개발 예정. 자신이 작성한 댓글이 아닐 경우 수정 불가능 */
+//        if (!comment.getMemberId().equals(requestCommentVO.getMemberId())) {
 //            throw new RuntimeException("자신이 작성한 댓글만 수정 가능합니다.");
 //        }
 
-        comment.setCmtContent(commentDTO.getCmtContent());
-        CommentEntity modifyComment = commentRepo.save(comment);
+        comment.setCmtContent(requestCommentVO.getCmtContent());
+        CommentEntity modifiedComment  = commentRepo.save(comment);
 
-        return modelMapper.map(modifyComment, CommentDTO.class);
+        return modelMapper.map(modifiedComment, CommentDTO.class);
     }
 
     /* 댓글 삭제 */
@@ -78,5 +86,6 @@ public class CommentService {
         commentRepo.deleteById(commentId);
 
     }
+
 
 }
