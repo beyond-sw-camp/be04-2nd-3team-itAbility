@@ -266,13 +266,12 @@ public class MypageService {
 
         MemberSkillId memberSkillId = new MemberSkillId(memberId,skillId.getSkillId());
         MemberSkillEntity memberSkillEntity = new MemberSkillEntity(memberSkillId);
-        if(memberSkillDAO.existsById(memberSkillId))
-            memberSkillDAO.save(memberSkillEntity);
+        memberSkillDAO.save(memberSkillEntity);
 
         List<MemberSkillEntity> memberSkills = memberSkillDAO.findByIdMemberId(memberId);
         ResponseSkillList returnValue = new ResponseSkillList();
         returnValue.setSkillList(new ArrayList<>());
-        memberSkills.forEach(skill -> returnValue.getSkillList().add(modelMapper.map( skill,MemberSkillId.class)));
+        memberSkills.forEach(skill -> returnValue.getSkillList().add(modelMapper.map( skill.getId(),MemberSkillId.class)));
         return returnValue;
     }
     @Transactional
@@ -282,7 +281,7 @@ public class MypageService {
         List<MemberSkillEntity> memberSkills = memberSkillDAO.findByIdMemberId(memberId);
         ResponseSkillList returnValue = new ResponseSkillList();
         returnValue.setSkillList(new ArrayList<>());
-        memberSkills.forEach(skill -> returnValue.getSkillList().add(modelMapper.map( skill,MemberSkillId.class)));
+        memberSkills.forEach(skill -> returnValue.getSkillList().add(modelMapper.map( skill.getId(),MemberSkillId.class)));
         return returnValue;
     }
 }
