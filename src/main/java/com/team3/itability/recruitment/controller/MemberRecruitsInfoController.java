@@ -1,5 +1,6 @@
 package com.team3.itability.recruitment.controller;
 
+import com.team3.itability.recruitment.aggregate.MemberRecruitsInfoDTO;
 import com.team3.itability.recruitment.service.MemberRecruitsInfoService;
 import com.team3.itability.recruitment.vo.MemberRecruitsInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,38 +26,35 @@ public class MemberRecruitsInfoController {
 
     // 모집글별 신청 회원 목록 조회
     @GetMapping("/list/{recruitId}")
-    public ResponseEntity<Map<String, Object>> findMembersListByRecruitId(@PathVariable("recruitId") String recruitId) {
+    public ResponseEntity<List<MemberRecruitsInfoVO>> findMembersListByRecruitId(@PathVariable("recruitId") String recruitId) {
 
         List<MemberRecruitsInfoVO> memberList = memberRecruitsInfoService.findMembersListByRecruitId(recruitId);
 
-        Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("members", memberList);
-
-        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+        return ResponseEntity.ok().body(memberList);
     }
 
     @PostMapping("/regist")
-    public ResponseEntity<Map<String, Object>> registMemberRecruit(@RequestBody MemberRecruitsInfoVO memberRecruitsInfo) {
+    public ResponseEntity<MemberRecruitsInfoDTO> registMemberRecruit(@RequestBody MemberRecruitsInfoVO memberRecruitsInfo) {
 
-        memberRecruitsInfoService.registMemberRecruit(memberRecruitsInfo);
+        MemberRecruitsInfoDTO memberRecruits = memberRecruitsInfoService.registMemberRecruit(memberRecruitsInfo);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(memberRecruits);
     }
 
     @PutMapping("/accept/{memberRecruitInfoId}")
-    public ResponseEntity<?> acceptMemberRecruit(@PathVariable int memberRecruitInfoId) {
+    public ResponseEntity<MemberRecruitsInfoDTO> acceptMemberRecruit(@PathVariable int memberRecruitInfoId) {
 
-        memberRecruitsInfoService.acceptMemberRecruit(memberRecruitInfoId);
+        MemberRecruitsInfoDTO memberRecruit = memberRecruitsInfoService.acceptMemberRecruit(memberRecruitInfoId);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        return ResponseEntity.ok(memberRecruit);
     }
 
     @PutMapping("/reject/{memberRecruitInfoId}")
-    public ResponseEntity<?> rejectMemberRecruit(@PathVariable int memberRecruitInfoId) {
+    public ResponseEntity<MemberRecruitsInfoDTO> rejectMemberRecruit(@PathVariable int memberRecruitInfoId) {
 
-        memberRecruitsInfoService.rejectMemberRecruit(memberRecruitInfoId);
+        MemberRecruitsInfoDTO memberRecruit = memberRecruitsInfoService.rejectMemberRecruit(memberRecruitInfoId);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        return ResponseEntity.ok(memberRecruit);
     }
 
     @DeleteMapping("/{memberRecruitInfoId}")

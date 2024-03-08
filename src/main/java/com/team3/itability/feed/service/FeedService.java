@@ -51,13 +51,13 @@ public class FeedService {
     }
 
     /* 게시물 수정 */
+    @Transactional
     public FeedDTO modifyFeed(FeedDTO feedDTO) {
         FeedDTO feed = feedRepo.findById(feedDTO.getBoardId()).orElseThrow();
         feed.setBoardTitile(feedDTO.getBoardTitile());
         feed.setBoardContent(feedDTO.getBoardContent());
 
         return feed;
-
     }
 
     /* 게시물 삭제 */

@@ -10,7 +10,9 @@ import com.team3.itability.recruitment.repository.MemberRecruitsMapper;
 import com.team3.itability.recruitment.repository.RecruitRepo;
 import com.team3.itability.recruitment.vo.MemberRecruitsInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class MemberRecruitsInfoService {
         this.memberInfoRepo = memberInfoRepo;
     }
 
+    @Transactional(readOnly = true)
     public List<MemberRecruitsInfoVO> findMembersListByRecruitId(String recruitId) {
 
         List<MemberRecruitsInfoVO> memberList = memberRecruitsMapper.selectMembersByRecruitId(recruitId);
@@ -38,7 +41,8 @@ public class MemberRecruitsInfoService {
         return memberList;
     }
 
-    public void registMemberRecruit(MemberRecruitsInfoVO memberRecruitsInfoVO) {
+    @Transactional
+    public MemberRecruitsInfoDTO registMemberRecruit(MemberRecruitsInfoVO memberRecruitsInfoVO) {
 
         RecruitDTO recruitDTO = recruitRepo.getById(memberRecruitsInfoVO.getRecruitId());
         MemberInfoDTO memberInfoDTO = memberInfoRepo.getById(memberRecruitsInfoVO.getMemberId());
@@ -46,25 +50,31 @@ public class MemberRecruitsInfoService {
         MemberRecruitsInfoDTO memberRecruitsInfoDTO = new MemberRecruitsInfoDTO(memberRecruitsInfoVO.getMemberRecruitInfoId(), recruitDTO, memberRecruitsInfoVO.getRecruitStatus(), memberInfoDTO);
 
         memberRecruitsInfoRepo.save(memberRecruitsInfoDTO);
+
+        return memberRecruitsInfoDTO;
     }
 
-
-    public void acceptMemberRecruit(int memberRecruitInfoId) {
+    @Transactional
+    public MemberRecruitsInfoDTO acceptMemberRecruit(int memberRecruitInfoId) {
 
         MemberRecruitsInfoDTO foundRecruit = memberRecruitsInfoRepo.findById(memberRecruitInfoId).orElseThrow(IllegalAccessError::new);
 
         foundRecruit.setRecruitStatus(RecruitStatus.수락);
-        memberRecruitsInfoRepo.save(foundRecruit);
+
+        return foundRecruit;
     }
 
-    public void rejectMemberRecruit(int memberRecruitInfoId) {
+    @Transactional
+    public MemberRecruitsInfoDTO rejectMemberRecruit(int memberRecruitInfoId) {
 
         MemberRecruitsInfoDTO foundRecruit = memberRecruitsInfoRepo.findById(memberRecruitInfoId).orElseThrow(IllegalAccessError::new);
 
         foundRecruit.setRecruitStatus(RecruitStatus.거절);
-        memberRecruitsInfoRepo.save(foundRecruit);
+
+        return foundRecruit;
     }
 
+    @Transactional
     public void deleteMemberRecruit(int memberRecruitInfoId) {
 
         memberRecruitsInfoRepo.deleteById(memberRecruitInfoId);
