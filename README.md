@@ -38,7 +38,7 @@
 
 
 ## 소프트웨어 아키텍처
-![소프트웨어 아키텍쳐_수정](https://github.com/kyulin-Kim/testRepo/assets/107897788/f9816209-c06d-40c6-9149-ace2554b947e)
+<img src = "https://github.com/kyulin-Kim/testRepo/assets/107897788/f9816209-c06d-40c6-9149-ace2554b947e" width="700%" height = "300%"> 
 
 
 ## 요구사항 정의서
@@ -48,7 +48,7 @@
 
 
 ## DB 모델링
-![image](https://github.com/kyulin-Kim/testRepo/assets/107897788/195c914c-c0e7-4cf3-9132-d18cdc920a2f)
+<img src = "https://github.com/kyulin-Kim/testRepo/assets/107897788/195c914c-c0e7-4cf3-9132-d18cdc920a2f" width="700%" height = "300%"> 
 
 
 ## 테이블 정의서
