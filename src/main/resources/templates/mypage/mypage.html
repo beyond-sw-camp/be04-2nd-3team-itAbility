@@ -10,18 +10,26 @@
     img{
         width: 100px;
     }
+    .feature-group {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    .feature {
+        width: 33%;
+    }
 </style>
 <body>
 
 <h1 align="center"> mypage </h1>
 <button STYLE="width: 75px; height: 50px; font-size: 10px" onclick="redirectToMain()">메인으로</button>
+
+<div class="feature-group">
+    <div class="feature">
 <h2>프로필</h2>
 <img th:src="${profile.getImg().getPath()}" alt="">            <!--alt: 시각장애인과 같이 이미지를 보지못하는 경우 alt를 읽게 해줌-->
 <br>
 <button onclick="redirectToModifyImagePage()">이미지 수정</button>
-
-
-
 <p th:text="${singleFileDescription}"></p>
 닉네임: <a th:text="${profile.nickname}"/> <br>
 이름: <a th:text="${profile.getMemberInfo().name}"/> <br>
@@ -29,11 +37,9 @@
 생년월일: <a th:text="${profile.getMemberInfo().getBirthDate()}"/> <br>
 신고수: <a th:text="${profile.getMemberInfo().getMbReportCount()}"/> <br>
 블랙횟수: <a th:text="${profile.getMemberInfo().getBlacklistCount()}"/> <br>
-
-
 <button onclick="redirectToModifyNamePage()">이름,닉네임 수정</button>
-
-<br><br><br><br>
+    </div>
+    <div class="feature">
 <h2> 학력 </h2>
 최종학력: <a th:text="${profile.getDegree().getFinalEduName()}"/> <br>
 입학일: <a th:text="${profile.getDegree().getEnrollDate()}"/> <br>
@@ -41,8 +47,8 @@
 전공: <a th:text="${profile.getDegree().getMajor()}"/> <br>
 재학여부: <a th:text="${profile.getDegree().isRegisterStatus()}"/> <br>
 <button onclick="redirectToModifyDegreePage()">학력 수정하기</button>
-
-<br><br><br>
+    </div>
+    <div class="feature">
 <h2>경력</h2>
 <table>
     <tr>
@@ -68,7 +74,11 @@
 
 </table>
 <button onclick="redirectToModifyCareerPage()">경력 조회</button>
+    </div>
+</div>
 
+<div class="feature-group">
+    <div class="feature">
 <h2>기술스택</h2>
 <table>
     <tr>
@@ -79,7 +89,8 @@
     </tr>
 </table>
 <button onclick="redirectToSkillPage()">기술스택 수정하기</button>
-
+    </div>
+    <div class="feature">
 <h2>전문분야</h2>
 <table>
     <tr th:each="memberRecruit : ${recruits.getMemberRecruitList()}">
@@ -87,7 +98,11 @@
     </tr>
 </table>
 <button onclick="redirectToMemberRecruitCategoryPage()">기술스택 수정하기</button>
+</div>
+    <div class="feature">
 
+    </div>
+</div>
 
 
 <script th:inline="javascript">
