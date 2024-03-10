@@ -70,17 +70,15 @@
 
 ## 요구사항 정의서
 
-
-## 기능 정의서
+<img src = "https://github.com/kyulin-Kim/newRepo/assets/107897788/d4e23f2d-9f4a-4862-a774-d9c6bfa97aea" width="700%" height = "300%">
 
 
 ## DB 모델링
 <img src = "https://github.com/kyulin-Kim/testRepo/assets/107897788/195c914c-c0e7-4cf3-9132-d18cdc920a2f" width="700%" height = "300%"> 
 
 
-## 테이블 정의서
-
-
 ## 단위 테스트 결과 보고서
+<img src = "https://github.com/kyulin-Kim/newRepo/assets/107897788/73be1b74-dba0-4b8f-ad44-14983a454909" width="700%" height = "300%"> 
+
 
 ---
