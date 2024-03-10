@@ -109,7 +109,6 @@ public class MypageService {
         });
         return returnValue;
     }
-
     @Transactional(readOnly = true)
     public CareerDTO printCareer(int careerId) {
         return modelMapper.map(careerDAO.findById(careerId).orElseThrow(), CareerDTO.class);
@@ -129,11 +128,13 @@ public class MypageService {
         careerDAO.save(careerEntity);
     }
 
+
     private static CareerEntity getCareerDTO(CareerDTO careerDTO) {
         return new CareerEntity(careerDTO.getCareerId(),careerDTO.getCompanyName(), careerDTO.getStartDate(),
                 careerDTO.getEndDate(), careerDTO.getRole(), careerDTO.getAssignedTask(), careerDTO.isCurrentJob(),
                 careerDTO.getMemberId());
     }
+
 
     /**<h1>5.이미지 조회, 수정 - fin</h1>*/
     public ImageDTO getImage(long memberId) {
@@ -307,4 +308,10 @@ public class MypageService {
     }
 
 
+    public CareerDTO deleteCareer(CareerDTO careerDTO, long memberId) {
+        CareerEntity careerEntity = getCareerDTO(careerDTO);
+        careerEntity.setMemberId(memberProfileDAO.findById(memberId).orElseThrow());
+        careerDAO.delete(careerEntity);
+        return modelMapper.map(careerEntity,CareerDTO.class);
+    }
 }

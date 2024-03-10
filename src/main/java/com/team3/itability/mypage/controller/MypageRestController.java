@@ -58,6 +58,14 @@ public class MypageRestController {
         CareerDTO returnValue = mypageService.putCareer(careerDTO,memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
+    //5-1. 경력 제거
+    @DeleteMapping("/{memberId}/career")
+    public ResponseEntity<CareerDTO> deleteCareer(@PathVariable long memberId, @RequestBody CareerDTO careerDTO){
+        System.out.println("careerDTO = " + careerDTO);
+        CareerDTO returnValue = mypageService.deleteCareer(careerDTO,memberId);
+        System.out.println("삭제 완료");
+        return ResponseEntity.status(HttpStatus.OK).body(returnValue);
+    }
 
     //6. 이미지 수정 - html로 소개
 
