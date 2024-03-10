@@ -73,7 +73,8 @@ public class RecruitController {
 
         recruitService.modifyRecruit(recruit);
 
-        return "redirect:/recruit/" + recruit.getRecruitId();    // 리다이렉트 주소(모집글 상세 페이지?)
+//        return "redirect:/recruit/" + recruit.getRecruitId();    // 리다이렉트 주소(모집글 상세 페이지?)
+        return "redirect:/recruit/list";
     }
 
     // 삭제

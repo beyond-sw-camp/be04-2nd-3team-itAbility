@@ -10,7 +10,6 @@ import com.team3.itability.recruitment.repository.MemberRecruitsMapper;
 import com.team3.itability.recruitment.repository.RecruitRepo;
 import com.team3.itability.recruitment.vo.MemberRecruitsInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,4 +79,12 @@ public class MemberRecruitsInfoService {
         memberRecruitsInfoRepo.deleteById(memberRecruitInfoId);
     }
 
+    public MemberRecruitsInfoDTO findMemberId(String recruitId) {
+
+        int id = Integer.parseInt(recruitId);
+
+        MemberRecruitsInfoDTO memberRecruitsInfo = memberRecruitsInfoRepo.findById(id).orElseThrow();
+
+        return memberRecruitsInfo;
+    }
 }
