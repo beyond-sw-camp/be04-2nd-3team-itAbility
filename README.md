@@ -62,10 +62,10 @@
   
 
 ## WBS
-
+<img src="https://github.com/beyond-sw-camp/be04-2nd-3team-itAbility/assets/22255663/04ec3f18-cdc1-4e43-ba8e-7b22b71cc6dd">
 
 ## 소프트웨어 아키텍처
-<img src = "https://github.com/kyulin-Kim/testRepo/assets/107897788/f9816209-c06d-40c6-9149-ace2554b947e" width="700%" height = "300%"> 
+<img src="https://github.com/beyond-sw-camp/be04-2nd-3team-itAbility/assets/22255663/34673def-a6e0-4eb4-85b5-f121cf1f4599">
 
 
 ## 요구사항 정의서
