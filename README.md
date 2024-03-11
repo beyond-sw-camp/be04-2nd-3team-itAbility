@@ -3,9 +3,8 @@
 ## 목차
 <details>
 <summary>목차 접기/펼치기</summary>
-
-- [프로젝트 소개](#프로젝트-소개)
 - [개발자 소개](#개발자-소개)
+- [프로젝트 소개](#프로젝트-소개)
 - [개발 기간](#개발-기간)
 - [WBS](#wbs)
 - [소프트웨어 아키텍처](#소프트웨어-아키텍처)
@@ -14,19 +13,21 @@
 - [DB 모델링](#db-모델링) I
 - [테이블 정의서](#테이블-정의서)
 - [단위 테스트 결과 보고서](#단위-테스트-결과-보고서)
-
-
 </details>
+
+<br>
 
 ## 개발자 소개
 
-- 김규린: 게시글 및 댓글 구현
-- 박경덕: 로그인 기능 구현
-- 박고은: 모집글 및 신청, 관리 구현
-- 서승엽: 신고, 블랙리스트, 팔로우 기능 구현
-- 이현우; 마이패이지 기능 구현
+- 🍊김규린: 게시글 및 댓글 구현
+- 🍎박경덕: 로그인 기능 구현
+- 🍐박고은: 모집글 및 신청, 관리 구현
+- 🍉서승엽: 신고, 블랙리스트, 팔로우 기능 구현
+- 🍓이현우; 마이패이지 기능 구현
 
-## 프로젝트 개요
+<br>
+
+## 프로젝트 소개
 
 ### 1. 목적
     
@@ -56,31 +57,41 @@
    - 개발자들 간 상호작용이 활성화 되면서 많은 개발 관련 정보, 사용자의 불편사항, 개선사항 등의 정보들이 발생할 것이다. 이 정보들을 통해 더 나은 서비스를 구축하고, 개발 관련 정보를 통합하여 사용자에게 제공하는 새로운 기능을 추가할 수 있을 것으로 기대한다.
     
 
+<br>
 
 ## 개발 기간
 - 2024년 2월 7일 ~ 2024년 3월 28일
-  
+<br>
 
 ## WBS
 <img src="https://github.com/beyond-sw-camp/be04-2nd-3team-itAbility/assets/22255663/04ec3f18-cdc1-4e43-ba8e-7b22b71cc6dd">
+<br>
 
 ## 소프트웨어 아키텍처
 <img src="https://github.com/beyond-sw-camp/be04-2nd-3team-itAbility/assets/22255663/34673def-a6e0-4eb4-85b5-f121cf1f4599">
-
+<br>
 
 ## 요구사항 정의서
 <img src = "https://github.com/kyulin-Kim/newRepo/assets/107897788/d4e23f2d-9f4a-4862-a774-d9c6bfa97aea" width="700%" height = "300%">
-
+<br>
 
 ## DB 모델링
 <img src = "https://github.com/kyulin-Kim/testRepo/assets/107897788/195c914c-c0e7-4cf3-9132-d18cdc920a2f" width="700%" height = "300%"> 
+<br>
 
 ## Rest-API 설계
 <img src="https://github.com/beyond-sw-camp/be04-2nd-3team-itAbility/assets/22255663/69df9a16-045d-4615-afd2-5412363a0df2">
+<br>
 
 ## 단위 테스트 결과 보고서
 <img src = "https://github.com/kyulin-Kim/newRepo/assets/107897788/73be1b74-dba0-4b8f-ad44-14983a454909" width="700%" height = "300%"> 
 
-
-
 ---
+<br>
+
+## 회고록
+- 김규린: 
+- 박경덕: 
+- 박고은: 
+- 서승엽: 
+- 이현우: 
