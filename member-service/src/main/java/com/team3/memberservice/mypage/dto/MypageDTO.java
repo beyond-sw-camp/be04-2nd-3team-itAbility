@@ -15,4 +15,10 @@ public class MypageDTO {
     private List<CareerDTO> careerDTOList;
     private MemberAndRemainSkillDTO memberSkillDTO;
     private MemberAndRemainRecruitCategoryDTO recruitCategoryDTO;
+
+    public MypageDTO(MemberProfileDTO memberProfileDTO, List<CareerDTO> careerDTOList, MemberAndRemainSkillDTO memberSkillDTO) {
+        this.memberProfileDTO = memberProfileDTO;
+        this.careerDTOList = careerDTOList;
+        this.memberSkillDTO = memberSkillDTO;
+    }
 }

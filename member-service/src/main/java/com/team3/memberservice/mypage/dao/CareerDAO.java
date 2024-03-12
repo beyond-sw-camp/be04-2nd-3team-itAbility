@@ -12,4 +12,7 @@ public interface CareerDAO extends JpaRepository<CareerEntity,Integer> {
 
     List<CareerEntity> findByMemberId(MemberProfileEntity member);
 
+    List<CareerEntity> findByMemberIdMemberId(long memberId);
+
+    List<CareerEntity> findByMemberIdMemberInfoMemberId(long memberId);
 }

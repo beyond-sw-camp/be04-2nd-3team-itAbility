@@ -305,9 +305,18 @@ public class MypageService {
 
 
     public CareerDTO deleteCareer(CareerDTO careerDTO, long memberId) {
-        CareerEntity careerEntity = getCareerDTO(careerDTO);
-        careerEntity.setMemberId(memberProfileDAO.findById(memberId).orElseThrow());
+
+        CareerEntity careerEntity = careerDAO.findById(careerDTO.getCareerId()).orElseThrow();
+//        careerEntity.setMemberId(memberProfileDAO.findById(memberId).orElseThrow());
         careerDAO.delete(careerEntity);
         return modelMapper.map(careerEntity,CareerDTO.class);
+    }
+
+    public List<CareerDTO> getCareerList(long memberId) {
+        MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
+        List<CareerEntity> careerEntities = careerDAO.findByMemberId(member);
+        List<CareerDTO> returnList = new ArrayList<>();
+        careerEntities.forEach(careerEntity -> returnList.add(modelMapper.map(careerEntity,CareerDTO.class)));
+        return returnList;
     }
 }

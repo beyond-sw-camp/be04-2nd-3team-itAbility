@@ -30,9 +30,9 @@ public class MypageRestController {
         MemberAndRemainSkillDTO skillDTOS = mypageService.printMemberSkillList(memberId);
 //        MemberAndRemainRecruitCategoryDTO recruitCategoryDTOS = mypageService.printMemberRecruitList(memberId);
 //        MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS,recruitCategoryDTOS);
+        MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS);
 
-//        return ResponseEntity.status(HttpStatus.CREATED).body(mypageDTO);
-        return null;
+        return ResponseEntity.status(HttpStatus.CREATED).body(mypageDTO);
     }
     // 2. 회원 정보 수정(profile, info) - fin
     @PostMapping("/{memberId}")
@@ -46,6 +46,14 @@ public class MypageRestController {
         ResponseDegree returnValue = mypageService.postDegree(memberId, degreeDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
+
+    // 경력 조회
+    @GetMapping("/{memberId}/careers")
+    public ResponseEntity<List<CareerDTO>> getCareerList(@PathVariable long memberId){
+        List<CareerDTO> returnValue = mypageService.getCareerList(memberId);
+        return ResponseEntity.status(HttpStatus.OK).body(returnValue);
+    }
+
     //4. 경력 수정-fin
     @PostMapping("/{memberId}/career")
     public ResponseEntity<CareerDTO> postCareer(@PathVariable long memberId,@RequestBody CareerDTO careerDTO){
@@ -62,9 +70,7 @@ public class MypageRestController {
     //5-1. 경력 제거
     @DeleteMapping("/{memberId}/career")
     public ResponseEntity<CareerDTO> deleteCareer(@PathVariable long memberId, @RequestBody CareerDTO careerDTO){
-        System.out.println("careerDTO = " + careerDTO);
         CareerDTO returnValue = mypageService.deleteCareer(careerDTO,memberId);
-        System.out.println("삭제 완료");
         return ResponseEntity.status(HttpStatus.OK).body(returnValue);
     }
 
@@ -94,4 +100,10 @@ public class MypageRestController {
         List<MemberRecruitCategoryDTO> returnValue = mypageService.deleteMemberRecruitCategory(memberId, recruitCategory);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
+
+
+
+
+
+
 }
