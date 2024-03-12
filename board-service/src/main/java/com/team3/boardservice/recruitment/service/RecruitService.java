@@ -1,11 +1,7 @@
-package com.team3.itability.recruitment.service;
+package com.team3.boardservice.recruitment.service;
 
-import com.team3.itability.member.dao.MemberInfoRepo;
-import com.team3.itability.member.dto.MemberInfoDTO;
-import com.team3.itability.mypage.dao.SkillDAO;
-import com.team3.itability.mypage.entity.SkillEntity;
-import com.team3.itability.recruitment.aggregate.*;
-import com.team3.itability.recruitment.repository.*;
+import com.team3.boardservice.recruitment.aggregate.*;
+import com.team3.boardservice.recruitment.repository.*;
 import com.team3.itability.recruitment.vo.RecruitVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,23 +44,23 @@ public class RecruitService {
     }
 
     // 모집군 카테고리 조회
-    @Transactional(readOnly = true)
-    public List<RecruitCategoryDTO> findAllRecruitCategory() {
-
-        List<RecruitCategoryDTO> recruitCategoryList = recruitCateRepo.findAll();
-
-        return recruitCategoryList;
-    }
+//    @Transactional(readOnly = true)
+//    public List<RecruitCategoryDTO> findAllRecruitCategory() {
+//
+//        List<RecruitCategoryDTO> recruitCategoryList = recruitCateRepo.findAll();
+//
+//        return recruitCategoryList;
+//    }
 
     // 기술 카테고리 조회
     // mypage SkillDAO 사용
-    @Transactional(readOnly = true)
-    public List<SkillEntity> findAllSkill() {
-
-        List<SkillEntity> skillList = skillRepo.findAll();
-
-        return skillList;
-    }
+//    @Transactional(readOnly = true)
+//    public List<SkillEntity> findAllSkill() {
+//
+//        List<SkillEntity> skillList = skillRepo.findAll();
+//
+//        return skillList;
+//    }
 
     // 모집글 등록
     @Transactional

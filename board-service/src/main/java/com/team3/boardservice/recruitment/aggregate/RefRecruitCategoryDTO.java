@@ -1,4 +1,4 @@
-package com.team3.itability.recruitment.aggregate;
+package com.team3.boardservice.recruitment.aggregate;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,15 +1,11 @@
-package com.team3.itability.recruitment.controller;
+package com.team3.boardservice.recruitment.controller;
 
-import com.team3.itability.mypage.entity.SkillEntity;
-import com.team3.itability.recruitment.aggregate.RecruitCategoryDTO;
-import com.team3.itability.recruitment.aggregate.RecruitDTO;
-import com.team3.itability.recruitment.service.RecruitService;
+import com.team3.boardservice.recruitment.aggregate.RecruitDTO;
+import com.team3.boardservice.recruitment.service.RecruitService;
 import com.team3.itability.recruitment.vo.RecruitVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

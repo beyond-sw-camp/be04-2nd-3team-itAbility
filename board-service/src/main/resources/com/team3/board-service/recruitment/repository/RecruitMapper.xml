@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team3.itability.recruitment.repository.RecruitMapper">
+
+    <resultMap id="recruitMap" type="com.team3.itability.recruitment.vo.RecruitVO">
+        <id property="recruitId" column="recruit_id"/>
+        <id property="recruitType" column="recruit_type"/>
+        <id property="recruitName" column="recruit_name"/>
+        <id property="recruitTitle" column="recruit_title"/>
+        <id property="recruitExpDate" column="recruit_expdate"/>
+        <id property="recruitMbCnt" column="recruit_mb_cnt"/>
+        <id property="memberId" column="member_id"/>
+    </resultMap>
+
+    <select id="findRecruitList" resultMap="recruitMap">
+        SELECT
+              b.recruit_id
+            , b.recruit_type
+            , c.recruit_name
+            , b.recruit_title
+            , b.recruit_expdate
+            , b.recruit_mb_cnt
+            , b.member_id
+        FROM ref_recruit_category a
+        JOIN recruit b ON (a.recruit_id = b.recruit_id)
+        JOIN recruit_category c ON (a.recruit_category_id = c.recruit_category_id)
+       ORDER BY recruit_id;
+    </select>
+</mapper>

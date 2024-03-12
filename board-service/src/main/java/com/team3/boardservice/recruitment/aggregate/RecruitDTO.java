@@ -1,6 +1,5 @@
-package com.team3.itability.recruitment.aggregate;
+package com.team3.boardservice.recruitment.aggregate;
 
-import com.team3.itability.member.dto.MemberInfoDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
