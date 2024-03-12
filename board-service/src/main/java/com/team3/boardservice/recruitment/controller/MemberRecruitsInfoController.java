@@ -40,30 +40,27 @@ public class MemberRecruitsInfoController {
     }
 
     @PostMapping("/regist")
-    public ResponseEntity<MemberRecruitsInfoVO> registMemberRecruit(@RequestBody MemberRecruitsInfoVO memberRecruitsInfo) {
+    public ResponseEntity<MemberRecruitsInfoDTO> registMemberRecruit(@RequestBody MemberRecruitsInfoVO memberRecruitsInfo) {
 
         MemberRecruitsInfoDTO memberRecruits = memberRecruitsInfoService.registMemberRecruit(memberRecruitsInfo);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(memberRecruitsInfo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(memberRecruits);
     }
 
     @PutMapping("/accept/{memberRecruitInfoId}")
-    public ResponseEntity<String> acceptMemberRecruit(@PathVariable int memberRecruitInfoId) {
+    public ResponseEntity<MemberRecruitsInfoDTO> acceptMemberRecruit(@PathVariable int memberRecruitInfoId) {
 
         MemberRecruitsInfoDTO memberRecruit = memberRecruitsInfoService.acceptMemberRecruit(memberRecruitInfoId);
 
-//        return ResponseEntity.created(URI.create("/member_recruits/" + memberRecruitInfoId)).build();
-
-        return ResponseEntity.ok().body("수락 성공");
+        return ResponseEntity.ok().body(memberRecruit);
     }
 
     @PutMapping("/reject/{memberRecruitInfoId}")
-    public ResponseEntity<String> rejectMemberRecruit(@PathVariable int memberRecruitInfoId) {
+    public ResponseEntity<MemberRecruitsInfoDTO> rejectMemberRecruit(@PathVariable int memberRecruitInfoId) {
 
         MemberRecruitsInfoDTO memberRecruit = memberRecruitsInfoService.rejectMemberRecruit(memberRecruitInfoId);
 
-//        return ResponseEntity.ok(memberRecruit);
-        return ResponseEntity.ok().body("거절 성공");
+        return ResponseEntity.ok().body(memberRecruit);
     }
 
     @DeleteMapping("/{memberRecruitInfoId}")

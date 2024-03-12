@@ -10,17 +10,24 @@ import lombok.*;
 @ToString
 public class RecruitVO {
 
-    private int RecruitId;
+    private int recruitId;
 
     private RecruitType recruitType;
 
     private String recruitTitle;
 
+    private String recruitContent;
+
     private String recruitExpDate;
 
     private Integer recruitMbCnt;
 
-    private String recruitName;
-
     private Long memberId;
+
+    private int skillId;
+
+    private int recruitCategoryId;
+
 }
+
+

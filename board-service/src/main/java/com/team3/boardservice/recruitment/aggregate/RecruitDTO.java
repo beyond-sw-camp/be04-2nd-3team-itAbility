@@ -37,4 +37,13 @@ public class RecruitDTO {
     @JoinColumn(name="member_id")
     @ManyToOne
     private MemberInfoDTO memberInfoDTO;
+
+    public RecruitDTO(RecruitType recruitType, String recruitTitle, String recruitContent, String recruitExpDate, Integer recruitMbCnt, MemberInfoDTO memberInfoDTO) {
+        this.recruitType = recruitType;
+        this.recruitTitle = recruitTitle;
+        this.recruitContent = recruitContent;
+        this.recruitExpDate = recruitExpDate;
+        this.recruitMbCnt = recruitMbCnt;
+        this.memberInfoDTO = memberInfoDTO;
+    }
 }

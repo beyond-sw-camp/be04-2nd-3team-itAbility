@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RecruitService {
@@ -54,7 +53,7 @@ public class RecruitService {
 
         List<RecruitCategoryDTO> recruitCategoryList = recruitCateRepo.findAll();
 
-        return recruitCategoryList.stream().map(recruit -> mapper.map(recruit, RecruitCategoryDTO.class)).collect(Collectors.toList());
+        return recruitCategoryList;
     }
 
     // 기술 카테고리 조회
@@ -64,40 +63,54 @@ public class RecruitService {
 
         List<SkillEntity> skillList = skillRepo.findAll();
 
-        return skillList.stream().map(recruit -> mapper.map(recruit, SkillEntity.class)).collect(Collectors.toList());
+        return skillList;
     }
 
     // 모집글 등록
     @Transactional
-    public void registRecruit(RecruitDTO recruit, long memberId, int recruitCategoryId, int skillId) {
+    public RecruitDTO registRecruit(RecruitVO recruit) {
 
-        MemberInfoDTO member = memberInfoRepo.findById(memberId).orElseThrow();
-        recruit.setMemberInfoDTO(member);
+        MemberInfoDTO member = memberInfoRepo.findById(recruit.getMemberId()).orElseThrow();
+        RecruitDTO recruitDTO = new RecruitDTO(recruit.getRecruitType(), recruit.getRecruitTitle(), recruit.getRecruitContent(), recruit.getRecruitExpDate(), recruit.getRecruitMbCnt(), member);
 
-        RecruitCategoryDTO recruitCategoryDTO = recruitCateRepo.findById(recruitCategoryId).orElseThrow();
-        RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruit.getRecruitId(), recruitCategoryId);
-        RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruit, recruitCategoryDTO);
+        RecruitCategoryDTO recruitCategoryDTO = recruitCateRepo.findById(recruit.getRecruitCategoryId()).orElseThrow();
+        RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruit.getRecruitId(), recruit.getRecruitCategoryId());
+        RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruitDTO, recruitCategoryDTO);
 
-        SkillEntity skillEntity = skillRepo.findById(skillId).orElseThrow();
-        RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), skillId);
-        RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruit, skillEntity);
+        SkillEntity skillEntity = skillRepo.findById(recruit.getSkillId()).orElseThrow();
+        RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), recruit.getSkillId());
+        RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity);
 
-        recruitRepo.save(mapper.map(recruit, RecruitDTO.class));
+        recruitRepo.save(recruitDTO);
         refRecruitRepo.save(refRecruitCategoryDTO);
         recruitSkillRepo.save(recruitSkillDTO);
+
+        return recruitDTO;
     }
 
     // 모집글 수정
     @Transactional
-    public void modifyRecruit(RecruitDTO recruit) {
+    public RecruitDTO modifyRecruit(int recruitId, RecruitVO recruit) {
 
-        RecruitDTO foundRecruit = recruitRepo.findById(recruit.getRecruitId()).orElseThrow(IllegalAccessError::new);
+        RecruitDTO foundRecruit = recruitRepo.findById(recruitId).orElseThrow(IllegalAccessError::new);
+
+        RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruitId, recruit.getRecruitCategoryId());
+        RefRecruitCategoryDTO foundRefRecruit = refRecruitRepo.findById(refRecruitCategoryId).orElseThrow(IllegalAccessError::new);
+
+        RecruitSkillId recruitSkillId = new RecruitSkillId(recruitId, recruit.getSkillId());
+        RecruitSkillDTO foundRecruitSkill = recruitSkillRepo.findById(recruitSkillId).orElseThrow(IllegalAccessError::new);
 
         foundRecruit.setRecruitType(recruit.getRecruitType());
         foundRecruit.setRecruitTitle(recruit.getRecruitTitle());
         foundRecruit.setRecruitContent(recruit.getRecruitContent());
         foundRecruit.setRecruitExpDate(recruit.getRecruitExpDate());
         foundRecruit.setRecruitMbCnt(recruit.getRecruitMbCnt());
+
+        foundRefRecruit.setRecruitCategory(recruitCateRepo.findById(recruit.getRecruitCategoryId()).orElseThrow());
+        foundRecruitSkill.setSkillEntity(skillRepo.findById(recruit.getSkillId()).orElseThrow());
+
+        System.out.println("foundRecruit = " + foundRecruit);
+        return foundRecruit;
     }
 
     // 모집글 삭제
@@ -123,7 +136,7 @@ public class RecruitService {
 
         RecruitDTO recruit = recruitRepo.findById(recruitId).orElseThrow(IllegalArgumentException::new);
 
-        return mapper.map(recruit, RecruitDTO.class);
+        return recruit;
     }
 
 }
