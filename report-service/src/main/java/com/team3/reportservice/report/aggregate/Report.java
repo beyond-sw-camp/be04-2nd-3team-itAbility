@@ -1,10 +1,6 @@
-package com.team3.itability.report.aggregate;
+package com.team3.reportservice.report.aggregate;
 
-import com.team3.itability.feed.dto.FeedDTO;
-import com.team3.itability.member.dto.MemberInfoDTO;
-
-import com.team3.itability.reple.aggregate.CommentEntity;
-import com.team3.itability.report.dto.ReportTargetType;
+import com.team3.reportservice.report.dto.ReportTargetType;
 import jakarta.persistence.*;
 import lombok.*;
 
