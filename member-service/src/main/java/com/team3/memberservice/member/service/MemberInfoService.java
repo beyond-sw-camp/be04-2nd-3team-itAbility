@@ -6,6 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MemberInfoService {
 
@@ -21,4 +23,11 @@ public class MemberInfoService {
     public MemberInfoDTO findMemberInfoById(Long memberId) {
         return memberRepository.findById(memberId).orElse(null);
     }
+    public MemberInfoDTO findMember(Long memberId){
+        return memberRepository.findById(memberId).orElseThrow();
+    }
+    public List<MemberInfoDTO> findMemberList(){
+        return memberRepository.findAll();
+    }
+
 }

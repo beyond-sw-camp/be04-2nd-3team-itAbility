@@ -107,7 +107,7 @@ public class NaverServiceImpl implements NaverService {
         String name = responseObj.has("name") ? responseObj.get("name").getAsString() : null;
         String imgId = responseObj.has("profile_image") ? responseObj.get("profile_image").getAsString() : null;
 
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        MessageDigest md = MessageDigest.getInstance("SHA-512");
         byte[] digest = md.digest(userId.getBytes());
         long hashId = new BigInteger(digest).longValue();
         System.out.println("sha256: " +hashId );
