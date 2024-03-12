@@ -1,8 +1,8 @@
-package com.team3.itability.report.controller;
+package com.team3.reportservice.report.controller;
 
-import com.team3.itability.report.aggregate.Report;
-import com.team3.itability.report.dto.ReportDTO;
-import com.team3.itability.report.service.ReportService;
+import com.team3.reportservice.report.aggregate.Report;
+import com.team3.reportservice.report.dto.ReportDTO;
+import com.team3.reportservice.report.service.ReportService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,27 +1,25 @@
-package com.team3.itability.member.dto;
+package com.team3.reportservice.report.aggregate;
 
-//import com.team3.itability.mypage.MemberProfileDTO;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = "memberProfile")
-@Entity(name = "member_info_dto")
-@Table(name = "member_info")
-public class MemberInfoDTO {
+@Entity
+public class Member {
+
     @Id
     @Column(name = "member_id")
     private long memberId;
 
     @Column(name = "email")
-
     private String email;
-    @Column(name = "provider")
 
+    @Column(name = "provider")
     private String provider;
 
     @Column(name = "pwd")
@@ -45,20 +43,6 @@ public class MemberInfoDTO {
     @Column(name = "report_count")
     private int mbReportCount;
 
-    public MemberInfoDTO(Long userId, String name, String email, Provider provider) {
-        this.memberId = userId;
-        this.name = name;
-        this.email = email;
-        this.provider = provider.name();
-    }
-
-
-
-    public void update(String name, String phone, String birthdate) {
-        this.name=name;
-        this.phone=phone;
-        this.birthDate=birthdate;
-    }
 
     public void incrementBlacklistCount() {
         this.blacklistCount += 1;
