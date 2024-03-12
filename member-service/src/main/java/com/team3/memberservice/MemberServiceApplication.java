@@ -1,4 +1,4 @@
-package com.ohgiraffers.memberservice;
+package com.team3.memberservice;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 @EnableDiscoveryClient
 @EnableFeignClients
 public class MemberServiceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(MemberServiceApplication.class, args);
     }
