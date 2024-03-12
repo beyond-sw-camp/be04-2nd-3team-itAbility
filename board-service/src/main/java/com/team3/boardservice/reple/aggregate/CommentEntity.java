@@ -25,9 +25,8 @@ public class CommentEntity {
     @Column(name = "report_count")
     private int reportCount;
 
-    @JoinColumn(name = "member_id")
-    @ManyToOne
-    private MemberInfoDTO memberId;
+    @Column(name = "member_id")
+    private long memberId;
 
     @Column(name = "cmt_content")
     private String cmtContent;
@@ -36,7 +35,7 @@ public class CommentEntity {
     @JoinColumn(name = "board_id")
     private FeedDTO boardId;
 
-    public String getNickname() {
-        return memberId != null ? memberId.getName() : null;
-    }
+//    public String getNickname() {
+//        return memberId != null ? memberId.getName() : null;
+//    }
 }

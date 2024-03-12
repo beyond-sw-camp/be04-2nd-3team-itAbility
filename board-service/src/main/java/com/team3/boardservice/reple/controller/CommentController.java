@@ -3,7 +3,8 @@ package com.team3.boardservice.reple.controller;
 
 import com.team3.boardservice.reple.dto.CommentDTO;
 import com.team3.boardservice.reple.service.CommentService;
-import com.team3.itability.reple.vo.RequestCommentVO;
+
+import com.team3.boardservice.reple.vo.RequestCommentVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

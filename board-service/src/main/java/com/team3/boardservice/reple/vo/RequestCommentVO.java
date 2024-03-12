@@ -1,4 +1,4 @@
-package com.team3.itability.reple.vo;
+package com.team3.boardservice.reple.vo;
 
 import lombok.*;
 

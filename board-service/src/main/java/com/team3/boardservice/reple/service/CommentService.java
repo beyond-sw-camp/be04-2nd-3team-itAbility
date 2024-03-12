@@ -6,7 +6,7 @@ import com.team3.boardservice.feed.repository.FeedRepo;
 import com.team3.boardservice.reple.aggregate.CommentEntity;
 import com.team3.boardservice.reple.dto.CommentDTO;
 import com.team3.boardservice.reple.repository.CommentRepo;
-import com.team3.itability.reple.vo.RequestCommentVO;
+import com.team3.boardservice.reple.vo.RequestCommentVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
