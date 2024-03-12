@@ -24,14 +24,12 @@ public class ReportService {
     private final ModelMapper modelMapper;
 
     private final MemberClient memberClient;
-    private final ResponseMemberRepository responseMemberRepository;
 
     @Autowired
-    public ReportService(ReportRepository reportRepository, ModelMapper modelMapper, MemberClient memberClient, ResponseMemberRepository responseMemberRepository) {
+    public ReportService(ReportRepository reportRepository, ModelMapper modelMapper, MemberClient memberClient) {
         this.reportRepository = reportRepository;
         this.modelMapper = modelMapper;
         this.memberClient = memberClient;
-        this.responseMemberRepository = responseMemberRepository;
     }
 
     public Report createOrUpdateReport(ReportDTO reportDTO) {
