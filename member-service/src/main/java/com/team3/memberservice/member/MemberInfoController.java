@@ -3,10 +3,9 @@ package com.team3.memberservice.member;
 import com.team3.memberservice.member.dto.MemberInfoDTO;
 import com.team3.memberservice.member.service.MemberInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,4 +29,9 @@ public class MemberInfoController {
         return memberInfoService.findMemberList();
     }
 
+    @PutMapping("/member/{memberId}/report")
+    public ResponseEntity<MemberInfoDTO> reportMember(@PathVariable Long memberId){
+        MemberInfoDTO returnValue= memberInfoService.updateMemberReportCount(memberId);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(returnValue);
+    }
 }
