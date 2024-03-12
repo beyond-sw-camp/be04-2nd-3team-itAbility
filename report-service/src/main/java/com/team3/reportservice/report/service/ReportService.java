@@ -1,10 +1,8 @@
-package com.team3.itability.report.service;
+package com.team3.reportservice.report.service;
 
-import com.team3.itability.member.dto.MemberInfoDTO;
-import com.team3.itability.report.dto.ReportDTO;
-import com.team3.itability.report.aggregate.Report;
-import com.team3.itability.report.repository.ReportRepository;
-import com.team3.itability.member.dao.MemberInfoRepo;
+import com.team3.reportservice.report.aggregate.Report;
+import com.team3.reportservice.report.dto.ReportDTO;
+import com.team3.reportservice.report.repository.ReportRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

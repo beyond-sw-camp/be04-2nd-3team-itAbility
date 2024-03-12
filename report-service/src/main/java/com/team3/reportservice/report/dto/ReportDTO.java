@@ -1,11 +1,4 @@
-package com.team3.itability.report.dto;
-
-import com.team3.itability.feed.dto.FeedDTO;
-import com.team3.itability.member.dto.MemberInfoDTO;
-
-
-import com.team3.itability.reple.aggregate.CommentEntity;
-import jakarta.persistence.*;
+package com.team3.reportservice.report.dto;
 import lombok.*;
 
 import java.util.Date;

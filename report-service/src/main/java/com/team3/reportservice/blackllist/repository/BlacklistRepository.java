@@ -1,4 +1,4 @@
-package com.team3.itability.blackllist.repository;
+package com.team3.reportservice.blackllist.repository;
 
 import com.team3.itability.blackllist.aggregate.BlacklistEntity;
 import com.team3.itability.blackllist.dto.BlacklistDTO;
