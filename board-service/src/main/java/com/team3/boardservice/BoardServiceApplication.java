@@ -1,4 +1,4 @@
-package com.ohgiraffers.boardservice;
+package com.team3.boardservice;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
@@ -20,7 +20,5 @@ public class BoardServiceApplication {
     public ModelMapper getModelMapper() {
         return new ModelMapper();
     }
-
-
 
 }
