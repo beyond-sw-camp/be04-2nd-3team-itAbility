@@ -11,19 +11,16 @@ import java.util.List;
 public interface MemberServerClient {
 
 //    1. MemberInfoDTO, MemberInfoRepo
-
-    @GetMapping("member/{memberId}")
+    @GetMapping("/member/{memberId}")
     public MemberInfoDTO getMember(@PathVariable long memberId);
 
     @GetMapping("/members")
     public List<MemberInfoDTO> getAllMember();
 
+    @GetMapping("/skill/{skillId}")
+    public SkillDTO getSkill(@PathVariable int skillId);
 
-
-
-
-
-
-
+    @GetMapping("/skill/list")
+    public List<SkillDTO> getAllSkill();
 
 }

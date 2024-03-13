@@ -23,5 +23,5 @@ public class RecruitSkillDTO {
     @MapsId("skillId")
     @ManyToOne
     @JoinColumn(name="skill_id")
-    private SkillEntity skillEntity;
+    private SkillDTO skillEntity;
 }

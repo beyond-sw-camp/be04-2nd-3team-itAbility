@@ -73,7 +73,7 @@ public class RecruitService {
         RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruit.getRecruitId(), recruit.getRecruitCategoryId());
         RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruitDTO, recruitCategoryDTO);
 
-        SkillEntity skillEntity = skillRepo.findById(recruit.getSkillId()).orElseThrow();
+        SkillDTO skillEntity = skillRepo.findById(recruit.getSkillId()).orElseThrow();
         RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), recruit.getSkillId());
         RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity);
 
