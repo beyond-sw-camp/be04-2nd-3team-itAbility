@@ -36,7 +36,6 @@ public class MemberInfoController {
     public ResponseEntity<String> reportMember(@PathVariable Long memberId){
         System.out.println("들어온 memberId = " + memberId);
         MemberInfoDTO returnValue= memberInfoService.updateMemberReportCount(memberId);
-
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("ok");
     }
 }

@@ -2,6 +2,9 @@ package com.team3.memberservice.mypage.controller;
 
 import com.team3.memberservice.mypage.dto.*;
 import com.team3.memberservice.mypage.service.MypageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rest/mypage")
+@Tag(name = "마이페이지", description = "입니다.")
 public class MypageRestController {
     private final MypageService mypageService;
     @Autowired
@@ -41,8 +45,9 @@ public class MypageRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
     //3. 학력 수정 - fin
+    @Operation(summary = "학력 수정", description = "설명란")
     @PostMapping("/{memberId}/degree")
-    public ResponseEntity<ResponseDegree> postDegree(@PathVariable long memberId, @RequestBody DegreeDTO degreeDTO){
+    public ResponseEntity<ResponseDegree> postDegree(@PathVariable@Parameter(example = "6249388071526484416") long memberId, @RequestBody DegreeDTO degreeDTO){
         ResponseDegree returnValue = mypageService.postDegree(memberId, degreeDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }

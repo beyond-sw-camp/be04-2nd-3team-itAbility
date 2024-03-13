@@ -45,6 +45,9 @@ dependencies {
 
     // feignclient 추가 시 넣을 dependency (main() 있는 클래스에 어노테이션 추가)
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+    //swagger
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
 }
 
 dependencyManagement {
