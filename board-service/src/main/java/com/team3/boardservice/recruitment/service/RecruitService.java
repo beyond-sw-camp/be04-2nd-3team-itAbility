@@ -1,8 +1,10 @@
 package com.team3.boardservice.recruitment.service;
 
+import com.team3.boardservice.MemberClientTestVO.MemberInfoDTO;
+import com.team3.boardservice.client.MemberServerClient;
 import com.team3.boardservice.recruitment.aggregate.*;
 import com.team3.boardservice.recruitment.repository.*;
-import com.team3.itability.recruitment.vo.RecruitVO;
+import com.team3.boardservice.recruitment.vo.RecruitVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,30 +19,28 @@ public class RecruitService {
     private final RecruitMapper recruitMapper;
     private final RecruitRepo recruitRepo;
     private final RecruitCateRepo recruitCateRepo;
-    private final SkillDAO skillRepo;
-    private final MemberInfoRepo memberInfoRepo;
     private final RefRecruitRepo refRecruitRepo;
     private final RecruitSkillRepo recruitSkillRepo;
+    private final MemberServerClient memberServerClient;
 
     @Autowired
     public RecruitService(
                             ModelMapper mapper,
                             RecruitMapper recruitMapper,
                             RecruitRepo recruitRepo,
-                            MemberInfoRepo memberInfoRepo,
                             RecruitCateRepo recruitCateRepo,
                             RefRecruitRepo refRecruitRepo,
-                            SkillDAO skillRepo,
-                            RecruitSkillRepo recruitSkillRepo)
+                            RecruitSkillRepo recruitSkillRepo,
+                            MemberServerClient memberServerClient
+                            )
     {
         this.mapper = mapper;
         this.recruitMapper = recruitMapper;
         this.recruitRepo = recruitRepo;
-        this.memberInfoRepo = memberInfoRepo;
         this.recruitCateRepo = recruitCateRepo;
         this.refRecruitRepo = refRecruitRepo;
-        this.skillRepo = skillRepo;
         this.recruitSkillRepo = recruitSkillRepo;
+        this.memberServerClient= memberServerClient;
     }
 
     // 모집군 카테고리 조회
@@ -66,20 +66,22 @@ public class RecruitService {
     @Transactional
     public RecruitDTO registRecruit(RecruitVO recruit) {
 
-        MemberInfoDTO member = memberInfoRepo.findById(recruit.getMemberId()).orElseThrow();
+        // 맴버수정
+        MemberInfoDTO member = memberServerClient.getMember(recruit.getMemberId());
+
         RecruitDTO recruitDTO = new RecruitDTO(recruit.getRecruitType(), recruit.getRecruitTitle(), recruit.getRecruitContent(), recruit.getRecruitExpDate(), recruit.getRecruitMbCnt(), member);
 
         RecruitCategoryDTO recruitCategoryDTO = recruitCateRepo.findById(recruit.getRecruitCategoryId()).orElseThrow();
         RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruit.getRecruitId(), recruit.getRecruitCategoryId());
         RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruitDTO, recruitCategoryDTO);
 
-        SkillEntity skillEntity = skillRepo.findById(recruit.getSkillId()).orElseThrow();
+//        SkillEntity skillEntity = skillRepo.findById(recruit.getSkillId()).orElseThrow();
         RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), recruit.getSkillId());
-        RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity);
+//        RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity);
 
         recruitRepo.save(recruitDTO);
         refRecruitRepo.save(refRecruitCategoryDTO);
-        recruitSkillRepo.save(recruitSkillDTO);
+//        recruitSkillRepo.save(recruitSkillDTO);
 
         return recruitDTO;
     }
@@ -103,7 +105,7 @@ public class RecruitService {
         foundRecruit.setRecruitMbCnt(recruit.getRecruitMbCnt());
 
         foundRefRecruit.setRecruitCategory(recruitCateRepo.findById(recruit.getRecruitCategoryId()).orElseThrow());
-        foundRecruitSkill.setSkillEntity(skillRepo.findById(recruit.getSkillId()).orElseThrow());
+//        foundRecruitSkill.setSkillEntity(skillRepo.findById(recruit.getSkillId()).orElseThrow());
 
         System.out.println("foundRecruit = " + foundRecruit);
         return foundRecruit;
@@ -135,4 +137,8 @@ public class RecruitService {
         return recruit;
     }
 
+    public void test(long memberId) {
+        MemberInfoDTO memberInfoDTO = memberServerClient.getMember(memberId);
+        System.out.println("memberInfoDTO = " + memberInfoDTO);
+    }
 }

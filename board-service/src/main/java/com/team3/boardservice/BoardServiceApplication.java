@@ -1,4 +1,4 @@
-package com.ohgiraffers.boardservice;
+package com.team3.boardservice;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;

@@ -2,7 +2,7 @@ package com.team3.boardservice.recruitment.controller;
 
 import com.team3.boardservice.recruitment.aggregate.MemberRecruitsInfoDTO;
 import com.team3.boardservice.recruitment.service.MemberRecruitsInfoService;
-import com.team3.itability.recruitment.vo.MemberRecruitsInfoVO;
+import com.team3.boardservice.recruitment.vo.MemberRecruitsInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

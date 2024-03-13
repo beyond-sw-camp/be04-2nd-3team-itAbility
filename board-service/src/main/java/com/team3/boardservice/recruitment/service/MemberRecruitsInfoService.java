@@ -1,12 +1,14 @@
 package com.team3.boardservice.recruitment.service;
 
+import com.team3.boardservice.MemberClientTestVO.MemberInfoDTO;
+import com.team3.boardservice.client.MemberServerClient;
 import com.team3.boardservice.recruitment.aggregate.MemberRecruitsInfoDTO;
 import com.team3.boardservice.recruitment.aggregate.RecruitDTO;
 import com.team3.boardservice.recruitment.aggregate.RecruitStatus;
 import com.team3.boardservice.recruitment.repository.MemberRecruitsInfoRepo;
 import com.team3.boardservice.recruitment.repository.MemberRecruitsMapper;
 import com.team3.boardservice.recruitment.repository.RecruitRepo;
-import com.team3.itability.recruitment.vo.MemberRecruitsInfoVO;
+import com.team3.boardservice.recruitment.vo.MemberRecruitsInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,15 +21,14 @@ public class MemberRecruitsInfoService {
     private final MemberRecruitsMapper memberRecruitsMapper;
     private final MemberRecruitsInfoRepo memberRecruitsInfoRepo;
     private final RecruitRepo recruitRepo;
-    private final MemberInfoRepo memberInfoRepo;
-
+    private final MemberServerClient memberServerClient;
     @Autowired
-    public MemberRecruitsInfoService(MemberRecruitsMapper memberRecruitsMapper, MemberRecruitsInfoRepo memberRecruitsInfoRepo, RecruitRepo recruitRepo, MemberInfoRepo memberInfoRepo) {
-
+    public MemberRecruitsInfoService(MemberRecruitsMapper memberRecruitsMapper, MemberRecruitsInfoRepo memberRecruitsInfoRepo, RecruitRepo recruitRepo
+                                    , MemberServerClient memberServerClient) {
         this.memberRecruitsMapper = memberRecruitsMapper;
         this.memberRecruitsInfoRepo = memberRecruitsInfoRepo;
         this.recruitRepo = recruitRepo;
-        this.memberInfoRepo = memberInfoRepo;
+        this.memberServerClient = memberServerClient;
     }
 
     @Transactional(readOnly = true)
@@ -42,9 +43,10 @@ public class MemberRecruitsInfoService {
     public MemberRecruitsInfoDTO registMemberRecruit(MemberRecruitsInfoVO memberRecruitsInfoVO) {
 
         RecruitDTO recruitDTO = recruitRepo.getById(memberRecruitsInfoVO.getRecruitId());
-        MemberInfoDTO memberInfoDTO = memberInfoRepo.getById(memberRecruitsInfoVO.getMemberId());
+//        MemberInfoDTO memberInfoDTO = memberServerClient.getMember(recruitDTO.getMemberInfoDTO().getMemberId());
+        MemberInfoDTO memberInfoDTO = memberServerClient.getMember(recruitDTO.getMemberInfoDTO());
 
-        MemberRecruitsInfoDTO memberRecruitsInfoDTO = new MemberRecruitsInfoDTO(memberRecruitsInfoVO.getMemberRecruitInfoId(), recruitDTO, memberRecruitsInfoVO.getRecruitStatus(), memberInfoDTO);
+        MemberRecruitsInfoDTO memberRecruitsInfoDTO = new MemberRecruitsInfoDTO(memberRecruitsInfoVO.getMemberRecruitInfoId(), recruitDTO, memberRecruitsInfoVO.getRecruitStatus(), memberInfoDTO.getMemberId());
 
         memberRecruitsInfoRepo.save(memberRecruitsInfoDTO);
 
