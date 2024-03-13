@@ -27,7 +27,7 @@ public class ReportController {
     }
 
     @Transactional
-    @PutMapping("/add")
+    @GetMapping("/add")
     public ResponseEntity<String> addReport(@RequestBody ReportDTO reportDTO) {
         reportService.createOrUpdateReport(reportDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("신고가 성공적으로 추가되었습니다.");

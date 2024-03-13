@@ -15,12 +15,12 @@ import java.util.List;
 public interface MemberClient {
 
     /* 설명. gateway가 알고있는 마이크로 서비스의 접두사(라우팅 시 설정한 요청 경로)를 추가해서 요청경로를 작성한다. */
-    @GetMapping("/member-service/member/{memberId}")
+    @GetMapping("/member-service/info/member/{memberId}")
     ResponseMember getMember(@PathVariable("memberId") long memberId);
 
-    @GetMapping("/member-service/members")
+    @GetMapping("/member-service/info/members")
     List<ResponseMember> getAllMember();
 
-    @PutMapping("/member-service/member/{memberId}/report")
-    ResponseEntity<Member> reportMember(@PathVariable long memberId);
+    @GetMapping("/member-service/info/member/{memberId}/report")
+    ResponseEntity<String> reportMember(@PathVariable long memberId);
 }

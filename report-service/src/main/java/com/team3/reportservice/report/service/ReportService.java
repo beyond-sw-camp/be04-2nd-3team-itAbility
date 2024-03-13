@@ -47,8 +47,10 @@ public class ReportService {
     // ReportService.java 수정
     public List<ReportDTO> findReportList() { // 메서드 이름 변경
         List<Report> reportList = reportRepository.findAll(Sort.by("reportId"));
+        List<ResponseMember> members= memberClient.getAllMember();
+        System.out.println("members = " + members);
         return reportList.stream()
-                .map(report -> modelMapper.map(report, ReportDTO.class))
+                .map(member -> modelMapper.map(member, ReportDTO.class))
                 .collect(Collectors.toList());
     }
 }

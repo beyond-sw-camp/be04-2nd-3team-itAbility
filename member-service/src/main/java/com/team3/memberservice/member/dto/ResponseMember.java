@@ -1,13 +1,9 @@
-package com.team3.reportservice.vo;
+package com.team3.memberservice.member.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
 import lombok.Getter;
-import lombok.ToString;
 
 
 @Getter
-@ToString
 public class ResponseMember {
 
     private long memberId;
