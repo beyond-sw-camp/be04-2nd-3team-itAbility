@@ -1,8 +1,12 @@
 package com.team3.boardservice.recruitment.service;
 
+import com.team3.boardservice.member.dao.MemberInfoRepo;
+import com.team3.boardservice.member.dto.MemberInfoDTO;
+import com.team3.boardservice.mypage.dao.SkillDAO;
+import com.team3.boardservice.mypage.entity.SkillEntity;
 import com.team3.boardservice.recruitment.aggregate.*;
 import com.team3.boardservice.recruitment.repository.*;
-import com.team3.itability.recruitment.vo.RecruitVO;
+import com.team3.boardservice.recruitment.vo.RecruitVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,7 +77,7 @@ public class RecruitService {
         RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruit.getRecruitId(), recruit.getRecruitCategoryId());
         RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruitDTO, recruitCategoryDTO);
 
-        SkillDTO skillEntity = skillRepo.findById(recruit.getSkillId()).orElseThrow();
+        SkillEntity skillEntity = skillRepo.findById(recruit.getSkillId()).orElseThrow();
         RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), recruit.getSkillId());
         RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity);
 

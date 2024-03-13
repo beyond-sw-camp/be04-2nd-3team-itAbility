@@ -1,5 +1,7 @@
 package com.team3.boardservice.client;
 
+import com.team3.boardservice.member.dto.MemberInfoDTO;
+import com.team3.boardservice.mypage.entity.SkillEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +20,8 @@ public interface MemberServerClient {
     public List<MemberInfoDTO> getAllMember();
 
     @GetMapping("/skill/{skillId}")
-    public SkillDTO getSkill(@PathVariable int skillId);
+    public SkillEntity getSkill(@PathVariable int skillId);
 
     @GetMapping("/skill/list")
-    public List<SkillDTO> getAllSkill();
-
+    public List<SkillEntity> getAllSkill();
 }

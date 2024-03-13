@@ -1,17 +1,21 @@
 package com.team3.boardservice.recruitment.service;
 
+import com.team3.boardservice.member.dao.MemberInfoRepo;
+import com.team3.boardservice.member.dto.MemberInfoDTO;
 import com.team3.boardservice.recruitment.aggregate.MemberRecruitsInfoDTO;
 import com.team3.boardservice.recruitment.aggregate.RecruitDTO;
 import com.team3.boardservice.recruitment.aggregate.RecruitStatus;
 import com.team3.boardservice.recruitment.repository.MemberRecruitsInfoRepo;
 import com.team3.boardservice.recruitment.repository.MemberRecruitsMapper;
 import com.team3.boardservice.recruitment.repository.RecruitRepo;
-import com.team3.itability.recruitment.vo.MemberRecruitsInfoVO;
+
+import com.team3.boardservice.recruitment.vo.MemberRecruitsInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 
 @Service
 public class MemberRecruitsInfoService {

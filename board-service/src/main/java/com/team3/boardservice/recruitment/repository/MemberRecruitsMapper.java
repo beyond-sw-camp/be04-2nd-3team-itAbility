@@ -1,6 +1,6 @@
 package com.team3.boardservice.recruitment.repository;
 
-import com.team3.itability.recruitment.vo.MemberRecruitsInfoVO;
+import com.team3.boardservice.recruitment.vo.MemberRecruitsInfoVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
