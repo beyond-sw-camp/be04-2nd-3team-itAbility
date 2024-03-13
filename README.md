@@ -63,6 +63,8 @@
 - 2024년 2월 7일 ~ 2024년 3월 28일
 <br>
 
+
+
 ## WBS
 <img src="https://github.com/beyond-sw-camp/be04-2nd-3team-itAbility/assets/22255663/04ec3f18-cdc1-4e43-ba8e-7b22b71cc6dd">
 <br>
@@ -70,6 +72,11 @@
 ## 소프트웨어 아키텍처
 <img src="https://github.com/beyond-sw-camp/be04-2nd-3team-itAbility/assets/22255663/34673def-a6e0-4eb4-85b5-f121cf1f4599">
 <br>
+
+## DDD
+<img src="https://github.com/beyond-sw-camp/be04-2nd-3team-itAbility/assets/22255663/47ac65d0-6a9a-4d63-8f9d-f5348d48a3f0">
+<img src="https://github.com/beyond-sw-camp/be04-2nd-3team-itAbility/assets/22255663/24ff154a-ef98-4f42-8fe6-14ec479b53ba">
+
 
 ## 요구사항 정의서
 <img src = "https://github.com/kyulin-Kim/newRepo/assets/107897788/d4e23f2d-9f4a-4862-a774-d9c6bfa97aea" width="700%" height = "300%">
