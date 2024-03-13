@@ -21,6 +21,4 @@ public class BoardServiceApplication {
         return new ModelMapper();
     }
 
-
-
 }

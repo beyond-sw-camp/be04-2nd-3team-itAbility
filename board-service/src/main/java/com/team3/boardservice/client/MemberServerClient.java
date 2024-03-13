@@ -1,6 +1,8 @@
 package com.team3.boardservice.client;
 
-import com.team3.boardservice.MemberClientTestVO.MemberInfoDTO;
+
+import com.team3.boardservice.member.dto.MemberInfoDTO;
+import com.team3.boardservice.mypage.entity.SkillEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,12 +20,9 @@ public interface MemberServerClient {
     @GetMapping("member-service/info/members")
     public List<MemberInfoDTO> getAllMember();
 
+    @GetMapping("/skill/{skillId}")
+    public SkillEntity getSkill(@PathVariable int skillId);
 
-
-
-
-
-
-
-
+    @GetMapping("/skill/list")
+    public List<SkillEntity> getAllSkill();
 }
