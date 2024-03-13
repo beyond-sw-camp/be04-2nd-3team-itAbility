@@ -28,9 +28,10 @@ public class MemberInfoController {
     public List<MemberInfoDTO> getAllMember(){
         return memberInfoService.findMemberList();
     }
-
+    //[http://localhost:8000/member-service/member/2/report]
     @PutMapping("/member/{memberId}/report")
     public ResponseEntity<MemberInfoDTO> reportMember(@PathVariable Long memberId){
+        System.out.println("들어온 memberId = " + memberId);
         MemberInfoDTO returnValue= memberInfoService.updateMemberReportCount(memberId);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(returnValue);
     }

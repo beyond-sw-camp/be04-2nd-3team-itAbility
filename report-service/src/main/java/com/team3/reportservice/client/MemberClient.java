@@ -22,5 +22,5 @@ public interface MemberClient {
     List<ResponseMember> getAllMember();
 
     @PutMapping("/member-service/member/{memberId}/report")
-    ResponseEntity<Member> reportMember(long MemberId);
+    ResponseEntity<Member> reportMember(@PathVariable long memberId);
 }
