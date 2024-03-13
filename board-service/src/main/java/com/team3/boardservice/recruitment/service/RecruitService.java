@@ -1,5 +1,6 @@
 package com.team3.boardservice.recruitment.service;
 
+import com.team3.boardservice.client.MemberServerClient;
 import com.team3.boardservice.member.dao.MemberInfoRepo;
 import com.team3.boardservice.member.dto.MemberInfoDTO;
 import com.team3.boardservice.mypage.dao.SkillDAO;
@@ -25,6 +26,7 @@ public class RecruitService {
     private final MemberInfoRepo memberInfoRepo;
     private final RefRecruitRepo refRecruitRepo;
     private final RecruitSkillRepo recruitSkillRepo;
+    private final MemberServerClient memberServerClient;
 
     @Autowired
     public RecruitService(
@@ -35,7 +37,8 @@ public class RecruitService {
                             RecruitCateRepo recruitCateRepo,
                             RefRecruitRepo refRecruitRepo,
                             SkillDAO skillRepo,
-                            RecruitSkillRepo recruitSkillRepo)
+                            RecruitSkillRepo recruitSkillRepo,
+                            MemberServerClient memberServerClient)
     {
         this.mapper = mapper;
         this.recruitMapper = recruitMapper;
@@ -45,6 +48,7 @@ public class RecruitService {
         this.refRecruitRepo = refRecruitRepo;
         this.skillRepo = skillRepo;
         this.recruitSkillRepo = recruitSkillRepo;
+        this.memberServerClient = memberServerClient;
     }
 
     // 모집군 카테고리 조회
@@ -70,14 +74,16 @@ public class RecruitService {
     @Transactional
     public RecruitDTO registRecruit(RecruitVO recruit) {
 
-        MemberInfoDTO member = memberInfoRepo.findById(recruit.getMemberId()).orElseThrow();
+//        MemberInfoDTO member = memberInfoRepo.findById(recruit.getMemberId()).orElseThrow();
+        MemberInfoDTO member = memberServerClient.getMember(recruit.getMemberId());
         RecruitDTO recruitDTO = new RecruitDTO(recruit.getRecruitType(), recruit.getRecruitTitle(), recruit.getRecruitContent(), recruit.getRecruitExpDate(), recruit.getRecruitMbCnt(), member);
 
         RecruitCategoryDTO recruitCategoryDTO = recruitCateRepo.findById(recruit.getRecruitCategoryId()).orElseThrow();
         RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruit.getRecruitId(), recruit.getRecruitCategoryId());
         RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruitDTO, recruitCategoryDTO);
 
-        SkillEntity skillEntity = skillRepo.findById(recruit.getSkillId()).orElseThrow();
+//        SkillEntity skillEntity = skillRepo.findById(recruit.getSkillId()).orElseThrow();
+        SkillEntity skillEntity = memberServerClient.getSkill(recruit.getSkillId());
         RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), recruit.getSkillId());
         RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity);
 
@@ -94,11 +100,8 @@ public class RecruitService {
 
         RecruitDTO foundRecruit = recruitRepo.findById(recruitId).orElseThrow(IllegalAccessError::new);
 
-        RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruitId, recruit.getRecruitCategoryId());
-        RefRecruitCategoryDTO foundRefRecruit = refRecruitRepo.findById(refRecruitCategoryId).orElseThrow(IllegalAccessError::new);
-
-        RecruitSkillId recruitSkillId = new RecruitSkillId(recruitId, recruit.getSkillId());
-        RecruitSkillDTO foundRecruitSkill = recruitSkillRepo.findById(recruitSkillId).orElseThrow(IllegalAccessError::new);
+        RefRecruitCategoryDTO foundRefRecruit = refRecruitRepo.findByIdRecruitId(recruitId);
+        RecruitSkillDTO foundRecruitSkill = recruitSkillRepo.findByIdRecruitId(recruitId);
 
         foundRecruit.setRecruitType(recruit.getRecruitType());
         foundRecruit.setRecruitTitle(recruit.getRecruitTitle());
@@ -106,8 +109,8 @@ public class RecruitService {
         foundRecruit.setRecruitExpDate(recruit.getRecruitExpDate());
         foundRecruit.setRecruitMbCnt(recruit.getRecruitMbCnt());
 
-        foundRefRecruit.setRecruitCategory(recruitCateRepo.findById(recruit.getRecruitCategoryId()).orElseThrow());
-        foundRecruitSkill.setSkillEntity(skillRepo.findById(recruit.getSkillId()).orElseThrow());
+        foundRefRecruit.setId(new RefRecruitCategoryId(recruitId, recruit.getRecruitCategoryId()));
+        foundRecruitSkill.setId(new RecruitSkillId(recruitId, recruit.getSkillId()));
 
         System.out.println("foundRecruit = " + foundRecruit);
         return foundRecruit;

@@ -2,7 +2,6 @@ package com.team3.boardservice.client;
 
 import com.team3.boardservice.member.dto.MemberInfoDTO;
 import com.team3.boardservice.mypage.entity.SkillEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
