@@ -2,6 +2,7 @@ package com.team3.boardservice.feed.controller;
 
 import com.team3.boardservice.feed.dto.FeedDTO;
 import com.team3.boardservice.feed.service.FeedService;
+import com.team3.boardservice.feed.vo.FeedVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +34,9 @@ public class FeedController {
     }
 
     /* 게시물 생성 */
-    @PostMapping
-    public ResponseEntity<FeedDTO> createdFeed(Model model, @ModelAttribute FeedDTO feedDTO, @RequestParam long memberId) {
-        FeedDTO createdFeed = feedService.createFeed(feedDTO, memberId);
+    @PostMapping("/{memberId}")
+    public ResponseEntity<FeedVO> createdFeed(@RequestBody FeedDTO feedDTO, @PathVariable long memberId) {
+        FeedVO createdFeed = feedService.createFeed(feedDTO, memberId);
         return ResponseEntity.ok().body(createdFeed);
     }
 

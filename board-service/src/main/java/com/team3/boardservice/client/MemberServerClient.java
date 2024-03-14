@@ -11,16 +11,13 @@ import java.util.List;
 @FeignClient(name = "ITABILITY-MEMBER-SERVICE", url = "localhost:8282")
 public interface MemberServerClient {
 
-//    1. MemberInfoDTO, MemberInfoRepo
-    @GetMapping("/member/{memberId}")
+    @GetMapping("member-service/info/member/{memberId}")
     public MemberInfoDTO getMember(@PathVariable long memberId);
 
-    @GetMapping("/members")
+    @GetMapping("member-service/info/members")
     public List<MemberInfoDTO> getAllMember();
 
-    @GetMapping("/skill/{skillId}")
+    @GetMapping("member-service/rest/mypage/skill/{skillId}")
     public SkillEntity getSkill(@PathVariable int skillId);
 
-    @GetMapping("/skill/list")
-    public List<SkillEntity> getAllSkill();
 }

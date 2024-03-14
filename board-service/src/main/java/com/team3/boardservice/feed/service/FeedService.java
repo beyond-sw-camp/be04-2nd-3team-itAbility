@@ -1,10 +1,14 @@
 package com.team3.boardservice.feed.service;
 
+import com.team3.boardservice.client.MemberServerClient;
 import com.team3.boardservice.feed.dto.FeedDTO;
 
 import com.team3.boardservice.feed.repository.FeedRepo;
+import com.team3.boardservice.feed.vo.FeedVO;
+import com.team3.boardservice.member.dto.MemberInfoDTO;
 import com.team3.boardservice.reple.aggregate.CommentEntity;
 import com.team3.boardservice.reple.repository.CommentRepo;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +21,16 @@ public class FeedService {
 
     private final FeedRepo feedRepo;
     private final CommentRepo commentRepo;
+    private final MemberServerClient memberServerClient;
+
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public FeedService(FeedRepo feedRepo, CommentRepo commentRepo) {
+    public FeedService(FeedRepo feedRepo, CommentRepo commentRepo, MemberServerClient memberServerClient, ModelMapper modelMapper) {
         this.feedRepo = feedRepo;
         this.commentRepo = commentRepo;
+        this.memberServerClient = memberServerClient;
+        this.modelMapper = modelMapper;
     }
 
     /* 게시물 전체 목록 조회 */
@@ -42,11 +51,10 @@ public class FeedService {
 
     /* 게시물 생성 */
     @Transactional
-    public FeedDTO createFeed(FeedDTO feedDTO, long memberId) {
-//        MemberInfoDTO memberInfoDTO = memberInfoRepo.findById(memberId).orElseThrow();
-//        feedDTO.setMemberId(memberInfoDTO);
-//        return feedRepo.save(feedDTO);feedDTO
-        return null;
+    public FeedVO createFeed(FeedDTO feedDTO, long memberId) {
+        feedDTO.setMemberId(memberId);
+        feedRepo.save(feedDTO);
+        return modelMapper.map(feedDTO, FeedVO.class);
     }
 
     /* 게시물 수정 */
