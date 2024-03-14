@@ -1,7 +1,7 @@
 package com.team3.boardservice.client;
 
 
-import com.team3.boardservice.member.dto.MemberInfoDTO;
+import com.team3.boardservice.member.dto.ResponseMember;
 import com.team3.boardservice.mypage.entity.SkillEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +14,10 @@ import java.util.List;
 public interface MemberServerClient {
 
     @GetMapping("/member-service/info/member/{memberId}")
-    public MemberInfoDTO getMember(@PathVariable long memberId);
+    public ResponseMember getMember(@PathVariable long memberId);
 
     @GetMapping("/member-service/info/members")
-    public List<MemberInfoDTO> getAllMember();
+    public List<ResponseMember> getAllMember();
 
     @GetMapping("member-service/rest/mypage/skill/{skillId}")
     public SkillEntity getSkill(@PathVariable int skillId);

@@ -1,8 +1,5 @@
 package com.team3.boardservice.recruitment.aggregate;
 
-
-import com.team3.boardservice.member.dto.MemberInfoDTO;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,8 +24,7 @@ public class MemberRecruitsInfoDTO {
     @Column(name="recruit_status")
     private RecruitStatus recruitStatus;
 
-    @JoinColumn(name="member_id")
-    @ManyToOne
+    @Column(name="member_id")
     private long memberInfoDTO;
 
 }

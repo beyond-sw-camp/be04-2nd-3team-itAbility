@@ -3,7 +3,7 @@ package com.team3.boardservice.member.dto;
 import lombok.*;
 
 @Getter
-public class ResponseMemberInfo {
+public class ResponseMember {
 
     private long memberId;
 
