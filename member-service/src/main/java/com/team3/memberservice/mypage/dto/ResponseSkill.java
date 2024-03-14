@@ -2,12 +2,12 @@ package com.team3.memberservice.mypage.dto;
 
 import lombok.*;
 
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
 @ToString
-public class RequestRecruitCategory {
-    int recruitCategoryId;
-    String recruitName;
+public class ResponseSkill {
+    private int skillId;
+    private String skillName;
 }

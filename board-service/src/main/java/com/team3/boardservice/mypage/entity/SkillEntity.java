@@ -1,4 +1,4 @@
-package com.team3.boardservice.MemberClientTestVO;
+package com.team3.boardservice.mypage.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,5 +20,4 @@ public class SkillEntity {
     @Column(name = "skill_name")
     private String skillName;
 }
-
 
