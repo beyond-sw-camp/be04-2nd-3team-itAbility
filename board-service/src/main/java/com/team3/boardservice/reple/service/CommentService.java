@@ -1,9 +1,7 @@
 package com.team3.boardservice.reple.service;
 
-import com.team3.boardservice.MemberClientTestVO.MemberInfoDTO;
 import com.team3.boardservice.feed.dto.FeedDTO;
 import com.team3.boardservice.feed.repository.FeedRepo;
-
 import com.team3.boardservice.reple.aggregate.CommentEntity;
 import com.team3.boardservice.reple.dto.CommentDTO;
 import com.team3.boardservice.reple.repository.CommentRepo;
