@@ -1,9 +1,8 @@
 package com.team3.boardservice.recruitment.service;
 
 import com.team3.boardservice.client.MemberServerClient;
-import com.team3.boardservice.member.dao.MemberInfoRepo;
-import com.team3.boardservice.member.dto.MemberInfoDTO;
-import com.team3.boardservice.mypage.dao.SkillDAO;
+import com.team3.boardservice.member.dto.ResponseMemberInfo;
+
 import com.team3.boardservice.mypage.entity.SkillEntity;
 import com.team3.boardservice.recruitment.aggregate.*;
 import com.team3.boardservice.recruitment.repository.*;
@@ -22,8 +21,6 @@ public class RecruitService {
     private final RecruitMapper recruitMapper;
     private final RecruitRepo recruitRepo;
     private final RecruitCateRepo recruitCateRepo;
-    private final SkillDAO skillRepo;
-    private final MemberInfoRepo memberInfoRepo;
     private final RefRecruitRepo refRecruitRepo;
     private final RecruitSkillRepo recruitSkillRepo;
     private final MemberServerClient memberServerClient;
@@ -33,20 +30,17 @@ public class RecruitService {
                             ModelMapper mapper,
                             RecruitMapper recruitMapper,
                             RecruitRepo recruitRepo,
-                            MemberInfoRepo memberInfoRepo,
                             RecruitCateRepo recruitCateRepo,
                             RefRecruitRepo refRecruitRepo,
-                            SkillDAO skillRepo,
                             RecruitSkillRepo recruitSkillRepo,
                             MemberServerClient memberServerClient)
     {
         this.mapper = mapper;
         this.recruitMapper = recruitMapper;
         this.recruitRepo = recruitRepo;
-        this.memberInfoRepo = memberInfoRepo;
+
         this.recruitCateRepo = recruitCateRepo;
         this.refRecruitRepo = refRecruitRepo;
-        this.skillRepo = skillRepo;
         this.recruitSkillRepo = recruitSkillRepo;
         this.memberServerClient = memberServerClient;
     }
@@ -75,8 +69,8 @@ public class RecruitService {
     public RecruitDTO registRecruit(RecruitVO recruit) {
 
 //        MemberInfoDTO member = memberInfoRepo.findById(recruit.getMemberId()).orElseThrow();
-        MemberInfoDTO member = memberServerClient.getMember(recruit.getMemberId());
-        RecruitDTO recruitDTO = new RecruitDTO(recruit.getRecruitType(), recruit.getRecruitTitle(), recruit.getRecruitContent(), recruit.getRecruitExpDate(), recruit.getRecruitMbCnt(), member);
+        ResponseMemberInfo member = memberServerClient.getMember(recruit.getMemberId());
+        RecruitDTO recruitDTO = new RecruitDTO(recruit.getRecruitType(), recruit.getRecruitTitle(), recruit.getRecruitContent(), recruit.getRecruitExpDate(), recruit.getRecruitMbCnt(), recruit.getMemberId());
 
         RecruitCategoryDTO recruitCategoryDTO = recruitCateRepo.findById(recruit.getRecruitCategoryId()).orElseThrow();
         RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruit.getRecruitId(), recruit.getRecruitCategoryId());
@@ -100,17 +94,11 @@ public class RecruitService {
 
         RecruitDTO foundRecruit = recruitRepo.findById(recruitId).orElseThrow(IllegalAccessError::new);
 
-        RefRecruitCategoryDTO foundRefRecruit = refRecruitRepo.findByIdRecruitId(recruitId);
-        RecruitSkillDTO foundRecruitSkill = recruitSkillRepo.findByIdRecruitId(recruitId);
-
         foundRecruit.setRecruitType(recruit.getRecruitType());
         foundRecruit.setRecruitTitle(recruit.getRecruitTitle());
         foundRecruit.setRecruitContent(recruit.getRecruitContent());
         foundRecruit.setRecruitExpDate(recruit.getRecruitExpDate());
         foundRecruit.setRecruitMbCnt(recruit.getRecruitMbCnt());
-
-        foundRefRecruit.setId(new RefRecruitCategoryId(recruitId, recruit.getRecruitCategoryId()));
-        foundRecruitSkill.setId(new RecruitSkillId(recruitId, recruit.getSkillId()));
 
         System.out.println("foundRecruit = " + foundRecruit);
         return foundRecruit;

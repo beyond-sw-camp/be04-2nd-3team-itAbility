@@ -1,6 +1,5 @@
 package com.team3.boardservice.recruitment.aggregate;
 
-import com.team3.boardservice.member.dto.MemberInfoDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,11 +33,10 @@ public class RecruitDTO {
     @Column(name = "recruit_mb_cnt")
     private Integer recruitMbCnt;
 
-    @JoinColumn(name="member_id")
-    @ManyToOne
-    private MemberInfoDTO memberInfoDTO;
+    @Column(name="member_id")
+    private long memberInfoDTO;
 
-    public RecruitDTO(RecruitType recruitType, String recruitTitle, String recruitContent, String recruitExpDate, Integer recruitMbCnt, MemberInfoDTO memberInfoDTO) {
+    public RecruitDTO(RecruitType recruitType, String recruitTitle, String recruitContent, String recruitExpDate, Integer recruitMbCnt, long memberInfoDTO) {
         this.recruitType = recruitType;
         this.recruitTitle = recruitTitle;
         this.recruitContent = recruitContent;

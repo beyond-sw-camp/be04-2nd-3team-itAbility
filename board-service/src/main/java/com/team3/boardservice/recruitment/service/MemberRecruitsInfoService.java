@@ -2,7 +2,7 @@ package com.team3.boardservice.recruitment.service;
 
 import com.team3.boardservice.client.MemberServerClient;
 import com.team3.boardservice.member.dao.MemberInfoRepo;
-import com.team3.boardservice.member.dto.MemberInfoDTO;
+import com.team3.boardservice.member.dto.ResponseMemberInfo;
 import com.team3.boardservice.recruitment.aggregate.MemberRecruitsInfoDTO;
 import com.team3.boardservice.recruitment.aggregate.RecruitDTO;
 import com.team3.boardservice.recruitment.aggregate.RecruitStatus;
@@ -24,16 +24,16 @@ public class MemberRecruitsInfoService {
     private final MemberRecruitsMapper memberRecruitsMapper;
     private final MemberRecruitsInfoRepo memberRecruitsInfoRepo;
     private final RecruitRepo recruitRepo;
-    private final MemberInfoRepo memberInfoRepo;
+    private final ResponseMemberInfo responseMemberInfo;
     private final MemberServerClient memberServerClient;
 
     @Autowired
-    public MemberRecruitsInfoService(MemberRecruitsMapper memberRecruitsMapper, MemberRecruitsInfoRepo memberRecruitsInfoRepo, RecruitRepo recruitRepo, MemberInfoRepo memberInfoRepo, MemberServerClient memberServerClient) {
+    public MemberRecruitsInfoService(MemberRecruitsMapper memberRecruitsMapper, MemberRecruitsInfoRepo memberRecruitsInfoRepo, RecruitRepo recruitRepo, ResponseMemberInfo responseMemberInfo, MemberServerClient memberServerClient) {
 
         this.memberRecruitsMapper = memberRecruitsMapper;
         this.memberRecruitsInfoRepo = memberRecruitsInfoRepo;
         this.recruitRepo = recruitRepo;
-        this.memberInfoRepo = memberInfoRepo;
+        this.responseMemberInfo = responseMemberInfo;
         this.memberServerClient = memberServerClient;
     }
 
@@ -50,7 +50,7 @@ public class MemberRecruitsInfoService {
 
         RecruitDTO recruitDTO = recruitRepo.getById(memberRecruitsInfoVO.getRecruitId());
 //        MemberInfoDTO memberInfoDTO = memberInfoRepo.getById(memberRecruitsInfoVO.getMemberId());
-        MemberInfoDTO memberInfoDTO = memberServerClient.getMember(memberRecruitsInfoVO.getMemberId());
+        ResponseMemberInfo memberInfoDTO = memberServerClient.getMember(memberRecruitsInfoVO.getMemberId());
 
         MemberRecruitsInfoDTO memberRecruitsInfoDTO = new MemberRecruitsInfoDTO(memberRecruitsInfoVO.getMemberRecruitInfoId(), recruitDTO, memberRecruitsInfoVO.getRecruitStatus(), memberInfoDTO);
 

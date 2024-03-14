@@ -27,7 +27,6 @@ public class RecruitVO {
     private int skillId;
 
     private int recruitCategoryId;
-
 }
 
 
