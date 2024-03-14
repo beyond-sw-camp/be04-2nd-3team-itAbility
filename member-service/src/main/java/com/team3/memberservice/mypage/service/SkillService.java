@@ -25,6 +25,7 @@ public class SkillService {
         SkillEntity skill = skillDAO.findById(skillId).orElseThrow();
         return modelMapper.map(skill,ResponseSkill.class);
     }
+//    public List<ResponseSkill> getMemberSkill()
 
     public List<ResponseSkill> getAllSkill() {
         List<SkillEntity> skills = skillDAO.findAll();

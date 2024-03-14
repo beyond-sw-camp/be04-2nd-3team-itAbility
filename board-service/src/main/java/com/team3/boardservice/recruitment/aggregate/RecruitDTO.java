@@ -44,6 +44,6 @@ public class RecruitDTO {
         this.recruitContent = recruitContent;
         this.recruitExpDate = recruitExpDate;
         this.recruitMbCnt = recruitMbCnt;
-        this.memberInfoDTO = memberInfoDTO.getMemberId();
+        this.memberInfoDTO = memberInfoDTO;
     }
 }

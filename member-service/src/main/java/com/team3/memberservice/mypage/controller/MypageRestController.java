@@ -35,6 +35,7 @@ public class MypageRestController {
         MemberProfileDTO profile = mypageService.getMypage(memberId);
         List<CareerDTO> careerDTOList = mypageService.getCareerList(memberId);
         List<ResponseSkill> skillDTOS = mypageService.getMemberSkill(memberId);
+
 //        MemberAndRemainRecruitCategoryDTO recruitCategoryDTOS = mypageService.printMemberRecruitList(memberId);
 //        MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS,recruitCategoryDTOS);
         MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS);

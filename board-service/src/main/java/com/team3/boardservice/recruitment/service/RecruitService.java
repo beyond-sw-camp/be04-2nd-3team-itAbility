@@ -1,6 +1,7 @@
 package com.team3.boardservice.recruitment.service;
 
 import com.team3.boardservice.client.MemberServerClient;
+import com.team3.boardservice.member.dto.MemberInfoDTO;
 import com.team3.boardservice.member.dto.ResponseMemberInfo;
 
 import com.team3.boardservice.mypage.entity.SkillEntity;
@@ -68,7 +69,7 @@ public class RecruitService {
     public RecruitDTO registRecruit(RecruitVO recruit) {
 
 //        MemberInfoDTO member = memberInfoRepo.findById(recruit.getMemberId()).orElseThrow();
-        ResponseMemberInfo member = memberServerClient.getMember(recruit.getMemberId());
+        MemberInfoDTO member = memberServerClient.getMember(recruit.getMemberId());
         RecruitDTO recruitDTO = new RecruitDTO(recruit.getRecruitType(), recruit.getRecruitTitle(), recruit.getRecruitContent(), recruit.getRecruitExpDate(), recruit.getRecruitMbCnt(), recruit.getMemberId());
 
         RecruitCategoryDTO recruitCategoryDTO = recruitCateRepo.findById(recruit.getRecruitCategoryId()).orElseThrow();
