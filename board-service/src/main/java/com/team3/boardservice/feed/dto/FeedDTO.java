@@ -18,10 +18,11 @@ import java.util.List;
 public class FeedDTO {
     @Id
     @Column(name = "board_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int boardId;
 
     @Column(name = "board_title")
-    private String boardTitile;
+    private String boardTitle;
 
     @Column(name = "board_content")
     private String boardContent;

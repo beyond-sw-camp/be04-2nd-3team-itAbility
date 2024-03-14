@@ -47,27 +47,25 @@ public class FeedService {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         comments.forEach(commentEntity -> commentDTOS.add(modelMapper.map(commentEntity, CommentDTO.class)));
         FeedVO feedVO = modelMapper.map(feed,FeedVO.class);
-
         return feedVO;
     }
 
-    /* 게시물 생성 */
+    /* 게시물 생성 -fin */
     @Transactional
-    public FeedDTO createFeed(FeedDTO feedDTO, long memberId) {
-//        MemberInfoDTO memberInfoDTO = memberInfoRepo.findById(memberId).orElseThrow();
-//        feedDTO.setMemberId(memberInfoDTO);
-//        return feedRepo.save(feedDTO);feedDTO
-        return null;
+    public FeedVO createFeed(FeedDTO feedDTO, long memberId) {
+        feedDTO.setMemberId(memberId);
+        feedRepo.save(feedDTO);
+        return modelMapper.map(feedDTO,FeedVO.class);
     }
 
     /* 게시물 수정 */
     @Transactional
-    public FeedDTO modifyFeed(FeedDTO feedDTO) {
+    public FeedVO modifyFeed(FeedDTO feedDTO) {
         FeedDTO feed = feedRepo.findById(feedDTO.getBoardId()).orElseThrow();
-        feed.setBoardTitile(feedDTO.getBoardTitile());
+        feed.setBoardTitle(feedDTO.getBoardTitle());
         feed.setBoardContent(feedDTO.getBoardContent());
 
-        return feed;
+        return modelMapper.map(feed,FeedVO.class);
     }
 
     /* 게시물 삭제 */
