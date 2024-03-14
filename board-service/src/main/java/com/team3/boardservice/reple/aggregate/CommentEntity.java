@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "boardId")
 @Entity(name = "comment_dto")
 @Table(name = "comment")
 public class CommentEntity {

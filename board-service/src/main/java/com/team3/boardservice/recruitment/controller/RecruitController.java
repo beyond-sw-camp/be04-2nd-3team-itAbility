@@ -73,4 +73,12 @@ public class RecruitController {
 
         return "redirect:/recruit/list";    // 리다이렉트 주소(모집글 목록?)
     }
+
+
+    @GetMapping("/member/{memberId}")
+    public String test(@PathVariable long memberId){
+        recruitService.test(memberId);
+        return null;
+    }
+
 }

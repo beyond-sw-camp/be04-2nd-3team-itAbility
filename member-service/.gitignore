@@ -1,6 +1,7 @@
 ### 직접설정 ###
 .idea/
 application.yml
+application-api.yml
 
 HELP.md
 .gradle

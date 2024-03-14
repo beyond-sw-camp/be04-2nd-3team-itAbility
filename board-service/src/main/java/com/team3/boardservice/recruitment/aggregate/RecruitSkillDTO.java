@@ -1,6 +1,8 @@
 package com.team3.boardservice.recruitment.aggregate;
 
+
 import com.team3.boardservice.mypage.entity.SkillEntity;
+
 import jakarta.persistence.*;
 import lombok.*;
 

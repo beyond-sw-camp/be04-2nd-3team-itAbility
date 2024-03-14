@@ -53,9 +53,6 @@ public class MemberInfoDTO {
     }
 
 
-    public void incrementBlacklistCount() {
-        this.blacklistCount += 1;
-    }
 
     public void update(String name, String phone, String birthdate) {
         this.name=name;
@@ -63,6 +60,9 @@ public class MemberInfoDTO {
         this.birthDate=birthdate;
     }
 
+    public void incrementBlacklistCount() {
+        this.blacklistCount += 1;
+    }
 
     public void decrementReportCount(int decrementValue) {
         this.mbReportCount -= decrementValue;

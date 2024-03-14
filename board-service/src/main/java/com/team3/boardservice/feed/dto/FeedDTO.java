@@ -12,19 +12,17 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "comments")
 @Entity(name = "feed_dto")
 @Table(name = "board")
 public class FeedDTO {
-
-
-
     @Id
     @Column(name = "board_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int boardId;
 
     @Column(name = "board_title")
-    private String boardTitile;
+    private String boardTitle;
 
     @Column(name = "board_content")
     private String boardContent;

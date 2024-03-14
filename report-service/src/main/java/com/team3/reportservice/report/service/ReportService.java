@@ -1,10 +1,12 @@
-package com.team3.itability.report.service;
+package com.team3.reportservice.report.service;
 
-import com.team3.itability.member.dto.MemberInfoDTO;
-import com.team3.itability.report.dto.ReportDTO;
-import com.team3.itability.report.aggregate.Report;
-import com.team3.itability.report.repository.ReportRepository;
-import com.team3.itability.member.dao.MemberInfoRepo;
+import com.team3.reportservice.client.MemberClient;
+import com.team3.reportservice.report.aggregate.Member;
+import com.team3.reportservice.report.aggregate.Report;
+import com.team3.reportservice.report.dto.ReportDTO;
+import com.team3.reportservice.report.repository.ReportRepository;
+import com.team3.reportservice.report.repository.ResponseMemberRepository;
+import com.team3.reportservice.vo.ResponseMember;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,39 +22,35 @@ public class ReportService {
 
     private final ReportRepository reportRepository;
     private final ModelMapper modelMapper;
-    private final MemberInfoRepo memberRepository;
+
+    private final MemberClient memberClient;
 
     @Autowired
-    public ReportService(ReportRepository reportRepository, ModelMapper modelMapper, MemberInfoRepo memberRepository) {
+    public ReportService(ReportRepository reportRepository, ModelMapper modelMapper, MemberClient memberClient) {
         this.reportRepository = reportRepository;
         this.modelMapper = modelMapper;
-        this.memberRepository = memberRepository;
+        this.memberClient = memberClient;
     }
 
     public Report createOrUpdateReport(ReportDTO reportDTO) {
         Report report = modelMapper.map(reportDTO, Report.class);
 
-        updateMemberReportCount(reportDTO.getReportTargetId());
+        memberClient.reportMember(reportDTO.getReportTargetId());
 
         return reportRepository.save(report);
-    }
-
-    private void updateMemberReportCount(Long memberId) {
-        MemberInfoDTO member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("멤버를 찾을 수 없습니다."));
-        member.setMbReportCount(member.getMbReportCount() + 1);
-        memberRepository.save(member);
     }
 
     public Optional<Report> findReportById(Integer reportId) {
         return reportRepository.findById(reportId);
     }
 
-    // ReportService.java 수정
+   
     public List<ReportDTO> findReportList() { // 메서드 이름 변경
         List<Report> reportList = reportRepository.findAll(Sort.by("reportId"));
+        List<ResponseMember> members= memberClient.getAllMember();
+        System.out.println("members = " + members);
         return reportList.stream()
-                .map(report -> modelMapper.map(report, ReportDTO.class))
+                .map(member -> modelMapper.map(member, ReportDTO.class))
                 .collect(Collectors.toList());
     }
 }

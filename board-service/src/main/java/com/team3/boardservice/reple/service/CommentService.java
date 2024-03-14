@@ -1,5 +1,6 @@
 package com.team3.boardservice.reple.service;
 
+import com.team3.boardservice.MemberClientTestVO.MemberInfoDTO;
 import com.team3.boardservice.feed.dto.FeedDTO;
 import com.team3.boardservice.feed.repository.FeedRepo;
 
@@ -25,7 +26,6 @@ public class CommentService {
     private CommentRepo commentRepo;
 
 
-    private MemberInfoRepo memberInfoRepo;
 
     private ModelMapper modelMapper;
 
@@ -33,11 +33,9 @@ public class CommentService {
     @Autowired
     public CommentService(FeedRepo feedRepo,
                           CommentRepo commentRepo,
-                          MemberInfoRepo memberInfoRepo,
                           ModelMapper modelMapper) {
         this.feedRepo = feedRepo;
         this.commentRepo = commentRepo;
-        this.memberInfoRepo = memberInfoRepo;
         this.modelMapper = modelMapper;
     }
 
@@ -59,10 +57,10 @@ public class CommentService {
         CommentEntity comment = commentRepo.findById(cmtId)
                                            .orElseThrow(() -> new ResponseStatusException(
                                                    HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다."));
-        MemberInfoDTO memberInfo = memberInfoRepo.findById( requestCommentVO.getMemberId())
-                                                 .orElseThrow(() -> new ResponseStatusException(
-                                                         HttpStatus.NOT_FOUND, "멤버 정보를 찾을 수 없습니다."));
-
+//        MemberInfoDTO memberInfo = memberInfoRepo.findById( requestCommentVO.getMemberId())
+//                                                 .orElseThrow(() -> new ResponseStatusException(
+//                                                         HttpStatus.NOT_FOUND, "멤버 정보를 찾을 수 없습니다."));
+//        MemberInfoDTO memberInfo =
 //        /* 추후 개발 예정. 자신이 작성한 댓글이 아닐 경우 수정 불가능 */
 //        if (!comment.getMemberId().equals(requestCommentVO.getMemberId())) {
 //            throw new RuntimeException("자신이 작성한 댓글만 수정 가능합니다.");

@@ -1,7 +1,6 @@
-package com.team3.itability.report.repository;
+package com.team3.reportservice.report.repository;
 
-import com.team3.itability.report.aggregate.Report;
-import com.team3.itability.report.dto.ReportDTO;
+import com.team3.reportservice.report.aggregate.Report;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

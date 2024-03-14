@@ -38,7 +38,6 @@ public class RecruitService {
         this.mapper = mapper;
         this.recruitMapper = recruitMapper;
         this.recruitRepo = recruitRepo;
-
         this.recruitCateRepo = recruitCateRepo;
         this.refRecruitRepo = refRecruitRepo;
         this.recruitSkillRepo = recruitSkillRepo;
@@ -79,11 +78,11 @@ public class RecruitService {
 //        SkillEntity skillEntity = skillRepo.findById(recruit.getSkillId()).orElseThrow();
         SkillEntity skillEntity = memberServerClient.getSkill(recruit.getSkillId());
         RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), recruit.getSkillId());
-        RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity);
+//        RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity);
 
         recruitRepo.save(recruitDTO);
         refRecruitRepo.save(refRecruitCategoryDTO);
-        recruitSkillRepo.save(recruitSkillDTO);
+//        recruitSkillRepo.save(recruitSkillDTO);
 
         return recruitDTO;
     }
@@ -130,4 +129,8 @@ public class RecruitService {
         return recruit;
     }
 
+    public void test(long memberId) {
+        MemberInfoDTO memberInfoDTO = memberServerClient.getMember(memberId);
+        System.out.println("memberInfoDTO = " + memberInfoDTO);
+    }
 }

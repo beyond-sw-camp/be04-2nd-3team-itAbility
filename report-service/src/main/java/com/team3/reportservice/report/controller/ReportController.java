@@ -1,8 +1,8 @@
-package com.team3.itability.report.controller;
+package com.team3.reportservice.report.controller;
 
-import com.team3.itability.report.aggregate.Report;
-import com.team3.itability.report.dto.ReportDTO;
-import com.team3.itability.report.service.ReportService;
+import com.team3.reportservice.report.aggregate.Report;
+import com.team3.reportservice.report.dto.ReportDTO;
+import com.team3.reportservice.report.service.ReportService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class ReportController {
     }
 
     @Transactional
-    @PostMapping("/add")
+    @GetMapping("/add")
     public ResponseEntity<String> addReport(@RequestBody ReportDTO reportDTO) {
         reportService.createOrUpdateReport(reportDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("신고가 성공적으로 추가되었습니다.");
