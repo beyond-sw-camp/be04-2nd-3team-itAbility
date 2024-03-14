@@ -22,6 +22,7 @@
             , b.recruit_type
             , c.recruit_name
             , b.recruit_title
+            , b.recruit_content
             , b.recruit_expdate
             , b.recruit_mb_cnt
             , b.member_id
