@@ -81,11 +81,9 @@ public class MemberRecruitsInfoService {
         memberRecruitsInfoRepo.deleteById(memberRecruitInfoId);
     }
 
-    public MemberRecruitsInfoDTO findMemberId(String recruitId) {
+    public MemberRecruitsInfoDTO findMemberId(int recruitId) {
 
-        int id = Integer.parseInt(recruitId);
-
-        MemberRecruitsInfoDTO memberRecruitsInfo = memberRecruitsInfoRepo.findById(id).orElseThrow();
+        MemberRecruitsInfoDTO memberRecruitsInfo = memberRecruitsInfoRepo.findById(recruitId).orElseThrow();
 
         return memberRecruitsInfo;
     }

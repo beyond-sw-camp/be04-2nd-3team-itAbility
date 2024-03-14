@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString(exclude = "recruit")
-@Entity(name = "ref_recruit_category")
+@Entity
 @Table(name = "ref_recruit_category")
 public class RefRecruitCategoryDTO {
     @EmbeddedId

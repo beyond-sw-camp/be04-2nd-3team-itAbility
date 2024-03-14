@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@Entity(name = "member_recruit_info")
+@Entity
 @Table(name = "member_recruit_info")
 public class MemberRecruitsInfoDTO {
 

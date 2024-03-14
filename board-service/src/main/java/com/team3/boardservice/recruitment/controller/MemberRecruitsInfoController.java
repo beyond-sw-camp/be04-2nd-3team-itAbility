@@ -6,6 +6,7 @@ import com.team3.boardservice.recruitment.vo.MemberRecruitsInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class MemberRecruitsInfoController {
     }
 
     @GetMapping("/{recruitId}")
-    public ResponseEntity<MemberRecruitsInfoDTO> findRecruitById(@PathVariable("recruitId") String recruitId) {
+    public ResponseEntity<MemberRecruitsInfoDTO> findRecruitById(@PathVariable("recruitId") int recruitId) {
 
         MemberRecruitsInfoDTO memberRecruitInfo = memberRecruitsInfoService.findMemberId(recruitId);
 
@@ -39,6 +40,7 @@ public class MemberRecruitsInfoController {
         return ResponseEntity.ok().body(memberList);
     }
 
+    @Transactional
     @PostMapping("/regist")
     public ResponseEntity<MemberRecruitsInfoDTO> registMemberRecruit(@RequestBody MemberRecruitsInfoVO memberRecruitsInfo) {
 

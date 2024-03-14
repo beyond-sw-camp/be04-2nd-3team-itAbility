@@ -35,7 +35,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
     implementation 'org.modelmapper:modelmapper:3.2.0'
 
-
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl
@@ -48,6 +47,12 @@ dependencies {
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     //swagger
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
+
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.13.0'
+
+    implementation 'javax.persistence:javax.persistence-api:2.2'
+
+
 }
 
 dependencyManagement {
