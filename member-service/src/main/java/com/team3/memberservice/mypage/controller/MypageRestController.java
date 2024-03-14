@@ -2,6 +2,7 @@ package com.team3.memberservice.mypage.controller;
 
 import com.team3.memberservice.mypage.dto.*;
 import com.team3.memberservice.mypage.service.MypageService;
+import com.team3.memberservice.mypage.service.SkillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,9 +18,11 @@ import java.util.List;
 @Tag(name = "마이페이지", description = "입니다.")
 public class MypageRestController {
     private final MypageService mypageService;
+    private final SkillService skillService;
     @Autowired
-    public MypageRestController(MypageService mypageService) {
+    public MypageRestController(MypageService mypageService, SkillService skillService) {
         this.mypageService = mypageService;
+        this.skillService = skillService;
     }
 
     /**
@@ -29,13 +32,12 @@ public class MypageRestController {
     // 1. 마이페이지 조회  - fin
     @GetMapping("/{memberId}")
     public ResponseEntity<MypageDTO> getMypage(@PathVariable long memberId){
-        MemberProfileDTO profile = mypageService.printMypage(memberId);
-        List<CareerDTO> careerDTOList = mypageService.printCareerList(memberId);
-        MemberAndRemainSkillDTO skillDTOS = mypageService.printMemberSkillList(memberId);
+        MemberProfileDTO profile = mypageService.getMypage(memberId);
+        List<CareerDTO> careerDTOList = mypageService.getCareerList(memberId);
+        List<ResponseSkill> skillDTOS = mypageService.getMemberSkill(memberId);
 //        MemberAndRemainRecruitCategoryDTO recruitCategoryDTOS = mypageService.printMemberRecruitList(memberId);
 //        MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS,recruitCategoryDTOS);
         MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(mypageDTO);
     }
     // 2. 회원 정보 수정(profile, info) - fin
@@ -51,21 +53,18 @@ public class MypageRestController {
         ResponseDegree returnValue = mypageService.postDegree(memberId, degreeDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
-
     // 경력 조회
     @GetMapping("/{memberId}/careers")
     public ResponseEntity<List<CareerDTO>> getCareerList(@PathVariable long memberId){
         List<CareerDTO> returnValue = mypageService.getCareerList(memberId);
         return ResponseEntity.status(HttpStatus.OK).body(returnValue);
     }
-
     //4. 경력 수정-fin
     @PostMapping("/{memberId}/career")
     public ResponseEntity<CareerDTO> postCareer(@PathVariable long memberId,@RequestBody CareerDTO careerDTO){
         CareerDTO returnValue =  mypageService.postCareer(careerDTO, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
-
     //5. 경력 추가 - fin
     @PutMapping("/{memberId}/career")
     public ResponseEntity<CareerDTO> putCareer(@PathVariable long memberId, @RequestBody CareerDTO careerDTO){
@@ -81,10 +80,18 @@ public class MypageRestController {
 
     //6. 이미지 수정 - html로 소개
 
-    //7. 맴버 스킬 추가
+
+    // 맴버 스킬 조회
+    @GetMapping("/{memberId}/skill")
+    public ResponseEntity<List<ResponseSkill>> getMemberSkill(@PathVariable long memberId){
+        List<ResponseSkill> returnValue = mypageService.getMemberSkill(memberId);
+        return ResponseEntity.status(HttpStatus.OK).body(returnValue);
+    }
+
+    // 맴버 스킬 추가
     @PutMapping("/{memberId}/skill")
-    public ResponseEntity<ResponseSkillList> putMemberSkill(@PathVariable long memberId, @RequestBody RequestSkillId skillId){
-        ResponseSkillList returnValue = mypageService.putMemberSkill(memberId, skillId);
+    public ResponseEntity<List<ResponseSkill>> putMemberSkill(@PathVariable long memberId, @RequestBody RequestSkillId skillId){
+        List<ResponseSkill> returnValue = mypageService.putMemberSkill(memberId, skillId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
     //8. 맴버 스킬 삭제
@@ -105,6 +112,8 @@ public class MypageRestController {
         List<MemberRecruitCategoryDTO> returnValue = mypageService.deleteMemberRecruitCategory(memberId, recruitCategory);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
+
+
 
 
 
