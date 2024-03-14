@@ -20,9 +20,9 @@ public interface MemberServerClient {
     @GetMapping("member-service/info/members")
     public List<MemberInfoDTO> getAllMember();
 
-    @GetMapping("/skill/{skillId}")
+    @GetMapping("member-service/rest/mypage/skill/{skillId}")
     public SkillEntity getSkill(@PathVariable int skillId);
 
-    @GetMapping("/skill/list")
+    @GetMapping("member-service/rest/mypage/skill/list")
     public List<SkillEntity> getAllSkill();
 }

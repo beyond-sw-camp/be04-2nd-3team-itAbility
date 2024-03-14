@@ -15,9 +15,6 @@ public class CommentDTO {
     private int cmtId;
     private String writeDate;
     private int reportCount;
-    private FeedDTO boardId;
     private long memberId;
     private String cmtContent;
-
-
 }

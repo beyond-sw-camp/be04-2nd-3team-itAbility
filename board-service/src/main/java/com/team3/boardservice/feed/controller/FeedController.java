@@ -2,6 +2,7 @@ package com.team3.boardservice.feed.controller;
 
 import com.team3.boardservice.feed.dto.FeedDTO;
 import com.team3.boardservice.feed.service.FeedService;
+import com.team3.boardservice.feed.vo.FeedVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +20,17 @@ public class FeedController {
 
     /* 게시물 전체 조회 */
     @GetMapping("/listFeed")
-    public ResponseEntity<List<FeedDTO>> getAllFeeds() {
+    public ResponseEntity<String> getAllFeeds() {
         List<FeedDTO> feeds = feedService.findByFeeds();
-        return ResponseEntity.ok().body(feeds);
+        return ResponseEntity.ok().body("OK");
     }
 
     /* 게시물 상세 조회시 댓글 출력 */
     @GetMapping("/{id}")
-    public ResponseEntity<FeedDTO> getFeedById(@PathVariable int id) {
-        FeedDTO feed = feedService.findFeedById(id);
-
-        return new ResponseEntity<>(feed, HttpStatus.OK);
+    public ResponseEntity<FeedVO> getFeedById(@PathVariable int id) {
+        FeedVO feed = feedService.findFeedById(id);
+        System.out.println("feed = " + feed);
+        return ResponseEntity.status(HttpStatus.OK).body(feed);
     }
 
     /* 게시물 생성 */

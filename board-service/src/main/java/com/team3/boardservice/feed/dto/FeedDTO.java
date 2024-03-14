@@ -12,13 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "comments")
 @Entity(name = "feed_dto")
 @Table(name = "board")
 public class FeedDTO {
-
-
-
     @Id
     @Column(name = "board_id")
     private int boardId;
