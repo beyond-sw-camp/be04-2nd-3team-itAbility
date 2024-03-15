@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team3.boardservice.recruitment.repository.MemberRecruitsMapper">
+
+    <resultMap id="memberRecruitMap" type="com.team3.boardservice.recruitment.vo.MemberRecruitsInfoVO">
+        <id property="recruitId" column="recruit_id"/>
+        <id property="memberRecruitInfoId" column="member_recruit_info_id"/>
+        <id property="memberId" column="member_id"/>
+        <id property="recruitStatus" column="recruit_status"/>
+    </resultMap>
+
+    <select id="selectMembersByRecruitId" resultMap="memberRecruitMap" parameterType="string">
+        SELECT
+               recruit_id
+             , member_recruit_info_id
+             , member_id
+             , recruit_status
+          FROM member_recruit_info
+         WHERE recruit_id = #{recruitId}
+    </select>
+</mapper>

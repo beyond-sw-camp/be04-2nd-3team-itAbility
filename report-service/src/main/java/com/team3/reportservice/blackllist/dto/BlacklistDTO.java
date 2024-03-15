@@ -1,7 +1,5 @@
-package com.team3.itability.blackllist.dto;
+package com.team3.reportservice.blackllist.dto;
 
-
-import com.team3.itability.member.dto.MemberInfoDTO;
 import jakarta.persistence.*;
 import lombok.*;
 

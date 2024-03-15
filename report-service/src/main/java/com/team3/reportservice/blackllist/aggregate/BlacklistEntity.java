@@ -1,4 +1,4 @@
-package com.team3.itability.blackllist.aggregate;
+package com.team3.reportservice.blackllist.aggregate;
 
 import jakarta.persistence.*;
 import lombok.*;
