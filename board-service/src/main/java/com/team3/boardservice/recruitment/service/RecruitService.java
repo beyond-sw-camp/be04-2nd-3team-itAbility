@@ -3,15 +3,15 @@ package com.team3.boardservice.recruitment.service;
 import com.team3.boardservice.client.MemberServerClient;
 import com.team3.boardservice.member.dto.ResponseMember;
 
-import com.team3.boardservice.mypage.entity.SkillEntity;
 import com.team3.boardservice.recruitment.aggregate.*;
 import com.team3.boardservice.recruitment.repository.*;
-import com.team3.boardservice.recruitment.vo.RecruitVO;
+import com.team3.boardservice.recruitment.vo.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,13 +45,13 @@ public class RecruitService {
     }
 
     // 모집군 카테고리 조회
-//    @Transactional(readOnly = true)
-//    public List<RecruitCategoryDTO> findAllRecruitCategory() {
-//
-//        List<RecruitCategoryDTO> recruitCategoryList = recruitCateRepo.findAll();
-//
-//        return recruitCategoryList;
-//    }
+    @Transactional(readOnly = true)
+    public List<RecruitCategoryDTO> findAllRecruitCategory() {
+
+        List<RecruitCategoryDTO> recruitCategoryList = recruitCateRepo.findAll();
+
+        return recruitCategoryList;
+    }
 
     // 기술 카테고리 조회
     // mypage SkillDAO 사용
@@ -76,7 +76,7 @@ public class RecruitService {
         RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruitDTO, recruitCategoryDTO);
 
 //        SkillEntity skillEntity = skillRepo.findById(recruit.getSkillId()).orElseThrow();
-        SkillEntity skillEntity = memberServerClient.getSkill(recruit.getSkillId());
+        ResponseSkill skillEntity = memberServerClient.getSkill(recruit.getSkillId());
         RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), recruit.getSkillId());
 //        RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity);
 
@@ -133,4 +133,11 @@ public class RecruitService {
         ResponseMember memberInfoDTO = memberServerClient.getMember(memberId);
         System.out.println("memberInfoDTO = " + memberInfoDTO);
     }
+
+//    public List<ResponseRecruitCategory> getRecruitCategory(List<ReqeuestRecruitCategory> request) {
+//        List<ResponseRecruitCategory> responseRecruitCategoryList = new ArrayList<>();
+//        for (ReqeuestRecruitCategory reqeuestRecruitCategory : request) {
+//            responseRecruitCategoryList.add(recruitCateRepo.findById(reqeuestRecruitCategory.getRecruitCategoryId()));
+//        }
+//    }
 }
