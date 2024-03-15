@@ -25,6 +25,7 @@ public class SkillController {
         System.out.println("responseSkill = " + responseSkill);
         return responseSkill;
     }
+
     @GetMapping("/skills")
     public List<ResponseSkill> getAllSkill(){
         List<ResponseSkill> responseSkills = skillService.getAllSkill();

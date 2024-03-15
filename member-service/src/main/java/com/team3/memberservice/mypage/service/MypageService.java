@@ -113,11 +113,7 @@ public class MypageService {
     public List<ResponseSkill> getMemberSkill(Long memberId) {
 
         List<MemberSkillEntity> memberSkills = memberSkillDAO.findByIdMemberId(memberId);
-        List<ResponseSkill> responseSkills = new ArrayList<>();
-
-        memberSkills.forEach(memberSkill -> {
-                responseSkills.add(modelMapper.map(memberSkill,ResponseSkill.class));
-        });
+        List<ResponseSkill> responseSkills = skillService.findSkillList(memberSkills);
         return responseSkills;
     }
     /**<h1>REST-API</h1>*/

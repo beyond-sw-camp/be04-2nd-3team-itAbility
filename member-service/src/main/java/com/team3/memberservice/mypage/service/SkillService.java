@@ -2,6 +2,7 @@ package com.team3.memberservice.mypage.service;
 
 import com.team3.memberservice.mypage.dao.SkillDAO;
 import com.team3.memberservice.mypage.dto.ResponseSkill;
+import com.team3.memberservice.mypage.entity.MemberSkillEntity;
 import com.team3.memberservice.mypage.entity.SkillEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,15 @@ public class SkillService {
         List<ResponseSkill> responseSkills=new ArrayList<>();
         skills.forEach(skill -> responseSkills.add(modelMapper.map(skill, ResponseSkill.class)));
         return responseSkills;
+    }
+
+
+    public List<ResponseSkill> findSkillList(List<MemberSkillEntity> skills){
+        List<ResponseSkill> returnValue = new ArrayList<>();
+        skills.forEach(skill->{
+            SkillEntity skillEntity = skillDAO.findById(skill.getId().getSkillId()).orElseThrow();
+            returnValue.add(modelMapper.map(skillEntity,ResponseSkill.class));
+        });
+        return  returnValue;
     }
 }
