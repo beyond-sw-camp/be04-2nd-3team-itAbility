@@ -5,6 +5,8 @@ import com.team3.boardservice.feed.dto.ImgDTO;
 import com.team3.boardservice.feed.service.FeedService;
 import com.team3.boardservice.feed.service.ImgService;
 import com.team3.boardservice.feed.vo.FeedVO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/feeds")
+@Tag(name = "게시글", description = "전체조회, 상세조회, 생성, 수정, 삭제")
 public class FeedController {
 
 
@@ -30,6 +33,7 @@ public class FeedController {
     }
 
     /* 게시물 전체 조회 -fin*/
+    @Operation(summary = "게시글 전체 조회", description = "모든 사용자들이 작성했던 게시글이 모두 조회됩니다.")
     @GetMapping("/listFeed")
     public ResponseEntity<String> getAllFeeds() {
         List<FeedDTO> feeds = feedService.findByFeeds();
@@ -37,6 +41,7 @@ public class FeedController {
     }
 
     /* 게시물 상세 조회시 댓글 출력 -fin*/
+    @Operation(summary = "게시물 상세조회", description = "게시물 상세 조회시 게시물 작성자가 등록한 이미지 및 글, 댓글이 상세하게 조회됩니다.")
     @GetMapping("/{id}")
     public ResponseEntity<FeedVO> getFeedById(@PathVariable int id) {
         FeedVO feed = feedService.findFeedById(id);
@@ -45,6 +50,7 @@ public class FeedController {
     }
 
     /* 게시물 생성 -fin */
+    @Operation(summary = "게시물 생성", description = "게시글을 작성 및 여러 개의 이미지를 등록할 수 있습니다.")
     @PostMapping("/{memberId}")
     public ResponseEntity<FeedVO> createdFeed(@RequestBody FeedDTO feedDTO,
                                               @RequestParam(name="file") List<MultipartFile> requestImgs,
@@ -58,6 +64,7 @@ public class FeedController {
     }
 
     /* 게시물 수정 -fin*/
+    @Operation(summary = "게시물 수정", description = "작성자가 등록했던 게시글을 수정 및 등록했던 이미지 삭제와 새 이미지 등록할 수 있습니다.")
 //    @PutMapping("/{boardId}")
     @PostMapping("/{boardId}/updateFeed")
     public ResponseEntity<FeedVO> updateFeed(@ModelAttribute int boardId,
@@ -84,6 +91,7 @@ public class FeedController {
     }
 
     /* 게시물 삭제 -fin*/
+    @Operation(summary = "게시물 삭제", description = "작성자가 등록했던 게시글을 삭제할 수 있으며, 이 때 등록했던 이미지 및 댓글이 모두 삭제됩니다.")
     @DeleteMapping("/{boardId}")
     public ResponseEntity<String> removeFeed(@PathVariable int boardId) {
         feedService.removeFeed(boardId);
