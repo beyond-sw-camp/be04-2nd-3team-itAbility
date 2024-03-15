@@ -3,7 +3,9 @@ package com.team3.boardservice.feed.service;
 import com.team3.boardservice.client.MemberServerClient;
 import com.team3.boardservice.feed.dto.FeedDTO;
 
+import com.team3.boardservice.feed.dto.ImgDTO;
 import com.team3.boardservice.feed.repository.FeedRepo;
+import com.team3.boardservice.feed.repository.ImgRepo;
 import com.team3.boardservice.feed.vo.FeedVO;
 import com.team3.boardservice.reple.aggregate.CommentEntity;
 import com.team3.boardservice.reple.dto.CommentDTO;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -24,12 +27,16 @@ public class FeedService {
     private final FeedRepo feedRepo;
     private final CommentRepo commentRepo;
     private final ModelMapper modelMapper;
+    private final ImgService imgService;
+    private final ImgRepo imgRepo;
 
     @Autowired
-    public FeedService(FeedRepo feedRepo, CommentRepo commentRepo, ModelMapper modelMapper) {
+    public FeedService(FeedRepo feedRepo, CommentRepo commentRepo, ModelMapper modelMapper, ImgService imgService, ImgRepo imgRepo) {
         this.feedRepo = feedRepo;
         this.commentRepo = commentRepo;
         this.modelMapper = modelMapper;
+        this.imgService = imgService;
+        this.imgRepo = imgRepo;
     }
 
     /* 게시물 전체 목록 조회 */
@@ -53,18 +60,42 @@ public class FeedService {
 
     /* 게시물 생성 -fin */
     @Transactional
-    public FeedVO createFeed(FeedDTO feedDTO, long memberId) {
+    public FeedVO createFeed(FeedDTO feedDTO,
+                             long memberId,
+                             List<ImgDTO> imgDTOS) {
         feedDTO.setMemberId(memberId);
-        feedRepo.save(feedDTO);
-        return modelMapper.map(feedDTO,FeedVO.class);
+        feedDTO.setImgId(imgDTOS);
+        FeedDTO saveFeed = feedRepo.save(feedDTO);
+        return modelMapper.map(saveFeed,FeedVO.class);
     }
 
     /* 게시물 수정 */
     @Transactional
-    public FeedVO modifyFeed(FeedDTO feedDTO) {
+    public FeedVO modifyFeed(int boardId,
+                             FeedDTO feedDTO,
+                             List<ImgDTO> addedImgs,
+                             List<String> removeImgIds) {
         FeedDTO feed = feedRepo.findById(feedDTO.getBoardId()).orElseThrow();
         feed.setBoardTitle(feedDTO.getBoardTitle());
         feed.setBoardContent(feedDTO.getBoardContent());
+
+        // 게시물 수정시 새로운 이미지 추가
+        if (addedImgs != null && !addedImgs.isEmpty()) {
+            for (ImgDTO imgDTO : addedImgs) {
+                feed.getImgId().add(imgDTO);
+                imgRepo.save(imgDTO);
+            }
+        }
+
+        // 게시물 수정시 삭제할 이미지 처리
+        if (removeImgIds != null && !removeImgIds.isEmpty()) {
+            for (String imgId : removeImgIds) {
+                feed.getImgId().removeIf(img -> img.getImgId().equals(imgId));
+                imgRepo.deleteById(imgId);
+            }
+        }
+
+        feedRepo.save(feed);
 
         return modelMapper.map(feed,FeedVO.class);
     }
@@ -72,6 +103,18 @@ public class FeedService {
     /* 게시물 삭제 */
     @Transactional
     public void removeFeed(int boardId) {
+        FeedDTO deleteFeed = feedRepo.findById(boardId).orElseThrow();
+        List<ImgDTO> imgDTOList = deleteFeed.getImgId();
+
+        // 생성 되었던 이미지 DB에서 삭제
+        if (imgDTOList != null && !imgDTOList.isEmpty()) {
+            for (ImgDTO img : imgDTOList) {
+                imgRepo.deleteById(img.getImgId());
+            }
+        }
         feedRepo.deleteById(boardId);
     }
+
+
+
 }
