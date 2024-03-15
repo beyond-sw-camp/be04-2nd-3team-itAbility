@@ -3,6 +3,9 @@ package com.team3.boardservice.recruitment.service;
 import com.team3.boardservice.client.MemberServerClient;
 import com.team3.boardservice.member.dto.ResponseMember;
 
+import com.team3.boardservice.mypage.dao.MemberRecruitCategoryDAO;
+import com.team3.boardservice.mypage.entity.MemberRecruitCategoryEntity;
+import com.team3.boardservice.mypage.entity.MemberRecruitCategoryId;
 import com.team3.boardservice.recruitment.aggregate.*;
 import com.team3.boardservice.recruitment.repository.*;
 import com.team3.boardservice.recruitment.vo.*;
