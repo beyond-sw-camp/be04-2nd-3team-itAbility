@@ -3,15 +3,18 @@ package com.team3.boardservice.recruitment.service;
 import com.team3.boardservice.client.MemberServerClient;
 import com.team3.boardservice.member.dto.ResponseMember;
 
-import com.team3.boardservice.mypage.entity.SkillEntity;
+import com.team3.boardservice.mypage.dao.MemberRecruitCategoryDAO;
+import com.team3.boardservice.mypage.entity.MemberRecruitCategoryEntity;
+import com.team3.boardservice.mypage.entity.MemberRecruitCategoryId;
 import com.team3.boardservice.recruitment.aggregate.*;
 import com.team3.boardservice.recruitment.repository.*;
-import com.team3.boardservice.recruitment.vo.RecruitVO;
+import com.team3.boardservice.recruitment.vo.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +27,8 @@ public class RecruitService {
     private final RefRecruitRepo refRecruitRepo;
     private final RecruitSkillRepo recruitSkillRepo;
     private final MemberServerClient memberServerClient;
+    private final MemberRecruitCategoryDAO memberRecruitCategoryDAO;
+
 
     @Autowired
     public RecruitService(
@@ -33,7 +38,8 @@ public class RecruitService {
                             RecruitCateRepo recruitCateRepo,
                             RefRecruitRepo refRecruitRepo,
                             RecruitSkillRepo recruitSkillRepo,
-                            MemberServerClient memberServerClient)
+                            MemberServerClient memberServerClient,
+                            MemberRecruitCategoryDAO memberRecruitCategoryDAO)
     {
         this.mapper = mapper;
         this.recruitMapper = recruitMapper;
@@ -42,16 +48,17 @@ public class RecruitService {
         this.refRecruitRepo = refRecruitRepo;
         this.recruitSkillRepo = recruitSkillRepo;
         this.memberServerClient = memberServerClient;
+        this.memberRecruitCategoryDAO = memberRecruitCategoryDAO;
     }
 
     // 모집군 카테고리 조회
-//    @Transactional(readOnly = true)
-//    public List<RecruitCategoryDTO> findAllRecruitCategory() {
-//
-//        List<RecruitCategoryDTO> recruitCategoryList = recruitCateRepo.findAll();
-//
-//        return recruitCategoryList;
-//    }
+    @Transactional(readOnly = true)
+    public List<RecruitCategoryDTO> findAllRecruitCategory() {
+
+        List<RecruitCategoryDTO> recruitCategoryList = recruitCateRepo.findAll();
+
+        return recruitCategoryList;
+    }
 
     // 기술 카테고리 조회
     // mypage SkillDAO 사용
@@ -76,7 +83,7 @@ public class RecruitService {
         RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruitDTO, recruitCategoryDTO);
 
 //        SkillEntity skillEntity = skillRepo.findById(recruit.getSkillId()).orElseThrow();
-        SkillEntity skillEntity = memberServerClient.getSkill(recruit.getSkillId());
+        ResponseSkill skillEntity = memberServerClient.getSkill(recruit.getSkillId());
         RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), recruit.getSkillId());
 //        RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity);
 
@@ -132,5 +139,32 @@ public class RecruitService {
     public void test(long memberId) {
         ResponseMember memberInfoDTO = memberServerClient.getMember(memberId);
         System.out.println("memberInfoDTO = " + memberInfoDTO);
+    }
+
+
+    public List<ResponseRecruitCategory> getMemberRecruitCategory(long memberId) {
+        List<MemberRecruitCategoryEntity> memberRecruitCategory = memberRecruitCategoryDAO.findByIdMemberId(memberId);
+        List<ResponseRecruitCategory> responseList = new ArrayList<>();
+        System.out.println("memberRecruitCategory = " + memberRecruitCategory);
+        memberRecruitCategory.forEach( category->{
+            int categoryId = category.getId().getRecruitCategoryId();
+            System.out.println("categoryId = " + categoryId);
+            RecruitCategoryDTO recruitCategoryDTO = recruitCateRepo.findById(categoryId).orElseThrow();
+            responseList.add(mapper.map(recruitCategoryDTO,ResponseRecruitCategory.class));
+        });
+        return responseList;
+    }
+
+    public List<ResponseRecruitCategory> postMemberRecruitCategery(long memberId, int recruitId) {
+        MemberRecruitCategoryEntity entity = new MemberRecruitCategoryEntity(new MemberRecruitCategoryId(memberId,recruitId));
+        memberRecruitCategoryDAO.save(entity);
+
+        return getMemberRecruitCategory(memberId);
+    }
+
+    public List<ResponseRecruitCategory> deleteMemberRecruitCategery(long memberId, int recruitId) {
+        MemberRecruitCategoryEntity entity = memberRecruitCategoryDAO.findById(new MemberRecruitCategoryId(memberId,recruitId)).orElseThrow();
+        memberRecruitCategoryDAO.delete(entity);
+        return getMemberRecruitCategory(memberId);
     }
 }

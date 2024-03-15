@@ -101,16 +101,23 @@ public class MypageRestController {
         ResponseSkillList returnValue = mypageService.deleteMemberSkill(memberId, skillId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
+
+    @GetMapping("/{memberId}/recruits")
+    public ResponseEntity<List<ResponseRecruitCategory>> getMemberRecruitCategoryList(@PathVariable long memberId){
+        List<ResponseRecruitCategory> respones = mypageService.getMemberRecruitCategoryList(memberId);
+        return ResponseEntity.status(HttpStatus.OK).body(respones);
+    }
     //9. 맴버 분야 추가
-    @PutMapping("/{memberId}/recruit")
-    public ResponseEntity<List<MemberRecruitCategoryDTO>> putMemberRecruit(@PathVariable long memberId, @RequestBody RequestRecruitId recruitId ){
-        List<MemberRecruitCategoryDTO> returnValue = mypageService.putMemberRecruitCategory(memberId, recruitId);
+    @PostMapping("/{memberId}/recruits")
+    public ResponseEntity<List<ResponseRecruitCategory>> putMemberRecruit(@PathVariable long memberId, @RequestBody RequestRecruitCategory recruitId ){
+        System.out.println("맴버 추가");
+        List<ResponseRecruitCategory> returnValue = mypageService.putMemberRecruitCategory(memberId, recruitId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
     //10. 맴버 분야 삭제
-    @DeleteMapping("/{memberId}/recruit")
-    public ResponseEntity<List<MemberRecruitCategoryDTO>> deleteMemberRecruit(@PathVariable long memberId, @RequestBody RequestRecruitId recruitCategory){
-        List<MemberRecruitCategoryDTO> returnValue = mypageService.deleteMemberRecruitCategory(memberId, recruitCategory);
+    @DeleteMapping("/{memberId}/recruits")
+    public ResponseEntity<List<ResponseRecruitCategory>> deleteMemberRecruit(@PathVariable long memberId, @RequestBody RequestRecruitCategory recruitId){
+        List<ResponseRecruitCategory> returnValue = mypageService.deleteMemberRecruitCategory(memberId, recruitId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
 

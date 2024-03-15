@@ -1,8 +1,8 @@
-package com.team3.memberservice.mypage.dao;
+package com.team3.boardservice.mypage.dao;
 
 
-import com.team3.memberservice.mypage.entity.MemberRecruitCategoryEntity;
-import com.team3.memberservice.mypage.entity.MemberRecruitCategoryId;
+import com.team3.boardservice.mypage.entity.MemberRecruitCategoryEntity;
+import com.team3.boardservice.mypage.entity.MemberRecruitCategoryId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

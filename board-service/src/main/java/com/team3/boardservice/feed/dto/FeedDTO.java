@@ -42,9 +42,9 @@ public class FeedDTO {
     @Column(name = "member_id")
     private long memberId;
 
-    @JoinColumn(name = "img_id")
-    @ManyToOne
-    private ImgDTO imgId;
+//    @JoinColumn(name = "img_id")
+    @OneToMany(mappedBy = "imgId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ImgDTO> imgId;
 
     @OneToMany(mappedBy = "cmtId", fetch = FetchType.LAZY)
     private List<CommentEntity> comments;
