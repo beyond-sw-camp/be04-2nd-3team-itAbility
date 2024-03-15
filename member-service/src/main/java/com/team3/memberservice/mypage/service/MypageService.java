@@ -35,7 +35,6 @@ public class MypageService {
     @Autowired
     private ResourceLoader resourceLoader;      //이미지용도
     private final SkillDAO skillDAO;
-    private final MemberRecruitCategoryDAO memberRecruitCategoryDAO;
 
     private ModelMapper modelMapper;
     @Autowired
@@ -46,7 +45,6 @@ public class MypageService {
 
     @Autowired
     public MypageService(MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO, CareerDAO careerDAO, MemberSkillDAO memberSkillDAO, SkillDAO skillDAO,
-                         MemberRecruitCategoryDAO memberRecruitCategoryDAO,
                          ModelMapper modelMapper,
                          MemberServiceClient client, SkillService skillService
                     ) {
@@ -56,7 +54,6 @@ public class MypageService {
         this.careerDAO = careerDAO;
         this.memberSkillDAO = memberSkillDAO;
         this.skillDAO = skillDAO;
-        this.memberRecruitCategoryDAO = memberRecruitCategoryDAO;
         this.modelMapper = modelMapper;
         this.client= client;
         this.skillService= skillService;
@@ -190,28 +187,6 @@ public class MypageService {
         return returnValue;
     }
 
-    @Transactional
-    public List<MemberRecruitCategoryDTO> putMemberRecruitCategory(long memberId, RequestRecruitId recruitCategory) {
-        MemberRecruitCategoryId memberRecruitCategoryId = new MemberRecruitCategoryId(memberId,recruitCategory.getRecruitId());
-        MemberRecruitCategoryEntity memberRecruitCategoryEntity = new MemberRecruitCategoryEntity(memberRecruitCategoryId);
-        memberRecruitCategoryDAO.save(memberRecruitCategoryEntity);
-        List<MemberRecruitCategoryEntity> recruitList = memberRecruitCategoryDAO.findByIdMemberId(memberId);
-        List<MemberRecruitCategoryDTO> returnValue = new ArrayList<>();
-        recruitList.forEach(recruit-> returnValue.add(modelMapper.map(recruit,MemberRecruitCategoryDTO.class)));
-        return returnValue;
-    }
-
-    @Transactional
-    public List<MemberRecruitCategoryDTO> deleteMemberRecruitCategory(long memberId, RequestRecruitId recruitCategory) {
-        MemberRecruitCategoryId memberRecruitCategoryId = new MemberRecruitCategoryId(memberId,recruitCategory.getRecruitId());
-        memberRecruitCategoryDAO.deleteById(memberRecruitCategoryId);
-        List<MemberRecruitCategoryEntity> recruitList = memberRecruitCategoryDAO.findByIdMemberId(memberId);
-        List<MemberRecruitCategoryDTO> returnValue = new ArrayList<>();
-        recruitList.forEach(recruit-> returnValue.add(modelMapper.map(recruit,MemberRecruitCategoryDTO.class)));
-        return returnValue;
-    }
-
-
     public CareerDTO deleteCareer(CareerDTO careerDTO, long memberId) {
 
         CareerEntity careerEntity = careerDAO.findById(careerDTO.getCareerId()).orElseThrow();
@@ -227,4 +202,20 @@ public class MypageService {
         careerEntities.forEach(careerEntity -> returnList.add(modelMapper.map(careerEntity,CareerDTO.class)));
         return returnList;
     }
+
+
+    public List<ResponseRecruitCategory> getMemberRecruitCategoryList(long memberId){
+        return client.getRecruitCategory(memberId);
+    }
+
+    @Transactional
+    public List<ResponseRecruitCategory> putMemberRecruitCategory(long memberId, RequestRecruitCategory recruitId) {
+        return client.postRecruitCategory(memberId,recruitId.getRecruitId());
+    }
+
+    @Transactional
+    public List<ResponseRecruitCategory> deleteMemberRecruitCategory(long memberId, RequestRecruitCategory recruitId) {
+        return client.deleteRecruitCategory(memberId,recruitId.getRecruitId());
+    }
 }
+

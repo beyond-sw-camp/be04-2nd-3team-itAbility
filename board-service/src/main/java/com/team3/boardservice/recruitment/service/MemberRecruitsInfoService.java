@@ -89,4 +89,7 @@ public class MemberRecruitsInfoService {
 
         return memberRecruitsInfo;
     }
+
+
+
 }

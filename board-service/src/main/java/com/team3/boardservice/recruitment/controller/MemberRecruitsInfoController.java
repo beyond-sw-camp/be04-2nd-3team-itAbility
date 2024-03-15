@@ -5,6 +5,8 @@ import com.team3.boardservice.recruitment.service.MemberRecruitsInfoService;
 import com.team3.boardservice.recruitment.vo.MemberRecruitsInfoVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import com.team3.boardservice.recruitment.vo.ReqeuestRecruitCategory;
+import com.team3.boardservice.recruitment.vo.ResponseRecruitCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,5 +74,7 @@ public class MemberRecruitsInfoController {
                 .noContent()
                 .build();
     }
+
+
 
 }

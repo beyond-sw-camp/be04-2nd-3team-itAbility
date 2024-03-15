@@ -1,5 +1,6 @@
 package com.team3.boardservice.recruitment.controller;
 
+import com.team3.boardservice.mypage.entity.RequestRecruitCategory;
 import com.team3.boardservice.recruitment.aggregate.RecruitDTO;
 import com.team3.boardservice.recruitment.service.RecruitService;
 import com.team3.boardservice.recruitment.vo.RecruitVO;
@@ -97,4 +98,21 @@ public class RecruitController {
         return null;
     }
 
+    @GetMapping("/recruit-categories/{memberId}")
+    List<ResponseRecruitCategory> getRecruitCategory(@PathVariable long memberId){
+        List<ResponseRecruitCategory> response = recruitService.getMemberRecruitCategory(memberId);
+        return response;
+    }
+
+    @PostMapping("/recruit-categories/{memberId}/{recruitId}")
+    List<ResponseRecruitCategory> postRecruitCategory(@PathVariable long memberId, @PathVariable int recruitId){
+        List<ResponseRecruitCategory> response = recruitService.postMemberRecruitCategery(memberId,recruitId);
+
+        return response;
+    }
+    @DeleteMapping("/recruit-categories/{memberId}/{recruitId}")
+    List<ResponseRecruitCategory> deleteRecruitCategory(@PathVariable long memberId, @PathVariable int recruitId){
+        List<ResponseRecruitCategory> response = recruitService.deleteMemberRecruitCategery(memberId,recruitId);
+        return response;
+    }
 }

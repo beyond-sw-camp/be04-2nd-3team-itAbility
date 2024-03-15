@@ -1,4 +1,4 @@
-package com.team3.memberservice.mypage.entity;
+package com.team3.boardservice.mypage.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
