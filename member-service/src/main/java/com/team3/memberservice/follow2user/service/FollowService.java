@@ -20,12 +20,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class FollowService {
-
-
     private final ModelMapper modelMapper;
-
     private final FollowRepository followRepository;
-
     private final MemberInfoService memberInfoService;
     private final MemberInfoRepo memberInfoRepo;
 
@@ -73,10 +69,12 @@ public class FollowService {
             return Collections.emptyList();
         }
         return followRepository.findByFollowing(following);
+//        return null;
     }
 
     public List<Follow> getFollowersByFollowedId(Long followedId) {
-        return followRepository.findFollowersByFollowedId(followedId);
+        MemberInfoDTO followed = memberInfoRepo.findById(followedId).orElse(null);
+        return followRepository.findByFollowed(followed);
     }
 
     @Transactional

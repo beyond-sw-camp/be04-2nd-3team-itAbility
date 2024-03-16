@@ -4,12 +4,12 @@ import com.team3.memberservice.follow2user.aggregate.Follow;
 import com.team3.memberservice.follow2user.dto.FollowDTO;
 import com.team3.memberservice.member.dto.MemberInfoDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 public interface FollowRepository extends JpaRepository<Follow, Integer> {
     List<Follow> findByFollowing(MemberInfoDTO following);
-
-    List<Follow> findFollowersByFollowedId(Long followedId);
+    List<Follow> findByFollowed(MemberInfoDTO followed);
 }
