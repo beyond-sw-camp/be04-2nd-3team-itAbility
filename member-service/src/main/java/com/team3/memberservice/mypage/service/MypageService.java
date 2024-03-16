@@ -52,8 +52,8 @@ public class MypageService {
     @Autowired
     public MypageService(MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO, CareerDAO careerDAO, MemberSkillDAO memberSkillDAO, SkillDAO skillDAO,
                          ModelMapper modelMapper,
-                         MemberServiceClient client, SkillService skillService
-                    ) {
+                         MemberServiceClient client, SkillService skillService)
+    {
         this.memberProfileDAO = memberProfileDAO;
         this.degreeDAO = degreeDAO;
         this.imageDAO = imageDAO;
@@ -79,7 +79,7 @@ public class MypageService {
         return modelMapper.map(memberProfileEntity, MemberProfileDTO.class);
     }
 
-
+    /**<h1>2.경력조회</h1>*/
     private static CareerEntity getCareerDTO(CareerDTO careerDTO) {
         return new CareerEntity(careerDTO.getCareerId(),careerDTO.getCompanyName(), careerDTO.getStartDate(),
                 careerDTO.getEndDate(), careerDTO.getRole(), careerDTO.getAssignedTask(), careerDTO.isCurrentJob(),
@@ -87,12 +87,12 @@ public class MypageService {
     }
 
 
-    /**<h1>5.이미지 조회, 수정 - fin</h1>*/
+    /**<h1>3.이미지 조회 - fin</h1>*/
     public ImageDTO getImage(long memberId) {
         MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
         return modelMapper.map(member.getImg(), ImageDTO.class);
     }
-
+    /**<h1>4.이미지수정</h1>*/
     @Transactional
     public void modifyImageDTO(long memberId, MultipartFile imgFile) throws IOException {
         MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
@@ -112,14 +112,14 @@ public class MypageService {
         }
     }
 
-    /**<h1>6. 기술스택</h1>*/
+    /**<h1>5.맴버기술조회</h1>*/
     public List<ResponseSkill> getMemberSkill(Long memberId) {
 
         List<MemberSkillEntity> memberSkills = memberSkillDAO.findByIdMemberId(memberId);
         List<ResponseSkill> responseSkills = skillService.findSkillList(memberSkills);
         return responseSkills;
     }
-    /**<h1>REST-API</h1>*/
+    /**<h1>맴버info,profile수정</h1>*/
     @Transactional
     public MemberProfileDTO PostMypage(RequestMember member, Long memberId) {
         MemberProfileEntity memberProfileEntity = memberProfileDAO.findById(memberId).orElseThrow();
@@ -129,7 +129,7 @@ public class MypageService {
         memberInfoRepo.save(memberInfoDTO);
         return modelMapper.map(memberProfileEntity,MemberProfileDTO.class);
     }
-
+    /**<h1>경력</h1>*/
     @Transactional
     public ResponseDegree postDegree(long memberId, DegreeDTO degreeDTO) {
         MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();

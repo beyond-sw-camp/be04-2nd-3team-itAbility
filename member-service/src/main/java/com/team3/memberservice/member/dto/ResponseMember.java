@@ -26,4 +26,16 @@ public class ResponseMember {
 
     private int mbReportCount;
 
+    public ResponseMember(MemberInfoDTO member) {
+        this.memberId = member.getMemberId();
+        this.email = member.getEmail();
+        this.provider = member.getProvider();
+        this.pwd = member.getPwd();
+        this.name = member.getName();
+        this.birthDate = member.getBirthDate();
+        this.phone = member.getPhone();
+        this.blacklistStatus = member.isBlacklistStatus();
+        this.blacklistCount = member.getBlacklistCount();
+        this.mbReportCount = member.getMbReportCount();
+    }
 }
