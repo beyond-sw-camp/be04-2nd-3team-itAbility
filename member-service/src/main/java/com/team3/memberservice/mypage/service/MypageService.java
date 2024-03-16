@@ -10,6 +10,14 @@ import com.team3.memberservice.member.dto.MemberInfoDTO;
 import com.team3.memberservice.mypage.dao.*;
 import com.team3.memberservice.mypage.dto.*;
 import com.team3.memberservice.mypage.entity.*;
+import com.team3.memberservice.skill.dao.MemberSkillDAO;
+import com.team3.memberservice.skill.dao.SkillDAO;
+import com.team3.memberservice.skill.dto.RequestSkillId;
+import com.team3.memberservice.skill.dto.ResponseSkill;
+import com.team3.memberservice.skill.dto.ResponseSkillList;
+import com.team3.memberservice.skill.entity.MemberSkillEntity;
+import com.team3.memberservice.skill.entity.MemberSkillId;
+import com.team3.memberservice.skill.service.SkillService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -21,9 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class MypageService {

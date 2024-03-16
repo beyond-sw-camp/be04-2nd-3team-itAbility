@@ -1,6 +1,6 @@
-package com.team3.memberservice.mypage.dto;
+package com.team3.memberservice.skill.dto;
 
-import com.team3.memberservice.mypage.entity.MemberSkillId;
+import com.team3.memberservice.skill.entity.MemberSkillId;
 import lombok.*;
 
 import java.util.List;

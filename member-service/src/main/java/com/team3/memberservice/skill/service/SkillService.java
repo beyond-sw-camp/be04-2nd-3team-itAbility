@@ -1,9 +1,9 @@
-package com.team3.memberservice.mypage.service;
+package com.team3.memberservice.skill.service;
 
-import com.team3.memberservice.mypage.dao.SkillDAO;
-import com.team3.memberservice.mypage.dto.ResponseSkill;
-import com.team3.memberservice.mypage.entity.MemberSkillEntity;
-import com.team3.memberservice.mypage.entity.SkillEntity;
+import com.team3.memberservice.skill.dao.SkillDAO;
+import com.team3.memberservice.skill.dto.ResponseSkill;
+import com.team3.memberservice.skill.entity.MemberSkillEntity;
+import com.team3.memberservice.skill.entity.SkillEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

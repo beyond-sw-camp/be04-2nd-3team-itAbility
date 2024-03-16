@@ -2,7 +2,10 @@ package com.team3.memberservice.mypage.controller;
 
 import com.team3.memberservice.mypage.dto.*;
 import com.team3.memberservice.mypage.service.MypageService;
-import com.team3.memberservice.mypage.service.SkillService;
+import com.team3.memberservice.skill.dto.RequestSkillId;
+import com.team3.memberservice.skill.dto.ResponseSkill;
+import com.team3.memberservice.skill.dto.ResponseSkillList;
+import com.team3.memberservice.skill.service.SkillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

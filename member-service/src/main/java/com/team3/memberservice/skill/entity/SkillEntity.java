@@ -1,4 +1,4 @@
-package com.team3.memberservice.mypage.entity;
+package com.team3.memberservice.skill.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
