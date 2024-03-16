@@ -13,12 +13,6 @@ public class MypageDTO {
 
     private MemberProfileDTO memberProfileDTO;
     private List<CareerDTO> careerDTOList;
-    private MemberAndRemainSkillDTO memberSkillDTO;
-    private MemberAndRemainRecruitCategoryDTO recruitCategoryDTO;
+    private List<ResponseSkill> memberSkillDTO;
 
-    public MypageDTO(MemberProfileDTO memberProfileDTO, List<CareerDTO> careerDTOList, MemberAndRemainSkillDTO memberSkillDTO) {
-        this.memberProfileDTO = memberProfileDTO;
-        this.careerDTOList = careerDTOList;
-        this.memberSkillDTO = memberSkillDTO;
-    }
 }

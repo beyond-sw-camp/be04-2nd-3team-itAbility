@@ -1,11 +1,11 @@
-package com.team3.itability.blackllist.service;
+package com.team3.reportservice.blackllist.service;
 
-import com.team3.itability.blackllist.aggregate.BlacklistEntity;
-import com.team3.itability.blackllist.repository.BlacklistRepository;
-import com.team3.itability.blackllist.dto.BlacklistDTO;
-import com.team3.itability.member.dao.MemberInfoRepo;
-import com.team3.itability.member.dto.MemberInfoDTO;
-import com.team3.itability.member.service.MemberInfoService;
+import com.team3.reportservice.blackllist.aggregate.BlacklistEntity;
+import com.team3.reportservice.blackllist.dto.BlacklistDTO;
+import com.team3.reportservice.blackllist.repository.BlacklistRepository;
+import com.team3.reportservice.client.MemberClient;
+import com.team3.reportservice.report.aggregate.Member;
+import com.team3.reportservice.report.repository.ResponseMemberRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
@@ -20,24 +20,25 @@ import java.util.List;
 @Service
 public class BlackListService {
 
-    private final MemberInfoRepo memberInfoRepo;
+    private final ResponseMemberRepository memberInfoRepo;
     private final BlacklistRepository blacklistDAO;
     private final ModelMapper modelMapper;
-    private MemberInfoService memberInfoService;
+    private final MemberClient memberClient;
 
     @Autowired
-    public BlackListService(MemberInfoRepo memberInfoRepo, BlacklistRepository blacklistDAO, ModelMapper modelMapper) {
+    public BlackListService(ResponseMemberRepository memberInfoRepo, BlacklistRepository blacklistDAO, ModelMapper modelMapper, MemberClient memberClient) {
         this.memberInfoRepo = memberInfoRepo;
         this.blacklistDAO = blacklistDAO;
         this.modelMapper = modelMapper;
+        this.memberClient = memberClient;
     }
 
     @Scheduled(fixedRate = 3600000) // 1시간마다 실행
     @Transactional
     public void checkAndBlacklistMembers() {
-        List<MemberInfoDTO> membersToBlacklist = memberInfoRepo.findByMbReportCountGreaterThanEqual(5);
+        List<Member> membersToBlacklist = memberInfoRepo.findByMbReportCountGreaterThanEqual(5);
 
-        for (MemberInfoDTO member : membersToBlacklist) {
+        for (Member member : membersToBlacklist) {
             BlacklistDTO blacklistDTO = new BlacklistDTO();
             blacklistDTO.setMemberId(member.getMemberId());
             blacklistDTO.setBlacklist_date( new SimpleDateFormat("yyyy-MM-dd").format(new Date()));

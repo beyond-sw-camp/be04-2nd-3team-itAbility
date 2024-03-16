@@ -1,9 +1,7 @@
-package com.team3.itability.blackllist.repository;
+package com.team3.reportservice.blackllist.repository;
 
-import com.team3.itability.blackllist.aggregate.BlacklistEntity;
-import com.team3.itability.blackllist.dto.BlacklistDTO;
+import com.team3.reportservice.blackllist.aggregate.BlacklistEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 public interface BlacklistRepository extends JpaRepository<BlacklistEntity, Long> {
 }

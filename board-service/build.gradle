@@ -21,22 +21,21 @@ ext {
 
 dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
     // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
     implementation 'org.modelmapper:modelmapper:3.2.0'
-
-    // 회원 가입 이후 비밀번호 암호화 시점부터 추가함
-    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
@@ -47,6 +46,15 @@ dependencies {
 
     // feignclient 추가 시 넣을 dependency (main() 있는 클래스에 어노테이션 추가)
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    //swagger
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
+
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.13.0'
+
+    implementation 'javax.persistence:javax.persistence-api:2.2'
+
+
 }
 
 dependencyManagement {

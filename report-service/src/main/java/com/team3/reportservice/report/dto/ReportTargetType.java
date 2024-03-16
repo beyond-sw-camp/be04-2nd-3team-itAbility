@@ -1,4 +1,4 @@
-package com.team3.itability.report.dto;
+package com.team3.reportservice.report.dto;
 
 public enum ReportTargetType {
     FEED, COMMENT, RECRUIT

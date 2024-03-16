@@ -1,13 +1,8 @@
 package com.team3.memberservice.mypage.dto;
 
-import lombok.*;
+import lombok.Getter;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
-@Setter
-@ToString
 public class RequestRecruitCategory {
-    int recruitCategoryId;
-    String recruitName;
+    private int recruitId;
 }
