@@ -1,4 +1,4 @@
-package com.team3.memberservice.mypage.dto;
+package com.team3.memberservice.career.dto;
 
 
 import com.team3.memberservice.mypage.entity.MemberProfileEntity;

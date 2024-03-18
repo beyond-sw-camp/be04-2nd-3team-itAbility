@@ -1,5 +1,6 @@
 package com.team3.memberservice.mypage.controller;
 
+import com.team3.memberservice.career.dto.CareerDTO;
 import com.team3.memberservice.mypage.dto.*;
 import com.team3.memberservice.mypage.service.MypageService;
 import com.team3.memberservice.skill.dto.RequestSkillId;

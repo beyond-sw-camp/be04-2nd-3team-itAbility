@@ -69,7 +69,6 @@ public class FollowService {
             return Collections.emptyList();
         }
         return followRepository.findByFollowing(following);
-//        return null;
     }
 
     public List<Follow> getFollowersByFollowedId(Long followedId) {

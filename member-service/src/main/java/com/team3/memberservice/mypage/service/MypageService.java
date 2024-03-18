@@ -1,5 +1,7 @@
 package com.team3.memberservice.mypage.service;
 
+import com.team3.memberservice.career.dao.CareerDAO;
+import com.team3.memberservice.career.dto.CareerDTO;
 import com.team3.memberservice.client.MemberServiceClient;
 import com.team3.memberservice.img.dao.ImageDAO;
 import com.team3.memberservice.img.dto.*;

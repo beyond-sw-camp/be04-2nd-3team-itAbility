@@ -1,4 +1,4 @@
-package com.team3.memberservice.mypage.dao;
+package com.team3.memberservice.career.dao;
 
 import com.team3.memberservice.mypage.entity.CareerEntity;
 import com.team3.memberservice.mypage.entity.MemberProfileEntity;
