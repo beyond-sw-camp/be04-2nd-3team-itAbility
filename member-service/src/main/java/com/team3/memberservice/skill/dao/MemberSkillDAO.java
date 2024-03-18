@@ -1,8 +1,8 @@
-package com.team3.memberservice.mypage.dao;
+package com.team3.memberservice.skill.dao;
 
 
-import com.team3.memberservice.mypage.entity.MemberSkillEntity;
-import com.team3.memberservice.mypage.entity.MemberSkillId;
+import com.team3.memberservice.skill.entity.MemberSkillEntity;
+import com.team3.memberservice.skill.entity.MemberSkillId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

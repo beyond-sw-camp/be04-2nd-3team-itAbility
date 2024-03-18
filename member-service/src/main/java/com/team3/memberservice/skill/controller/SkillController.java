@@ -1,7 +1,7 @@
-package com.team3.memberservice.mypage.controller;
+package com.team3.memberservice.skill.controller;
 
-import com.team3.memberservice.mypage.dto.ResponseSkill;
-import com.team3.memberservice.mypage.service.SkillService;
+import com.team3.memberservice.skill.dto.ResponseSkill;
+import com.team3.memberservice.skill.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

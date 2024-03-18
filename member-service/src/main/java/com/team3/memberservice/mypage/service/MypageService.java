@@ -1,5 +1,7 @@
 package com.team3.memberservice.mypage.service;
 
+import com.team3.memberservice.career.dao.CareerDAO;
+import com.team3.memberservice.career.dto.CareerDTO;
 import com.team3.memberservice.client.MemberServiceClient;
 import com.team3.memberservice.img.dao.ImageDAO;
 import com.team3.memberservice.img.dto.*;
@@ -10,6 +12,14 @@ import com.team3.memberservice.member.dto.MemberInfoDTO;
 import com.team3.memberservice.mypage.dao.*;
 import com.team3.memberservice.mypage.dto.*;
 import com.team3.memberservice.mypage.entity.*;
+import com.team3.memberservice.skill.dao.MemberSkillDAO;
+import com.team3.memberservice.skill.dao.SkillDAO;
+import com.team3.memberservice.skill.dto.RequestSkillId;
+import com.team3.memberservice.skill.dto.ResponseSkill;
+import com.team3.memberservice.skill.dto.ResponseSkillList;
+import com.team3.memberservice.skill.entity.MemberSkillEntity;
+import com.team3.memberservice.skill.entity.MemberSkillId;
+import com.team3.memberservice.skill.service.SkillService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -21,9 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class MypageService {
@@ -46,8 +54,8 @@ public class MypageService {
     @Autowired
     public MypageService(MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO, CareerDAO careerDAO, MemberSkillDAO memberSkillDAO, SkillDAO skillDAO,
                          ModelMapper modelMapper,
-                         MemberServiceClient client, SkillService skillService
-                    ) {
+                         MemberServiceClient client, SkillService skillService)
+    {
         this.memberProfileDAO = memberProfileDAO;
         this.degreeDAO = degreeDAO;
         this.imageDAO = imageDAO;
@@ -73,7 +81,7 @@ public class MypageService {
         return modelMapper.map(memberProfileEntity, MemberProfileDTO.class);
     }
 
-
+    /**<h1>2.경력조회</h1>*/
     private static CareerEntity getCareerDTO(CareerDTO careerDTO) {
         return new CareerEntity(careerDTO.getCareerId(),careerDTO.getCompanyName(), careerDTO.getStartDate(),
                 careerDTO.getEndDate(), careerDTO.getRole(), careerDTO.getAssignedTask(), careerDTO.isCurrentJob(),
@@ -81,12 +89,12 @@ public class MypageService {
     }
 
 
-    /**<h1>5.이미지 조회, 수정 - fin</h1>*/
+    /**<h1>3.이미지 조회 - fin</h1>*/
     public ImageDTO getImage(long memberId) {
         MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
         return modelMapper.map(member.getImg(), ImageDTO.class);
     }
-
+    /**<h1>4.이미지수정</h1>*/
     @Transactional
     public void modifyImageDTO(long memberId, MultipartFile imgFile) throws IOException {
         MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
@@ -106,14 +114,14 @@ public class MypageService {
         }
     }
 
-    /**<h1>6. 기술스택</h1>*/
+    /**<h1>5.맴버기술조회</h1>*/
     public List<ResponseSkill> getMemberSkill(Long memberId) {
 
         List<MemberSkillEntity> memberSkills = memberSkillDAO.findByIdMemberId(memberId);
         List<ResponseSkill> responseSkills = skillService.findSkillList(memberSkills);
         return responseSkills;
     }
-    /**<h1>REST-API</h1>*/
+    /**<h1>맴버info,profile수정</h1>*/
     @Transactional
     public MemberProfileDTO PostMypage(RequestMember member, Long memberId) {
         MemberProfileEntity memberProfileEntity = memberProfileDAO.findById(memberId).orElseThrow();
@@ -123,7 +131,7 @@ public class MypageService {
         memberInfoRepo.save(memberInfoDTO);
         return modelMapper.map(memberProfileEntity,MemberProfileDTO.class);
     }
-
+    /**<h1>경력</h1>*/
     @Transactional
     public ResponseDegree postDegree(long memberId, DegreeDTO degreeDTO) {
         MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();

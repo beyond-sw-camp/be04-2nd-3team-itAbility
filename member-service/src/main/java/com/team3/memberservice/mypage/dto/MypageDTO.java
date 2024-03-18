@@ -1,5 +1,7 @@
 package com.team3.memberservice.mypage.dto;
 
+import com.team3.memberservice.career.dto.CareerDTO;
+import com.team3.memberservice.skill.dto.ResponseSkill;
 import lombok.*;
 
 import java.util.List;
@@ -11,8 +13,9 @@ import java.util.List;
 @ToString
 public class MypageDTO {
 
-    private MemberProfileDTO memberProfileDTO;
+    private MemberProfileDTO memberProfile;
     private List<CareerDTO> careerDTOList;
-    private List<ResponseSkill> memberSkillDTO;
+    private List<ResponseSkill> memberSkill;
+    private List<ResponseRecruitCategory> responseRecruitCategory;
 
 }

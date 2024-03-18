@@ -1,4 +1,4 @@
-package com.team3.memberservice.mypage.dto;
+package com.team3.memberservice.career.vo;
 
 import lombok.*;
 

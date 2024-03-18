@@ -1,8 +1,12 @@
 package com.team3.memberservice.mypage.controller;
 
+import com.team3.memberservice.career.dto.CareerDTO;
 import com.team3.memberservice.mypage.dto.*;
 import com.team3.memberservice.mypage.service.MypageService;
-import com.team3.memberservice.mypage.service.SkillService;
+import com.team3.memberservice.skill.dto.RequestSkillId;
+import com.team3.memberservice.skill.dto.ResponseSkill;
+import com.team3.memberservice.skill.dto.ResponseSkillList;
+import com.team3.memberservice.skill.service.SkillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,50 +33,54 @@ public class MypageRestController {
      * <h1>MyPage</h1>
      * 마이페이지 컨트롤러
      * */
-    // 1. 마이페이지 조회  - fin
+
+    @Operation(summary = "마이페이지 조회 ", description = "맴버 프로필, 경력, 스킬, 모집군 카테고리를 불러옵니다.")
     @GetMapping("/{memberId}")
     public ResponseEntity<MypageDTO> getMypage(@PathVariable long memberId){
         MemberProfileDTO profile = mypageService.getMypage(memberId);
         List<CareerDTO> careerDTOList = mypageService.getCareerList(memberId);
         List<ResponseSkill> skillDTOS = mypageService.getMemberSkill(memberId);
-
+        List<ResponseRecruitCategory> RecruitCategory = mypageService.getMemberRecruitCategoryList(memberId);
 //        MemberAndRemainRecruitCategoryDTO recruitCategoryDTOS = mypageService.printMemberRecruitList(memberId);
-//        MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS,recruitCategoryDTOS);
-        MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS);
+        MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS,RecruitCategory);
+//        MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS);
         return ResponseEntity.status(HttpStatus.CREATED).body(mypageDTO);
     }
-    // 2. 회원 정보 수정(profile, info) - fin
+    @Operation(summary = "회원정보(Info,Profile) 수정", description = "회원의 이름, 닉네임, 전화번호, 생년월일을 수정합니다.")
     @PostMapping("/{memberId}")
     public ResponseEntity<MemberProfileDTO> postMypage(@PathVariable long memberId, @RequestBody RequestMember member) {
         MemberProfileDTO returnValue = mypageService.PostMypage(member,memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
-    //3. 학력 수정 - fin
-    @Operation(summary = "학력 수정", description = "설명란")
+    @Operation(summary = "학력 수정", description = "회원의 학력을 수정합니다.")
     @PostMapping("/{memberId}/degree")
     public ResponseEntity<ResponseDegree> postDegree(@PathVariable@Parameter(example = "6249388071526484416") long memberId, @RequestBody DegreeDTO degreeDTO){
         ResponseDegree returnValue = mypageService.postDegree(memberId, degreeDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
-    // 경력 조회
+
+    @Operation(summary = "경력 조회", description = "회원의 경력 리스트를 조회합니다.")
     @GetMapping("/{memberId}/careers")
     public ResponseEntity<List<CareerDTO>> getCareerList(@PathVariable long memberId){
         List<CareerDTO> returnValue = mypageService.getCareerList(memberId);
         return ResponseEntity.status(HttpStatus.OK).body(returnValue);
     }
-    //4. 경력 수정-fin
+
+    @Operation(summary = "경력 수정", description = "회원의 경력을 수정합니다.")
     @PostMapping("/{memberId}/career")
     public ResponseEntity<CareerDTO> postCareer(@PathVariable long memberId,@RequestBody CareerDTO careerDTO){
         CareerDTO returnValue =  mypageService.postCareer(careerDTO, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
-    //5. 경력 추가 - fin
+
+    @Operation(summary = "경력 추가", description = "회원의 경력을 추가합니다.")
     @PutMapping("/{memberId}/career")
     public ResponseEntity<CareerDTO> putCareer(@PathVariable long memberId, @RequestBody CareerDTO careerDTO){
         CareerDTO returnValue = mypageService.putCareer(careerDTO,memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
-    //5-1. 경력 제거
+
+    @Operation(summary = "경력 삭제", description = "회원의 경력을 제거합니다.")
     @DeleteMapping("/{memberId}/career")
     public ResponseEntity<CareerDTO> deleteCareer(@PathVariable long memberId, @RequestBody CareerDTO careerDTO){
         CareerDTO returnValue = mypageService.deleteCareer(careerDTO,memberId);
@@ -82,50 +90,44 @@ public class MypageRestController {
     //6. 이미지 수정 - html로 소개
 
 
-    // 맴버 스킬 조회
+    @Operation(summary = "기술스택 조회", description = "회원의 기술스택을 조회합니다.")
     @GetMapping("/{memberId}/skill")
     public ResponseEntity<List<ResponseSkill>> getMemberSkill(@PathVariable long memberId){
         List<ResponseSkill> returnValue = mypageService.getMemberSkill(memberId);
         return ResponseEntity.status(HttpStatus.OK).body(returnValue);
     }
 
-    // 맴버 스킬 추가
+    @Operation(summary = "기술스택 추가", description = "회원의 기술스택을 추가합니다.")
     @PutMapping("/{memberId}/skill")
     public ResponseEntity<List<ResponseSkill>> putMemberSkill(@PathVariable long memberId, @RequestBody RequestSkillId skillId){
         List<ResponseSkill> returnValue = mypageService.putMemberSkill(memberId, skillId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
-    //8. 맴버 스킬 삭제
+    @Operation(summary = "기술스택 삭제", description = "회원의 기술스택을 제거합니다.")
     @DeleteMapping("/{memberId}/skill")
     public ResponseEntity<ResponseSkillList> deleteMemberSkill(@PathVariable long memberId, @RequestBody RequestSkillId skillId){
         ResponseSkillList returnValue = mypageService.deleteMemberSkill(memberId, skillId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
 
+    @Operation(summary = "모집군 조회", description = "회원의 모집군카테고리를 조회합니다.")
     @GetMapping("/{memberId}/recruits")
     public ResponseEntity<List<ResponseRecruitCategory>> getMemberRecruitCategoryList(@PathVariable long memberId){
         List<ResponseRecruitCategory> respones = mypageService.getMemberRecruitCategoryList(memberId);
         return ResponseEntity.status(HttpStatus.OK).body(respones);
     }
-    //9. 맴버 분야 추가
+
+    @Operation(summary = "모집군 추가", description = "회원의 모집군카테고리를 추기합니다.")
     @PostMapping("/{memberId}/recruits")
     public ResponseEntity<List<ResponseRecruitCategory>> putMemberRecruit(@PathVariable long memberId, @RequestBody RequestRecruitCategory recruitId ){
         System.out.println("맴버 추가");
         List<ResponseRecruitCategory> returnValue = mypageService.putMemberRecruitCategory(memberId, recruitId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
-    //10. 맴버 분야 삭제
+    @Operation(summary = "모집군 제거", description = "회원의 모집군카테고리를 제거합니다.")
     @DeleteMapping("/{memberId}/recruits")
     public ResponseEntity<List<ResponseRecruitCategory>> deleteMemberRecruit(@PathVariable long memberId, @RequestBody RequestRecruitCategory recruitId){
         List<ResponseRecruitCategory> returnValue = mypageService.deleteMemberRecruitCategory(memberId, recruitId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
-
-
-
-
-
-
-
-
 }

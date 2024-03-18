@@ -5,6 +5,7 @@ import com.team3.memberservice.member.dto.MemberInfoDTO;
 import com.team3.memberservice.member.dto.ResponseMember;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,11 @@ public class MemberInfoService {
     public List<ResponseMember> findMemberList(){
         List<ResponseMember> memberList= new ArrayList<>();
         List<MemberInfoDTO> memberInfoDTOS= memberRepository.findAll();
-        memberInfoDTOS.forEach(memberInfoDTO -> memberList.add(mapper.map(memberInfoDTO,ResponseMember.class)));
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        memberInfoDTOS.forEach(memberInfoDTO -> {
+            System.out.println("memberInfoDTO = " + memberInfoDTO);
+            memberList.add(new ResponseMember(memberInfoDTO));
+        });
         return memberList;
     }
 
