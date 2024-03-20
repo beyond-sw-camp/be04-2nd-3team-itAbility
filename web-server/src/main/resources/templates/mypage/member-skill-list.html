@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>modify</title>
+
+    <style>
+    th, td {
+        padding: 15px;
+    }
+    table {
+        margin-left:auto;margin-right:auto;
+    }
+
+    </style>
+</head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<body>
+
+<h1 align="center" > mypage-modify </h1>
+<table>
+    <tr>
+        <th>기술명</th><th>상태</th>
+    </tr>
+    <tr th:each="memberSkill : ${skill.getMemberSkillList()}">
+        <td th:text="${memberSkill.getSkillName()}"></td>
+        <td><button type="submit" th:onclick="'redirectToRemoveSkillPage(\'' + ${skill.getMemberId()} + '\', \'' + ${memberSkill.getSkillId()} + '\')'"> 삭제 </button></td>
+    </tr>
+    <tr th:each="remainSkill : ${skill.getRemainSkillList()}">
+        <td th:text="${remainSkill.getSkillName()}"></td>
+        <td><button th:onclick="'redirectToAddSkillPage(\'' + ${skill.getMemberId()} + '\', \'' + ${remainSkill.getSkillId()} + '\')'"> 추가 </button></td>
+    </tr>
+</table>
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${skill.getMemberId()} + '\')'">돌아가기</button>
+
+<script>
+    function redirectToRemoveSkillPage(memberId, skillId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId+ "/remove-skill"+"/"+skillId;
+    }
+    function redirectToAddSkillPage(memberId, skillId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId+ "/add-skill"+"/"+skillId;
+    }
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId;
+    }
+</script>
+
+
+</body>
+</html>

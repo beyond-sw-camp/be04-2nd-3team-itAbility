@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Follow</title>
+</head>
+<body>
+<h2>Add New Follow</h2>
+<form action="#" th:action="@{/follow/add}" method="post">
+    <div>
+        <label for="followingId">Following Member ID:</label>
+        <input type="text" id="followingId" name="followingId" required>
+    </div>
+    <div>
+        <label for="followedId">Followed Member ID:</label>
+        <input type="text" id="followedId" name="followedId" required>
+    </div>
+    <div>
+        <button type="submit">Add Follow</button>
+    </div>
+</form>
+</body>
+</html>

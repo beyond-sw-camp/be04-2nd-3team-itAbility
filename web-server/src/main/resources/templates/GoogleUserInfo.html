@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Info</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td, th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        img {
+            height: 150px; /* 이미지 높이 조정 */
+        }
+    </style>
+</head>
+<body>
+
+<table>
+    <tr>
+        <td>id :</td>
+        <td th:text="${list[0]}"></td>
+    </tr>
+    <tr>
+        <td>이메일 :</td>
+        <td th:text="${list[1]}"></td>
+    </tr>
+    <tr>
+        <td>이름 :</td>
+        <td th:text="${list[2]}"></td>
+    </tr>
+    <tr>
+        <td>사진 :</td>
+        <td><img th:src="${list[3]}"></td>
+    </tr>
+
+</table>
+
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:attr="data-memberId=${list[0]}" onclick="redirectTomypage(this.getAttribute('data-memberId'))">마이페이지</button>
+
+<script>
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + truncateToTwelveDigits(memberId);
+    }
+    function truncateToTwelveDigits(value) {
+        return value.substring(0, 12);
+    }
+</script>
+
+</body>
+</html>

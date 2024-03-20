@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>list</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>번호</th>
+            <th>분류</th>
+            <th>모집군</th>
+    <!--        <th>모집군 카테고리</th>-->
+    <!--        <th>기술 카테고리</th>-->
+            <th>제목</th>
+            <th>만료일</th>
+            <th>모집인원</th>
+            <th>작성자</th>
+        </tr>
+        <tr th:each="recruit : ${ recruitList }">
+            <td th:text="${ recruit.recruitId }"></td>
+            <td th:text="${ recruit.recruitType }"></td>
+            <td th:text="${ recruit.recruitName }"></td>
+            <td th:text="${ recruit.recruitTitle }"></td>
+    <!--        <td th:text="${ recruit.recruitCategoryId }"></td>-->
+    <!--        <td th:text="${ recruit.skillId }"></td>-->
+            <td th:text="${ recruit.recruitExpDate }"></td>
+            <td th:text="${ recruit.recruitMbCnt }"></td>
+            <td th:text="${ recruit.memberId }"></td>
+        </tr>
+    </table>
+</body>
+</html>

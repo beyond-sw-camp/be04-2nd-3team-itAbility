@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>regist</title>
+</head>
+<body>
+    <h1>모집글 등록</h1>
+    <form action="/recruit/regist" method="post">
+        <input type="hidden" name="memberId" th:value="3"/>
+        <label>모집 분류 : </label>
+        <select name="recruitType">
+            <option value="O">외주</option>
+            <option value="S">프로젝트</option>
+        </select><br>
+        <label>제목 : </label>
+        <input type="text" name="recruitTitle"><br>
+        <label>내용 : </label>
+        <input type="text" name="recruitContent"><br>
+        <label>모집군 카테고리 : </label>
+        <select name="recruitCategoryId" id="recruitCategoryId"></select><br>
+        <label>기술 카테고리 : </label>
+        <select name="skillId" id="skillId"></select><br>
+        <label>만료일: </label><br>
+        <input type="date" name="recruitExpDate" id="recruitExpDate" ><br>
+        <label>인원: </label>
+        <input type="number" id="recruitMbCnt" name="recruitMbCnt"><br><br>
+        <input type="submit" value="등록">
+    </form>
+
+    <script>
+        fetch('/recruit/recruit_category')
+            .then(res => res.json())
+            .then(data => {
+                const $recruitCategoryId = document.getElementById('recruitCategoryId');
+                console.log($recruitCategoryId)
+
+                for(let index in data){
+                    const $option = document.createElement('option');
+                    $option.value = data[index].recruitCategoryId;
+                    $option.textContent = data[index].recruitName;
+
+                    $recruitCategoryId.appendChild($option);
+                }
+            });
+
+        fetch('/recruit/skill_category')
+            .then(res => res.json())
+            .then(data => {
+                const $skillId = document.getElementById('skillId');
+                console.log($skillId)
+
+                for(let index in data){
+                    const $option = document.createElement('option');
+                    $option.value = data[index].skillId;
+                    $option.textContent = data[index].skillName;
+
+                    $skillId.appendChild($option);
+                }
+            });
+    </script>
+</body>
+</html>

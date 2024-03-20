@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>modify</title>
+
+    <style>
+    th, td {
+        padding: 15px;
+    }
+    table {
+        margin-left:auto;margin-right:auto;
+    }
+
+    </style>
+</head>
+<body>
+<h1 align="center" > mypage-modify </h1>
+<button th:onclick="'redirectToAddCareerPage(\'' + ${memberId} + '\')'">경력 추가</button><br>
+<table>
+    <tr>
+        <th>경력번호</th>
+        <th>회사명</th>
+        <th>입사일</th>
+        <th>퇴사일</th>
+        <th>직급</th>
+        <th>담당업무</th>
+        <th>재직여부</th>
+        <th>수정하기</th>
+    </tr>
+
+    <tr th:each="career : ${careerList}">
+        <td th:text="${career.careerId }"></td>
+        <td th:text="${career.companyName }"></td>
+        <td th:text="${career.startDate }"></td>
+        <td th:text="${career.endDate }"></td>
+        <td th:text="${career.role }"></td>
+        <td th:text="${career.assignedTask }"></td>
+        <td th:text="${career.isCurrentJob }"></td>
+        <td><button th:onclick="'redirectToModifyCareerPage(\'' + ${memberId} + '\', \'' + ${career.careerId} + '\')'"> 수정 </button></td>
+        <td><button th:onclick="'sendJsonData(\'' + ${memberId} + '\', \'' + ${career.careerId} + '\')'"> 삭제 </button></td>
+
+    </tr>
+</table>
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${memberId} + '\')'">돌아가기</button>
+<script>
+    function redirectToModifyCareerPage(memberId, careerId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId+ "/modify-career"+"/"+careerId;
+    }
+</script>
+
+<script>
+    var currentUrl = window.location.href;
+
+    function redirectToAddCareerPage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId+ "/add-career";
+    }
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId;
+    }
+    function sendJsonData(memberId, careerId) {
+        // JSON 데이터 생성
+        var jsonData = {
+            "careerId": careerId
+        };
+
+        // JSON 데이터를 문자열로 변환
+        var jsonString = JSON.stringify(jsonData);
+
+        // AJAX 요청으로 JSON 데이터 전송
+        var xhr = new XMLHttpRequest();
+        xhr.open("DELETE", "http://localhost:8080/rest/mypage/"+memberId+"/career", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // 전송 성공 시 동작
+                console.log("전송 완료");
+                // 전송 후 페이지 리로드
+                window.location.reload();
+            }
+        };
+        xhr.send(jsonString);
+    }
+</script>
+
+
+</body>
+</html>

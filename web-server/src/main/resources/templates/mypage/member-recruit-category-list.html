@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>modify</title>
+
+    <style>
+    th, td {
+        padding: 15px;
+    }
+    table {
+        margin-left:auto;margin-right:auto;
+    }
+
+    </style>
+</head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<body>
+
+<h1 align="center" > mypage-modify </h1>
+<table>
+    <tr>
+        <th>전문분야</th><th>상태</th>
+    </tr>
+    <tr th:each="memberRecruit : ${recruits.getMemberRecruitList()}">
+        <td th:text="${memberRecruit.getRecruitName()}"></td>
+        <td><button type="submit" th:onclick="'redirectToRemoveSkillPage(\'' + ${recruits.getMemberId()} + '\', \'' + ${memberRecruit.getRecruitCategoryId()} + '\')'"> 삭제 </button></td>
+    </tr>
+    <tr th:each="remainRecruit : ${recruits.getRemainRecruitList()}">
+        <td th:text="${remainRecruit.getRecruitName()}"></td>
+        <td><button th:onclick="'redirectToAddSkillPage(\'' + ${recruits.getMemberId()} + '\', \'' + ${remainRecruit.getRecruitCategoryId()} + '\')'"> 추가 </button></td>
+    </tr>
+</table>
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${recruits.getMemberId()} + '\')'">돌아가기</button>
+
+<script>
+    function redirectToRemoveSkillPage(memberId, recruitCategoryId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId+ "/remove-recruit-category"+"/"+recruitCategoryId;
+    }
+    function redirectToAddSkillPage(memberId, recruitCategoryId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId+ "/add-recruit-category"+"/"+recruitCategoryId;
+    }
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId;
+    }
+</script>
+
+
+</body>
+</html>

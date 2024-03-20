@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>modify</title>
+
+    <style>
+        img{
+            width: 100px;
+        }
+    </style>
+</head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<body>
+
+<h1 align="center" > mypage-image </h1>
+
+<img th:src="${image.getPath()}" alt="">            <!--alt: 시각장애인과 같이 이미지를 보지못하는 경우 alt를 읽게 해줌-->
+
+<form action="mypage/modify-image" method="post" enctype="multipart/form-data"> <!--인코딩 타입을 지정해야한다!-->
+    <input type="hidden" name="memberId" th:value="${memberId}" />
+
+    이미지: <input type="file" name = "imgFile"><br>
+    <img id="preview" /><br>
+    <input type="submit" value="Upload file" accept="image/png, image/jpeg">
+</form>
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${memberId} + '\')'">돌아가기</button>
+
+<script>
+    const imageInput = document.getElementsByName("imgFile");
+    const preview = document.getElementById('preview');
+
+    console.log(imageInput);
+    imageInput[0].addEventListener('change', function() {
+        const file = this.files[0];
+        console.log(file);
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const imageUrl = event.target.result;
+                // preview.innerHTML = `<img width="400" height="400" src="${imageUrl}" alt="Image Preview">`;
+                console.log(preview);
+                preview.setAttribute("src", imageUrl);
+            }
+
+            reader.readAsDataURL(file);
+        } else {
+            preview.innerHTML = '';
+        }
+    });
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId;
+    }
+</script>
+
+</body>
+</html>
