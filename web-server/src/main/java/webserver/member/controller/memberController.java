@@ -21,9 +21,9 @@ public class memberController {
 
     @GetMapping("/{memberId}")
     public String mypage(@PathVariable long memberId, ModelAndView mv){
-        Mypage mypage = myPageService.getMyPage(memberId);
-        mv.addObject(mypage);
-        return "mypage/mypage";
+//        Mypage mypage = myPageService.getMyPage(memberId);
+//        mv.addObject(mypage);
+        return "main";
     }
 
 
