@@ -41,19 +41,18 @@ public class MypageRestController {
         List<CareerDTO> careerDTOList = mypageService.getCareerList(memberId);
         List<ResponseSkill> skillDTOS = mypageService.getMemberSkill(memberId);
         List<ResponseRecruitCategory> RecruitCategory = mypageService.getMemberRecruitCategoryList(memberId);
-//        MemberAndRemainRecruitCategoryDTO recruitCategoryDTOS = mypageService.printMemberRecruitList(memberId);
         MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS,RecruitCategory);
-//        MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(mypageDTO);
     }
     @Operation(summary = "회원정보(Info,Profile) 수정", description = "회원의 이름, 닉네임, 전화번호, 생년월일을 수정합니다.")
-    @PostMapping("/{memberId}")
+    @PutMapping("/{memberId}")
     public ResponseEntity<MemberProfileDTO> postMypage(@PathVariable long memberId, @RequestBody RequestMember member) {
         MemberProfileDTO returnValue = mypageService.PostMypage(member,memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
     @Operation(summary = "학력 수정", description = "회원의 학력을 수정합니다.")
-    @PostMapping("/{memberId}/degree")
+    @PutMapping("/{memberId}/degree")
     public ResponseEntity<ResponseDegree> postDegree(@PathVariable@Parameter(example = "6249388071526484416") long memberId, @RequestBody DegreeDTO degreeDTO){
         ResponseDegree returnValue = mypageService.postDegree(memberId, degreeDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
@@ -67,14 +66,14 @@ public class MypageRestController {
     }
 
     @Operation(summary = "경력 수정", description = "회원의 경력을 수정합니다.")
-    @PostMapping("/{memberId}/career")
+    @PutMapping("/{memberId}/career")
     public ResponseEntity<CareerDTO> postCareer(@PathVariable long memberId,@RequestBody CareerDTO careerDTO){
         CareerDTO returnValue =  mypageService.postCareer(careerDTO, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
 
     @Operation(summary = "경력 추가", description = "회원의 경력을 추가합니다.")
-    @PutMapping("/{memberId}/career")
+    @PostMapping("/{memberId}/career")
     public ResponseEntity<CareerDTO> putCareer(@PathVariable long memberId, @RequestBody CareerDTO careerDTO){
         CareerDTO returnValue = mypageService.putCareer(careerDTO,memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
@@ -98,7 +97,7 @@ public class MypageRestController {
     }
 
     @Operation(summary = "기술스택 추가", description = "회원의 기술스택을 추가합니다.")
-    @PutMapping("/{memberId}/skill")
+    @PostMapping("/{memberId}/skill")
     public ResponseEntity<List<ResponseSkill>> putMemberSkill(@PathVariable long memberId, @RequestBody RequestSkillId skillId){
         List<ResponseSkill> returnValue = mypageService.putMemberSkill(memberId, skillId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
