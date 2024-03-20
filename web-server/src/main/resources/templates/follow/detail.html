@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>detail</title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>followId</th>
+        <th>following</th>
+        <th>followed</th>
+    </tr>
+    <tr>
+        <td th:text="${ follow.followId }"></td>
+        <td th:text="${ follow.getfollowing_nickname() }"></td>
+        <td th:text="${ follow.getfollowed_nickname() }"></td>
+    </tr>
+</table>
+
+</body>
+</html>

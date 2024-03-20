@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>modify</title>
+</head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<body>
+
+<h1 align="center" > careerDTO-modify </h1>
+<!--경력번호	회사명	입사일	퇴사일	직급	담당업무	재직여부	수정하기-->
+<form id="modifyForm" action="/mypage/add-career" method="post">
+    <input type="hidden" name="memberId" th:value="${memberId}" />
+    회사명: <input type="text" name="companyName"/> <br>
+    입사일: <input type="date" name="startDate"/> <br>
+    퇴사일: <input type="date" name="endDate"/> <br>
+    직급: <input type="text" name="role"/> <br>
+    담당업무: <input type="text" name="assignedTask"/> <br>
+    재직여부: <input type="checkbox" name="isCurrentJob"/> <br>
+    <input type="submit" value="추가">
+</form>
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${memberId} + '\')'">돌아가기</button>
+
+<script>
+    // memberId 값을 JavaScript 변수로 설정
+    var memberId = "${memberId}";
+    // memberId 값을 hidden input 필드에 설정
+    document.getElementById("memberIdInput").value = memberId;
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId+"/career-list";
+    }
+</script>
+
+</body>
+</html>

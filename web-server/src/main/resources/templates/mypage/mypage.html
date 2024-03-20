@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <title>mypage</title>
+</head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<style>
+    img{
+        width: 100px;
+    }
+    .feature-group {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    .feature {
+        width: 33%;
+    }
+</style>
+<body>
+
+<h1 align="center"> mypage </h1>
+<button STYLE="width: 75px; height: 50px; font-size: 10px" onclick="redirectToMain()">메인으로</button>
+
+<div class="feature-group">
+    <div class="feature">
+<h2>프로필</h2>
+<img th:src="${profile.getImg().getPath()}" alt="">            <!--alt: 시각장애인과 같이 이미지를 보지못하는 경우 alt를 읽게 해줌-->
+<br>
+<button onclick="redirectToModifyImagePage()">이미지 수정</button>
+<p th:text="${singleFileDescription}"></p>
+닉네임: <a th:text="${profile.nickname}"/> <br>
+이름: <a th:text="${profile.getMemberInfo().name}"/> <br>
+전화번호: <a th:text="${profile.getMemberInfo().getPhone()}"/> <br>
+생년월일: <a th:text="${profile.getMemberInfo().getBirthDate()}"/> <br>
+신고수: <a th:text="${profile.getMemberInfo().getMbReportCount()}"/> <br>
+블랙횟수: <a th:text="${profile.getMemberInfo().getBlacklistCount()}"/> <br>
+<button onclick="redirectToModifyNamePage()">이름,닉네임 수정</button>
+    </div>
+    <div class="feature">
+<h2> 학력 </h2>
+최종학력: <a th:text="${profile.getDegree().getFinalEduName()}"/> <br>
+입학일: <a th:text="${profile.getDegree().getEnrollDate()}"/> <br>
+졸업일: <a th:text="${profile.getDegree().getGraduateDate()}"/> <br>
+전공: <a th:text="${profile.getDegree().getMajor()}"/> <br>
+재학여부: <a th:text="${profile.getDegree().isRegisterStatus()}"/> <br>
+<button onclick="redirectToModifyDegreePage()">학력 수정하기</button>
+    </div>
+    <div class="feature">
+<h2>경력</h2>
+<table>
+    <tr>
+        <th></th>
+        <th>경력번호</th>
+        <th>회사명</th>
+        <th>입사일</th>
+        <th>퇴사일</th>
+        <th>직급</th>
+        <th>담당업무</th>
+        <th>재직여부</th>
+    </tr>
+
+    <tr th:each="career : ${careerList}">
+        <td th:text="${career.careerId }"></td>
+        <td th:text="${career.companyName }"></td>
+        <td th:text="${career.startDate }"></td>
+        <td th:text="${career.endDate }"></td>
+        <td th:text="${career.role }"></td>
+        <td th:text="${career.assignedTask }"></td>
+        <td th:text="${career.isCurrentJob }"></td>
+    </tr>
+
+</table>
+<button onclick="redirectToModifyCareerPage()">경력 조회</button>
+    </div>
+</div>
+
+<div class="feature-group">
+    <div class="feature">
+<h2>기술스택</h2>
+<table>
+    <tr>
+        <th>기술명</th>
+    </tr>
+    <tr th:each="memberSkill : ${skill.getMemberSkillList()}">
+        <td th:text="${memberSkill.getSkillName()}"></td>
+    </tr>
+</table>
+<button onclick="redirectToSkillPage()">기술스택 수정하기</button>
+    </div>
+    <div class="feature">
+<h2>전문분야</h2>
+<table>
+    <tr th:each="memberRecruit : ${recruits.getMemberRecruitList()}">
+        <td th:text="${memberRecruit.getRecruitName()}"></td>
+    </tr>
+</table>
+<button onclick="redirectToMemberRecruitCategoryPage()">기술스택 수정하기</button>
+</div>
+    <div class="feature">
+
+    </div>
+</div>
+
+
+<script th:inline="javascript">
+
+    // 현재 페이지의 URL 가져오기
+    var currentUrl = window.location.href;
+    // URL에서 memberId 값 추출
+    var memberId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+    function redirectToModifyNamePage() {
+        window.location.href = "http://localhost:8080/mypage/" + memberId + "/modify-name";
+    }
+    function redirectToModifyDegreePage() {
+        window.location.href = "http://localhost:8080/mypage/" + memberId + "/modify-degree";
+    }
+    function redirectToModifyCareerPage() {
+        window.location.href = "http://localhost:8080/mypage/" + memberId + "/career-list";
+    }
+    function redirectToModifyImagePage() {
+        window.location.href = "http://localhost:8080/mypage/" + memberId + "/modify-image";
+    }
+    function redirectToSkillPage() {
+        window.location.href = "http://localhost:8080/mypage/" + memberId + "/member-skill-list";
+    }
+    function redirectToMemberRecruitCategoryPage() {
+        window.location.href = "http://localhost:8080/mypage/" + memberId + "/memberRecruitCategory";
+    }
+    function redirectToMain() {
+        window.location.href = "http://localhost:8080";
+    }
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>modify</title>
+</head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<body>
+
+<h1 align="center" > career-modify </h1>
+
+<form id="modifyForm" action="/mypage/modify-career" method="post">
+    <input type="hidden" name="careerId" th:value="${career.getCareerId()}" />
+    <input type="hidden" name="memberId" th:value="${career.getMemberId().getMemberId()}" />
+
+    <input type="text" name="companyName" th:value="${career.getCompanyName()}"/> <br>
+    <input type="date" name="startDate" th:value="${career.getStartDate()}"/> <br>
+    <input type="date" name="endDate" th:value="${career.getEndDate()}"/> <br>
+    <input type="text" name="role" th:value="${career.getRole()}"/> <br>
+    <input type="text" name="assignedTask" th:value="${career.getAssignedTask()}"/> <br>
+    <input type="checkbox" name="isCurrentJob" th:checked="${career.isCurrentJob()}"/> <br>
+    <input type="submit" value="수정 완료">
+</form>
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${career.getMemberId().getMemberId()} + '\')'">돌아가기</button>
+<script>
+    // memberId 값을 JavaScript 변수로 설정
+    var memberId = "${memberId}";
+    // memberId 값을 hidden input 필드에 설정
+    document.getElementById("memberIdInput").value = memberId;
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId+"/career-list";
+    }
+</script>
+
+</body>
+</html>

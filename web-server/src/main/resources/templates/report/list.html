@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>신고 목록</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>신고 목록</h2>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">신고 날짜</th>
+            <th scope="col">신고 대상 유형</th>
+            <th scope="col">신고 대상 ID</th>
+            <th scope="col">신고자 ID</th>
+            <th scope="col">신고 카테고리 ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="report : ${reportList}">
+            <td th:text="${report.reportId}">1</td>
+            <td th:text="${report.reportDate}">2020-01-01</td>
+            <td th:text="${report.reportTargetType}">Report Target Type</td>
+            <td th:text="${report.reportTargetId}">Report Target ID</td>
+            <td th:text="${report.memberId}">Member ID</td>
+            <td th:text="${report.reportCategoryId}">Category ID</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

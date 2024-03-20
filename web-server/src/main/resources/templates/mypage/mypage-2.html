@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <meta charset="UTF-8">
+    <title>mypage</title>
+</head>
+<body>
+<div id="profile">
+    <h2>Profile</h2>
+    <p><strong>Name:</strong> <span id="name"></span></p>
+    <p><strong>Nickname:</strong> <span id="nickname"></span></p>
+    <p><strong>Phone:</strong> <span id="phone"></span></p>
+    <p><strong>Birth Date:</strong> <span id="birthDate"></span></p>
+</div>
+
+<div id="careers">
+    <h2>Careers</h2>
+    <ul id="careersList"></ul>
+</div>
+
+<div id="recruitCategories">
+    <h2>Recruit Categories</h2>
+    <ul id="recruitCategoriesList"></ul>
+</div>
+
+<div id="skills">
+    <h2>Skills</h2>
+    <ul id="skillsList"></ul>
+</div>
+
+<script>
+    // 현재 페이지의 URL 가져오기
+    var currentUrl = window.location.href;
+    // URL에서 memberId 값 추출
+    var memberId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+    // rest-api 요청
+    fetch("http://localhost:8000/member-service/rest/mypage/"+memberId)
+        .then(response => {
+            // 없으면 에러 발생
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // 있으면 pass
+            return response.json();
+        })
+        .then(data => {
+            // 마이페이지 정보 담기
+            document.getElementById('name').textContent = data.name;
+            document.getElementById('nickname').textContent = data.nickname;
+            document.getElementById('phone').textContent = data.phone;
+            document.getElementById('birthDate').textContent = data.birthDate;
+
+            const careersList = document.getElementById('careersList');
+            data.careers.forEach(career => {
+                const li = document.createElement('li');
+                li.textContent = `${career.companyName} - ${career.role}, ${career.assignedTask}, ${career.startDate} ~ ${career.endDate}`;
+                careersList.appendChild(li);
+            });
+
+            const recruitCategoriesList = document.getElementById('recruitCategoriesList');
+            data.recruitCategories.forEach(category => {
+                const li = document.createElement('li');
+                li.textContent = category;
+                recruitCategoriesList.appendChild(li);
+            });
+
+            const skillsList = document.getElementById('skillsList');
+            data.skills.forEach(skill => {
+                const li = document.createElement('li');
+                li.textContent = skill;
+                skillsList.appendChild(li);
+            });
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+</script>
+</body>
+</html>

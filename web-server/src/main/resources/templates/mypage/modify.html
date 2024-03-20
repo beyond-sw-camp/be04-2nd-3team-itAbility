@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>modify</title>
+</head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<body>
+
+<h1 align="center" > mypage-modify </h1>
+
+<form id="modifyForm" action="/mypage/modify-name" method="post">
+    <input type="hidden" name="memberId" th:value="${profile.getMemberInfo().getMemberId()}" />
+
+    닉네임: <input type="text" name="nickname" th:value="${profile.nickname}"/> <br>
+    이름: <input type="text" name="name" th:value="${profile.getMemberInfo().name}"/> <br>
+    전화번호: <input type="text" name="phone" th:value="${profile.getMemberInfo().getPhone()}"/> <br>
+    생년월일: <input type="date" name="birthDate" th:value="${profile.getMemberInfo().getBirthDate()}"/> <br>
+    <input type="submit" value="수정 완료">
+</form>
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${profile.getMemberInfo().getMemberId()} + '\')'">돌아가기</button>
+<script>
+    // memberId 값을 JavaScript 변수로 설정
+    var memberId = "${memberId}";
+
+    // memberId 값을 hidden input 필드에 설정
+    document.getElementById("memberIdInput").value = memberId;
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId;
+    }
+</script>
+
+
+</body>
+</html>
