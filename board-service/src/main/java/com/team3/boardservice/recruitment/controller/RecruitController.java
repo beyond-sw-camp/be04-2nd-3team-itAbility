@@ -5,6 +5,7 @@ import com.team3.boardservice.recruitment.aggregate.RecruitDTO;
 import com.team3.boardservice.recruitment.service.RecruitService;
 import com.team3.boardservice.recruitment.vo.RecruitVO;
 import com.team3.boardservice.recruitment.vo.*;
+import feign.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,22 @@ public class RecruitController {
         List<RecruitVO> recruitList = recruitService.findRecruitList();
 
         return ResponseEntity.ok().body(recruitList);
+    }
+
+    @GetMapping("/recruit-category/{recruitId}")
+    public ResponseEntity<String> findRecruitCategoryName(@PathVariable int recruitId) {
+
+        String recruitCategoryName = recruitService.findRecruitCategory(recruitId);
+
+        return ResponseEntity.ok().body(recruitCategoryName);
+    }
+
+    @GetMapping("/recruit-skill/{recruitId}")
+    public ResponseEntity<String> findRecruitSkillName(@PathVariable int recruitId) {
+
+        String recruitSkillName = recruitService.findRecruitSkill(recruitId);
+
+        return ResponseEntity.ok().body(recruitSkillName);
     }
 
     // 설명. 모집군 카테고리
@@ -88,7 +105,6 @@ public class RecruitController {
 
         return "redirect:/recruit/list";    // 리다이렉트 주소(모집글 목록?)
     }
-
 
     @GetMapping("/member/{memberId}")
     public String test(@PathVariable long memberId){

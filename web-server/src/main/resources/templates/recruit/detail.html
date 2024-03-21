@@ -9,8 +9,8 @@
         <ul>
             <li id="recruitId"></li>
             <li id="recruitTitle"></li>
-            <!--            <td th:text="${ recruit.recruitCategoryId }"></td>-->
-            <!--            <td th:text="${ recruit.skillId }"></td>-->
+            <li id="recruitCategoryName"></li>
+            <li id="recruitSkillName"></li>
             <li id="recruitExpDate"></li>
             <li id="recruitMbCnt"></li>
         </ul>
@@ -20,7 +20,38 @@
     <script>
         var currentUrl = window.location.href;
         var recruitId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
-        console.log(recruitId);
+
+        fetch("http://localhost:8000/board-service/recruit/recruit-category/"+recruitId)
+            .then(response => {
+                // 없으면 에러 발생
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // 있으면 pass
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('recruitCategoryName').textContent = data;
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+
+        fetch("http://localhost:8000/board-service/recruit/recruit-skill/"+recruitId)
+            .then(response => {
+                // 없으면 에러 발생
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // 있으면 pass
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('recruitSKillName').textContent = data;
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
 
         fetch("http://localhost:8000/board-service/recruit/"+recruitId)
             .then(response => {
@@ -40,6 +71,8 @@
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
         });
+
+
     </script>
 </body>
 </html>

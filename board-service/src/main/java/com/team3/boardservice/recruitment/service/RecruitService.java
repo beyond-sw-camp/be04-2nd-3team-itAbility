@@ -167,4 +167,18 @@ public class RecruitService {
         memberRecruitCategoryDAO.delete(entity);
         return getMemberRecruitCategory(memberId);
     }
+
+    public String findRecruitCategory(int recruitId) {
+        int recruitCategoryId = refRecruitRepo.findByIdRecruitId(recruitId).getId().getRecruitCategoryId();
+        String recruitCategoryName = recruitCateRepo.findById(recruitCategoryId).get().getRecruitName();
+
+        return recruitCategoryName;
+    }
+
+    public String findRecruitSkill(int recruitId) {
+        int recruitSkillId = recruitSkillRepo.findByIdRecruitId(recruitId).getId().getSkillId();
+        String recruitSkillName = memberServerClient.getSkill(recruitSkillId).getSkillName();
+
+        return recruitSkillName;
+    }
 }
