@@ -48,6 +48,10 @@ dependencies {
 
     //swagger
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
+
+    //ftp server dependency
+    implementation 'commons-net:commons-net:3.7'
+
 }
 
 dependencyManagement {

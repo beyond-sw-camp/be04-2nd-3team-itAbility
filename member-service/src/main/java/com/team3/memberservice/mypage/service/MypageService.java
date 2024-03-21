@@ -20,8 +20,11 @@ import com.team3.memberservice.skill.dto.ResponseSkillList;
 import com.team3.memberservice.skill.entity.MemberSkillEntity;
 import com.team3.memberservice.skill.entity.MemberSkillId;
 import com.team3.memberservice.skill.service.SkillService;
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -29,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +54,12 @@ public class MypageService {
 
     private MemberServiceClient client;
     private SkillService skillService;
+    @Value("${ftp.name}")
+    private String ftpName;
+    @Value("${ftp.password}")
+    private String ftpPassword;
+    @Value("${ftp.server}")
+    private String ftpServer;
 
     @Autowired
     public MypageService(MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO, CareerDAO careerDAO, MemberSkillDAO memberSkillDAO, SkillDAO skillDAO,
@@ -111,6 +121,40 @@ public class MypageService {
             imageDAO.save(image);
         } catch(IOException e){
             new File(filePath+"/"+saveName).delete();
+        }
+    }
+
+    public void postImg(){
+        FTPClient ftpClient = new FTPClient();
+        try {
+            ftpClient.connect(ftpServer);
+            ftpClient.login(ftpName, ftpPassword);
+            ftpClient.enterLocalPassiveMode();
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+
+            String localFilePath = "/path/to/local/file.txt";
+            String remoteFilePath = "/path/on/ftp/server/file.txt";
+            FileInputStream inputStream = new FileInputStream(localFilePath);
+
+            boolean uploaded = ftpClient.storeFile(remoteFilePath, inputStream);
+            inputStream.close();
+
+            if (uploaded) {
+                System.out.println("File uploaded successfully.");
+            } else {
+                System.out.println("File upload failed.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (ftpClient.isConnected()) {
+                    ftpClient.logout();
+                    ftpClient.disconnect();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
