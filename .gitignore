@@ -41,3 +41,4 @@ out/
 .vscode/
 
 *.yml
+board-service/src/main/java/com/team3/boardservice/recruitment/controller/RecruitController.java.rej

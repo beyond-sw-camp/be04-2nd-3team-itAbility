@@ -5,23 +5,41 @@
     <title>detail</title>
 </head>
 <body>
-    <table>
-        <tr>
-            <th>분류</th>
-            <th>제목</th>
-<!--            <th>모집군 카테고리</th>-->
-<!--            <th>기술 카테고리</th>-->
-            <th>만료일</th>
-            <th>인원</th>
+    <div>
+        <ul>
+            <li id="recruitId"></li>
+            <li id="recruitTitle"></li>
+            <!--            <td th:text="${ recruit.recruitCategoryId }"></td>-->
+            <!--            <td th:text="${ recruit.skillId }"></td>-->
+            <li id="recruitExpDate"></li>
+            <li id="recruitMbCnt"></li>
+        </ul>
 
-        </tr>
-            <td th:text="${ recruit.recruitId }"></td>
-            <td th:text="${ recruit.recruitTitle }"></td>
-<!--            <td th:text="${ recruit.recruitCategoryId }"></td>-->
-<!--            <td th:text="${ recruit.skillId }"></td>-->
-            <td th:text="${ recruit.recruitExpDate }"></td>
-            <td th:text="${ recruit.recruitMbCnt }"></td>
-        </tr>
-    </table>
+    </div>
+
+    <script>
+        var currentUrl = window.location.href;
+        var recruitId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+        console.log(recruitId);
+
+        fetch("http://localhost:8000/board-service/recruit/"+recruitId)
+            .then(response => {
+                // 없으면 에러 발생
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // 있으면 pass
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('recruitId').textContent = data.recruitId;
+                document.getElementById('recruitTitle').textContent = data.recruitTitle;
+                document.getElementById('recruitExpDate').textContent = data.recruitExpDate;
+                document.getElementById('recruitMbCnt').textContent = data.recruitMbCnt;
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+        });
+    </script>
 </body>
 </html>
