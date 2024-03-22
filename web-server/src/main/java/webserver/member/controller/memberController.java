@@ -14,13 +14,14 @@ public class memberController {
 
     //1.마이페이지   -fin
     @GetMapping("/{memberId}")
-    public String mypage(){
+    public String mypage(@PathVariable long memberId, Model model){
+        model.addAttribute(memberId);
         return "mypage/mypage-2";
     }
     //2.프로필사진수정페이지
-    @GetMapping("/image")
+    @GetMapping("/{memberId}/image")
     public String image(){
-        return "mypage/modify-image";
+        return "mypage/modify-image-2";
     }
     //3.이름,닉네임,생년월일,전화번호 수정페이지
     @GetMapping("/member")

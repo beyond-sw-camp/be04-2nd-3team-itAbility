@@ -1,6 +1,7 @@
 package com.team3.memberservice.mypage.controller;
 
 import com.team3.memberservice.career.dto.CareerDTO;
+import com.team3.memberservice.img.ImageVO;
 import com.team3.memberservice.img.dto.ImageDTO;
 import com.team3.memberservice.mypage.dto.*;
 import com.team3.memberservice.mypage.service.MypageService;
@@ -47,7 +48,7 @@ public class MypageRestController {
         List<ResponseSkill> skillDTOS = mypageService.getMemberSkill(memberId);
         List<ResponseRecruitCategory> RecruitCategory = mypageService.getMemberRecruitCategoryList(memberId);
         MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS,RecruitCategory);
-
+        System.out.println("전송 완료.");
         return ResponseEntity.status(HttpStatus.CREATED).body(mypageDTO);
     }
     @Operation(summary = "회원정보(Info,Profile) 수정", description = "회원의 이름, 닉네임, 전화번호, 생년월일을 수정합니다.")
@@ -91,18 +92,6 @@ public class MypageRestController {
         return ResponseEntity.status(HttpStatus.OK).body(returnValue);
     }
 
-    //6. 이미지 수정 - html로 소개
-    @GetMapping("/{memberId}/modify-image")
-    public ResponseEntity<ImageDTO> showModifyImage(@PathVariable long memberId, Model model){
-        ImageDTO image = mypageService.getImage(memberId);
-        return ResponseEntity.status(HttpStatus.OK).body(image);
-    }
-    @PutMapping("/{memberId}/mypage/modify-image")
-    public String modifyImage(Model model, @RequestParam MultipartFile imgFile, RedirectAttributes rttr, @RequestParam long memberId) throws IOException {
-        mypageService.modifyImageDTO(memberId,imgFile);
-        return "redirect:/mypage/" + memberId;
-    }
-
     @Operation(summary = "기술스택 조회", description = "회원의 기술스택을 조회합니다.")
     @GetMapping("/{memberId}/skill")
     public ResponseEntity<List<ResponseSkill>> getMemberSkill(@PathVariable long memberId){
@@ -143,4 +132,19 @@ public class MypageRestController {
         List<ResponseRecruitCategory> returnValue = mypageService.deleteMemberRecruitCategory(memberId, recruitId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
+
+
+    @GetMapping("/{memberId}/modify-image")
+    public String showModifyImage(@PathVariable long memberId, Model model){
+//        ImageDTO image = mypageService.getImage(memberId);
+        model.addAttribute("image",image);
+        model.addAttribute(memberId);
+        return "mypage/modify-image";
+    }
+    @PostMapping("/{memberId}/mypage/modify-image")
+    public String modifyImage(Model model, @RequestParam MultipartFile imgFile, RedirectAttributes rttr, @RequestParam long memberId) throws IOException {
+        mypageService.modifyImageDTO(memberId,imgFile);
+        return "redirect:/mypage/" + memberId;
+    }
+
 }

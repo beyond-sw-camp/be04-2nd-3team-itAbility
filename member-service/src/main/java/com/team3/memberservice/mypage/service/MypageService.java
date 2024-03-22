@@ -3,8 +3,10 @@ package com.team3.memberservice.mypage.service;
 import com.team3.memberservice.career.dao.CareerDAO;
 import com.team3.memberservice.career.dto.CareerDTO;
 import com.team3.memberservice.client.MemberServiceClient;
+import com.team3.memberservice.ftp.FTP_SERVER;
+import com.team3.memberservice.img.ImageVO;
 import com.team3.memberservice.img.dao.ImageDAO;
-import com.team3.memberservice.img.dto.*;
+import com.team3.memberservice.img.dto.ImageDTO;
 import com.team3.memberservice.img.entity.*;
 import com.team3.memberservice.img.enumData.*;
 import com.team3.memberservice.member.dao.*;
@@ -20,11 +22,10 @@ import com.team3.memberservice.skill.dto.ResponseSkillList;
 import com.team3.memberservice.skill.entity.MemberSkillEntity;
 import com.team3.memberservice.skill.entity.MemberSkillId;
 import com.team3.memberservice.skill.service.SkillService;
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -32,12 +33,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class MypageService {
     private final MemberProfileDAO memberProfileDAO;
     private final DegreeDAO degreeDAO;
@@ -54,12 +57,6 @@ public class MypageService {
 
     private MemberServiceClient client;
     private SkillService skillService;
-    @Value("${ftp.name}")
-    private String ftpName;
-    @Value("${ftp.password}")
-    private String ftpPassword;
-    @Value("${ftp.server}")
-    private String ftpServer;
 
     @Autowired
     public MypageService(MemberProfileDAO memberProfileDAO, DegreeDAO degreeDAO, ImageDAO imageDAO, CareerDAO careerDAO, MemberSkillDAO memberSkillDAO, SkillDAO skillDAO,
@@ -99,12 +96,12 @@ public class MypageService {
     }
 
 
-    /**<h1>3.이미지 조회 - fin</h1>*/
+    /**<h1>4.이미지수정</h1>*/
     public ImageDTO getImage(long memberId) {
         MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
         return modelMapper.map(member.getImg(), ImageDTO.class);
     }
-    /**<h1>4.이미지수정</h1>*/
+
     @Transactional
     public void modifyImageDTO(long memberId, MultipartFile imgFile) throws IOException {
         MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
@@ -117,46 +114,15 @@ public class MypageService {
         String saveName = memberId+ext;
         try {
             imgFile.transferTo(new File(filePath+"/"+saveName));
-            image= new ImageEntity(member.getMemberId(),"/images/profile/"+saveName, IMG_USE.profile,ext);
+            image= new ImageEntity(member.getMemberId(),"/images/profile/"+saveName,IMG_USE.profile,ext);
             imageDAO.save(image);
         } catch(IOException e){
             new File(filePath+"/"+saveName).delete();
         }
     }
 
-    public void postImg(){
-        FTPClient ftpClient = new FTPClient();
-        try {
-            ftpClient.connect(ftpServer);
-            ftpClient.login(ftpName, ftpPassword);
-            ftpClient.enterLocalPassiveMode();
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
 
-            String localFilePath = "/path/to/local/file.txt";
-            String remoteFilePath = "/path/on/ftp/server/file.txt";
-            FileInputStream inputStream = new FileInputStream(localFilePath);
 
-            boolean uploaded = ftpClient.storeFile(remoteFilePath, inputStream);
-            inputStream.close();
-
-            if (uploaded) {
-                System.out.println("File uploaded successfully.");
-            } else {
-                System.out.println("File upload failed.");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (ftpClient.isConnected()) {
-                    ftpClient.logout();
-                    ftpClient.disconnect();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     /**<h1>5.맴버기술조회</h1>*/
     public List<ResponseSkill> getMemberSkill(Long memberId) {

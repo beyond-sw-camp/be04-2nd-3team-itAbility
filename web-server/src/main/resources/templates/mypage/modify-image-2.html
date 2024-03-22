@@ -16,20 +16,21 @@
 
 <h1 align="center" > mypage-image </h1>
 
-<img th:src="${image.getPath()}" alt="">            <!--alt: 시각장애인과 같이 이미지를 보지못하는 경우 alt를 읽게 해줌-->
+<img th:src="${image}" alt="">            <!--alt: 시각장애인과 같이 이미지를 보지못하는 경우 alt를 읽게 해줌-->
 
-<form id="uploadForm"> <!-- id 추가 -->
+<form action="mypage/image" method="put" enctype="multipart/form-data"> <!--인코딩 타입을 지정해야한다!-->
     <input type="hidden" name="memberId" th:value="${memberId}" />
-
     이미지: <input type="file" id="imgFile"> <!-- id 추가 -->
     <img id="preview" /><br>
-    <input type="button" value="Upload file" onclick="uploadImage()"> <!-- submit 버튼을 button 으로 변경 -->
+    <input type="button" value="Upload file" th:onclick=" 'uploadImage(\'' + ${memberId} + '\')'"> <!-- submit 버튼을 button 으로 변경 -->
 </form>
+
 <button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${memberId} + '\')'">돌아가기</button>
 
 
+
 <script>
-    function uploadImage() {
+    function uploadImage(memberId) {
         const fileInput = document.getElementById('imgFile'); // 수정
         const file = fileInput.files[0];
         if (!file) {
@@ -37,30 +38,31 @@
             return;
         }
 
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-            const base64Image = reader.result;
 
-            const formData = new FormData();
-            formData.append('memberId', '${memberId}');
-            formData.append('image', base64Image);
-
-            fetch('http://localhost:8000/mypage/modify-image', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // 서버로부터 받은 응답 처리
-                    console.log(data);
-                    // 원하는 작업 수행
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        };
+        // const reader = new FileReader();
+        // reader.readAsDataURL(file);
+        // reader.onload = function () {
+        //     const base64Image = reader.result;
+        //
+        //     const formData = new FormData();
+        //     formData.append('image', base64Image);
+        //
+        //     fetch('http://localhost:8000/mypage/'+memberId+'/modify-image', {
+        //         method: 'POST',
+        //         body: formData
+        //     })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             // 서버로부터 받은 응답 처리
+        //             console.log(data);
+        //             // 원하는 작업 수행
+        //         })
+        //         .catch(error => {
+        //             console.error('Error:', error);
+        //         });
+        // };
     }
+
 
     const imageInput = document.getElementById('imgFile'); // 수정
     const preview = document.getElementById('preview');
