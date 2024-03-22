@@ -137,7 +137,6 @@ public class MypageRestController {
     @GetMapping("/{memberId}/modify-image")
     public String showModifyImage(@PathVariable long memberId, Model model){
 //        ImageDTO image = mypageService.getImage(memberId);
-        model.addAttribute("image",image);
         model.addAttribute(memberId);
         return "mypage/modify-image";
     }
