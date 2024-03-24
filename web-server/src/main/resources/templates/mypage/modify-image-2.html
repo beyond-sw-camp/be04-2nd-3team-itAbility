@@ -22,7 +22,9 @@
     <input type="hidden" name="memberId" th:value="${memberId}" />
     이미지: <input type="file" id="imgFile"> <!-- id 추가 -->
     <img id="preview" /><br>
+
     <input type="button" value="Upload file" th:onclick=" 'uploadImage(\'' + ${memberId} + '\')'"> <!-- submit 버튼을 button 으로 변경 -->
+    <input type="button" th:value="${memberId}">
 </form>
 
 <button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${memberId} + '\')'">돌아가기</button>
@@ -30,37 +32,23 @@
 
 
 <script>
+
     function uploadImage(memberId) {
-        const fileInput = document.getElementById('imgFile'); // 수정
+        const fileInput = document.getElementById('imgFile');
         const file = fileInput.files[0];
-        if (!file) {
-            alert('Please select an image.');
-            return;
-        }
-
-
-        // const reader = new FileReader();
-        // reader.readAsDataURL(file);
-        // reader.onload = function () {
-        //     const base64Image = reader.result;
-        //
-        //     const formData = new FormData();
-        //     formData.append('image', base64Image);
-        //
-        //     fetch('http://localhost:8000/mypage/'+memberId+'/modify-image', {
-        //         method: 'POST',
-        //         body: formData
-        //     })
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             // 서버로부터 받은 응답 처리
-        //             console.log(data);
-        //             // 원하는 작업 수행
-        //         })
-        //         .catch(error => {
-        //             console.error('Error:', error);
-        //         });
-        // };
+        const formData = new FormData();
+        formData.append('file', file);
+        fetch('http://localhost:8000/member-service/image/profile/'+memberId , {
+            method: 'PATCH',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+            console.log('Image URL:', data.imageUrl);
+        })
+            .catch(error => {
+            console.error('Error:', error);
+        });
     }
 
 

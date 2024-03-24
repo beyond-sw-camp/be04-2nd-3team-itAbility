@@ -48,6 +48,7 @@ public class MypageRestController {
         List<ResponseSkill> skillDTOS = mypageService.getMemberSkill(memberId);
         List<ResponseRecruitCategory> RecruitCategory = mypageService.getMemberRecruitCategoryList(memberId);
         MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS,RecruitCategory);
+        System.out.println("mypageDTO = " + mypageDTO);
         System.out.println("전송 완료.");
         return ResponseEntity.status(HttpStatus.CREATED).body(mypageDTO);
     }

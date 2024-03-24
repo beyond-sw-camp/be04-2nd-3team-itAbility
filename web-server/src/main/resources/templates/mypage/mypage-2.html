@@ -10,7 +10,7 @@
     <button onclick="redirectToModifyImagePage()">이미지 수정</button>
 
     <h2>Profile</h2>
-    <img th:src="@{${'static/images/profile/' + memberId}}" alt="프로필 사진">
+    <img id="image_url" alt="프로필 사진">
     <p><strong>Name:</strong> <span id="name"></span></p>
     <p><strong>Nickname:</strong> <span id="nickname"></span></p>
     <p><strong>Phone:</strong> <span id="phone"></span></p>
@@ -52,8 +52,11 @@
             return response.json();
         })
         .then(data => {
-            // document.getElementById('image').textContent = data.image;
+            const image_url= decodeURIComponent(data.image);
+            //document.getElementById('image_url').src =
+            console.log(image_url )
             // 마이페이지 정보 담기
+            document.getElementById('image_url').src = image_url;
             document.getElementById('name').textContent = data.name;
             document.getElementById('nickname').textContent = data.nickname;
             document.getElementById('phone').textContent = data.phone;

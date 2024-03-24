@@ -20,7 +20,8 @@ public class memberController {
     }
     //2.프로필사진수정페이지
     @GetMapping("/{memberId}/image")
-    public String image(){
+    public String image(Model model, @PathVariable long memberId){
+        model.addAttribute(memberId);
         return "mypage/modify-image-2";
     }
     //3.이름,닉네임,생년월일,전화번호 수정페이지
