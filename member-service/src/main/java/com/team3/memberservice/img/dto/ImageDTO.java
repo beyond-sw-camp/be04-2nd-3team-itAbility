@@ -10,7 +10,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class ImageDTO {
-    @Column(name = "img_id")
     private String imgId;
     private IMG_USE imgUse;
     private String ext;

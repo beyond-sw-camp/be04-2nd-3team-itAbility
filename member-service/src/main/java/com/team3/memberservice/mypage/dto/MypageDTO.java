@@ -26,7 +26,7 @@ public class MypageDTO {
     * skill: 스킬이름만
     * recruitCategory: 전문분야하나만
     * */
-
+    private String image;
     private String name;
     private String nickname;
     private String phone;
@@ -38,7 +38,9 @@ public class MypageDTO {
     private List<String> recruitCategories;
 
 
+
     public MypageDTO(MemberProfileDTO profile, List<CareerDTO> careerDTOList, List<ResponseSkill> skillDTOS, List<ResponseRecruitCategory> recruitCategory) {
+        this.image = profile.getImg().getPath();
         this.skills = new ArrayList<>();
         this.recruitCategories = new ArrayList<>();
         this.careers = new ArrayList<>();

@@ -41,3 +41,4 @@ out/
 .vscode/
 
 *.yml
+member-service/src/main/resources/itability-418007-0c2a47d403c7.json

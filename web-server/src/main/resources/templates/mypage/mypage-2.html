@@ -7,7 +7,10 @@
 </head>
 <body>
 <div id="profile">
+    <button onclick="redirectToModifyImagePage()">이미지 수정</button>
+
     <h2>Profile</h2>
+    <img id="image_url" alt="프로필 사진">
     <p><strong>Name:</strong> <span id="name"></span></p>
     <p><strong>Nickname:</strong> <span id="nickname"></span></p>
     <p><strong>Phone:</strong> <span id="phone"></span></p>
@@ -34,6 +37,10 @@
     var currentUrl = window.location.href;
     // URL에서 memberId 값 추출
     var memberId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+    function redirectToModifyImagePage() {
+        window.location.href = "http://localhost:8484/mypage/" + memberId + "/image";
+    }
+
     // rest-api 요청
     fetch("http://localhost:8000/member-service/rest/mypage/"+memberId)
         .then(response => {
@@ -45,7 +52,11 @@
             return response.json();
         })
         .then(data => {
+            const image_url= decodeURIComponent(data.image);
+            //document.getElementById('image_url').src =
+            console.log(image_url )
             // 마이페이지 정보 담기
+            document.getElementById('image_url').src = image_url;
             document.getElementById('name').textContent = data.name;
             document.getElementById('nickname').textContent = data.nickname;
             document.getElementById('phone').textContent = data.phone;
