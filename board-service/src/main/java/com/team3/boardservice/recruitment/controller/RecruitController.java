@@ -1,11 +1,9 @@
 package com.team3.boardservice.recruitment.controller;
 
-import com.team3.boardservice.mypage.entity.RequestRecruitCategory;
 import com.team3.boardservice.recruitment.aggregate.RecruitDTO;
 import com.team3.boardservice.recruitment.service.RecruitService;
 import com.team3.boardservice.recruitment.vo.RecruitVO;
 import com.team3.boardservice.recruitment.vo.*;
-import feign.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,17 +46,17 @@ public class RecruitController {
     }
 
     @GetMapping("/recruit-category/{recruitId}")
-    public ResponseEntity<String> findRecruitCategoryName(@PathVariable int recruitId) {
+    public ResponseEntity<RefRecruitCategoryVO> findRecruitCategory(@PathVariable int recruitId) {
 
-        String recruitCategoryName = recruitService.findRecruitCategory(recruitId);
+        RefRecruitCategoryVO recruitCategoryName = recruitService.findRecruitCategory(recruitId);
 
         return ResponseEntity.ok().body(recruitCategoryName);
     }
 
     @GetMapping("/recruit-skill/{recruitId}")
-    public ResponseEntity<String> findRecruitSkillName(@PathVariable int recruitId) {
+    public ResponseEntity<RecruitSkillVO> findRecruitSkill(@PathVariable int recruitId) {
 
-        String recruitSkillName = recruitService.findRecruitSkill(recruitId);
+        RecruitSkillVO recruitSkillName = recruitService.findRecruitSkill(recruitId);
 
         return ResponseEntity.ok().body(recruitSkillName);
     }

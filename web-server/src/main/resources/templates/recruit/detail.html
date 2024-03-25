@@ -7,6 +7,7 @@
 <body>
     <div>
         <ul>
+            <li id="recruitType"></li>
             <li id="recruitId"></li>
             <li id="recruitTitle"></li>
             <li id="recruitCategoryName"></li>
@@ -31,7 +32,7 @@
                 return response.json();
             })
             .then(data => {
-                document.getElementById('recruitCategoryName').textContent = data;
+                document.getElementById('recruitCategoryName').textContent = data.recruitCategoryName;
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
@@ -47,7 +48,7 @@
                 return response.json();
             })
             .then(data => {
-                document.getElementById('recruitSKillName').textContent = data;
+                document.getElementById('recruitSKillName').textContent = data.recruitSkillName;
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
@@ -63,6 +64,7 @@
                 return response.json();
             })
             .then(data => {
+                document.getElementById('recruitType').textContent = data.recruitType;
                 document.getElementById('recruitId').textContent = data.recruitId;
                 document.getElementById('recruitTitle').textContent = data.recruitTitle;
                 document.getElementById('recruitExpDate').textContent = data.recruitExpDate;

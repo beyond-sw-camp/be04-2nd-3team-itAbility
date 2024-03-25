@@ -9,11 +9,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class RefRecruitCategoryVO {
+public class RecruitSkillVO {
 
     int recruitId;
 
-    int recruitCategoryId;
+    int skillId;
 
-    String recruitCategoryName;
+    String skillName;
 }
