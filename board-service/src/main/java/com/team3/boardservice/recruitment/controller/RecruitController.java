@@ -90,14 +90,6 @@ public class RecruitController {
     }
 
 
-    @GetMapping("/member/{memberId}")
-    public String test(@PathVariable long memberId){
-
-        recruitService.test(memberId);
-
-        return null;
-    }
-
     @GetMapping("/recruit-categories/{memberId}")
     List<ResponseRecruitCategory> getRecruitCategory(@PathVariable long memberId){
         List<ResponseRecruitCategory> response = recruitService.getMemberRecruitCategory(memberId);
@@ -115,4 +107,12 @@ public class RecruitController {
         List<ResponseRecruitCategory> response = recruitService.deleteMemberRecruitCategery(memberId,recruitId);
         return response;
     }
+
+
+    @GetMapping("/member/{memberId}")
+    ResponseEntity<List<ResponseRecruitVO>> getMemberRecruitList(@PathVariable long memberId) {
+        List<ResponseRecruitVO> response = recruitService.getMemberRecruitList(memberId);
+        return ResponseEntity.ok().body(response);
+    }
+
 }
