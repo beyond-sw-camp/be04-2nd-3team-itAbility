@@ -10,4 +10,8 @@ public class recruitController {
 
     @GetMapping("/{recruitId}")
     public String recruit() {return "recruit/detail";}
+
+    @GetMapping("/list")
+    public String recruitList() {return "recruit/list";}
+
 }
