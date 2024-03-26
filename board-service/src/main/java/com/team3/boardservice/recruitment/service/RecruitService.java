@@ -172,7 +172,7 @@ public class RecruitService {
         List<RecruitDTO> recruitDTOS = recruitRepo.findByMemberInfoDTO(memberId);
 
         List<RecruitVO> returnValue = new ArrayList<>();
-        recruitDTOS.forEach(rec ->{
+        recruitDTOS.forEach(rec -> {
 
 //            RecruitSkillDTO skillId = recruitSkillRepo.findByIdRecruitId(rec);
 //            ResponseSkill skillEntity = memberServerClient.getSkill(skillId.getSkillEntity());
@@ -180,9 +180,10 @@ public class RecruitService {
 //            List<RefRecruitCategoryDTO> categoryDTO = refRecruitRepo.findAllByIdRecruitId(rec.getRecruitId());
 //            recruitVO.setSkill(skillEntity.getSkillName());
 //            recruitVO.setRecruitCategory(categoryDTO);
-            returnValue.add(mapper.map(rec,RecruitVO.class));
+            returnValue.add(mapper.map(rec, RecruitVO.class));
         });
         return returnValue;
+    }
     public RefRecruitCategoryVO findRecruitCategory(int recruitId) {
         int recruitCategoryId = refRecruitRepo.findByIdRecruitId(recruitId).getId().getRecruitCategoryId();
         RefRecruitCategoryVO recruitCategory = new RefRecruitCategoryVO(recruitId, recruitCategoryId, recruitCateRepo.findById(recruitCategoryId).get().getRecruitName());
