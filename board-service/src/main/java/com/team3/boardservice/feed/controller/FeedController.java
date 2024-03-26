@@ -40,6 +40,14 @@ public class FeedController {
         return ResponseEntity.ok().body("OK");
     }
 
+    /* 맴버의 작성한 게시물 조회*/
+    @Operation(summary = "게시글 전체 조회", description = "모든 사용자들이 작성했던 게시글이 모두 조회됩니다.")
+    @GetMapping("member/{memberId}")
+    public ResponseEntity<List<FeedVO>> getMemberFeeds(@PathVariable long memberId){
+        List<FeedVO> feeds = feedService.findMemberFeeds(memberId);
+        return ResponseEntity.ok().body(feeds);
+    }
+
     /* 게시물 상세 조회시 댓글 출력 -fin*/
     @Operation(summary = "게시물 상세조회", description = "게시물 상세 조회시 게시물 작성자가 등록한 이미지 및 글, 댓글이 상세하게 조회됩니다.")
     @GetMapping("/{id}")
@@ -98,5 +106,8 @@ public class FeedController {
 //        return "redirect:/feeds/listFeed";
         return ResponseEntity.ok("게시물 삭제 완료");
     }
+
+
+
 
 }

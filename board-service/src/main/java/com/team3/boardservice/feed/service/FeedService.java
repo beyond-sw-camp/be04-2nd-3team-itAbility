@@ -116,5 +116,12 @@ public class FeedService {
     }
 
 
-
+    public List<FeedVO> findMemberFeeds(long memberId) {
+        List<FeedDTO> feedDTOS = feedRepo.findByMemberId(memberId);
+        List<FeedVO> feeds = new ArrayList<>();
+        feedDTOS.forEach(feed ->{
+            feeds.add(modelMapper.map(feed,FeedVO.class));
+        } );
+        return feeds;
+    }
 }
