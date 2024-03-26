@@ -49,17 +49,17 @@ public class RecruitController {
     @GetMapping("/recruit-category/{recruitId}")
     public ResponseEntity<List<RefRecruitCategoryVO>> findRecruitCategory(@PathVariable int recruitId) {
 
-        List<RefRecruitCategoryVO> recruitCategoryName = recruitService.findRecruitCategory(recruitId);
+        List<RefRecruitCategoryVO> recruitCategoryList = recruitService.findRecruitCategory(recruitId);
 
-        return ResponseEntity.ok().body(recruitCategoryName);
+        return ResponseEntity.ok().body(recruitCategoryList);
     }
 
     @GetMapping("/recruit-skill/{recruitId}")
-    public ResponseEntity<RecruitSkillVO> findRecruitSkill(@PathVariable int recruitId) {
+    public ResponseEntity<List<RecruitSkillVO>> findRecruitSkill(@PathVariable int recruitId) {
 
-        RecruitSkillVO recruitSkillName = recruitService.findRecruitSkill(recruitId);
+        List<RecruitSkillVO> recruitSkillList = recruitService.findRecruitSkill(recruitId);
 
-        return ResponseEntity.ok().body(recruitSkillName);
+        return ResponseEntity.ok().body(recruitSkillList);
     }
 
     // 설명. 모집군 카테고리
