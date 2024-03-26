@@ -187,9 +187,7 @@ public class RecruitService {
         });
         return returnValue;
     }
-    public RefRecruitCategoryVO findRecruitCategory(int recruitId) {
-        int recruitCategoryId = refRecruitRepo.findByIdRecruitId(recruitId).getId().getRecruitCategoryId();
-        RefRecruitCategoryVO recruitCategory = new RefRecruitCategoryVO(recruitId, recruitCategoryId, recruitCateRepo.findById(recruitCategoryId).get().getRecruitName());
+
     public List<RefRecruitCategoryVO> findRecruitCategory(int recruitId) {
 
         List<RefRecruitCategoryDTO> recruitCategoryId = refRecruitRepo.findAllByIdRecruitId(recruitId);
@@ -203,17 +201,7 @@ public class RecruitService {
         }
 
         return refCateVOList;
-//        List<RefRecruitCategoryDTO> recruitCategoryId = refRecruitRepo.findAllByIdRecruitId(recruitId);
-//        System.out.println(recruitCategoryId);
-//        List<RefRecruitCategoryVO> refCateVOList = new ArrayList<>();
-//
-//        for (RefRecruitCategoryDTO refRecruitCategoryDTO : recruitCategoryId) {
-//            int refCateId = refRecruitCategoryDTO.getId().getRecruitCategoryId();
-//
-//            refCateVOList.add(new RefRecruitCategoryVO(recruitId, refCateId, recruitCateRepo.findById(refCateId).get().getRecruitName()));
-//        }
-//
-//        return refCateVOList;
+
     }
 
     public RecruitSkillVO findRecruitSkill(int recruitId) {
