@@ -110,8 +110,8 @@ public class RecruitController {
 
 
     @GetMapping("/member/{memberId}")
-    ResponseEntity<List<ResponseRecruitVO>> getMemberRecruitList(@PathVariable long memberId) {
-        List<ResponseRecruitVO> response = recruitService.getMemberRecruitList(memberId);
+    ResponseEntity<List<RecruitVO>> getMemberRecruitList(@PathVariable long memberId) {
+        List<RecruitVO> response = recruitService.getMemberRecruitList(memberId);
         return ResponseEntity.ok().body(response);
     }
 
