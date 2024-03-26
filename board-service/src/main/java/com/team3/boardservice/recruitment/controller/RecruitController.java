@@ -1,6 +1,5 @@
 package com.team3.boardservice.recruitment.controller;
 
-import com.team3.boardservice.mypage.entity.RequestRecruitCategory;
 import com.team3.boardservice.recruitment.aggregate.RecruitDTO;
 import com.team3.boardservice.recruitment.service.RecruitService;
 import com.team3.boardservice.recruitment.vo.RecruitVO;
@@ -44,6 +43,22 @@ public class RecruitController {
         List<RecruitVO> recruitList = recruitService.findRecruitList();
 
         return ResponseEntity.ok().body(recruitList);
+    }
+
+    @GetMapping("/recruit-category/{recruitId}")
+    public ResponseEntity<RefRecruitCategoryVO> findRecruitCategory(@PathVariable int recruitId) {
+
+        RefRecruitCategoryVO recruitCategoryName = recruitService.findRecruitCategory(recruitId);
+
+        return ResponseEntity.ok().body(recruitCategoryName);
+    }
+
+    @GetMapping("/recruit-skill/{recruitId}")
+    public ResponseEntity<RecruitSkillVO> findRecruitSkill(@PathVariable int recruitId) {
+
+        RecruitSkillVO recruitSkillName = recruitService.findRecruitSkill(recruitId);
+
+        return ResponseEntity.ok().body(recruitSkillName);
     }
 
     // 설명. 모집군 카테고리
