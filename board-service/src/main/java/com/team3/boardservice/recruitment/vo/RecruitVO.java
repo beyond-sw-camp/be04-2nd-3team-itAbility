@@ -3,6 +3,8 @@ package com.team3.boardservice.recruitment.vo;
 import com.team3.boardservice.recruitment.aggregate.RecruitType;
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -24,9 +26,9 @@ public class RecruitVO {
 
     private Long memberId;
 
-    private int skillId;
+    private List<Integer> skillId;
 
-    private int recruitCategoryId;
+    private List<Integer> recruitCategoryId;
 }
 
 

@@ -45,10 +45,11 @@ public class RecruitController {
         return ResponseEntity.ok().body(recruitList);
     }
 
+    //리스트로 변환
     @GetMapping("/recruit-category/{recruitId}")
-    public ResponseEntity<RefRecruitCategoryVO> findRecruitCategory(@PathVariable int recruitId) {
+    public ResponseEntity<List<RefRecruitCategoryVO>> findRecruitCategory(@PathVariable int recruitId) {
 
-        RefRecruitCategoryVO recruitCategoryName = recruitService.findRecruitCategory(recruitId);
+        List<RefRecruitCategoryVO> recruitCategoryName = recruitService.findRecruitCategory(recruitId);
 
         return ResponseEntity.ok().body(recruitCategoryName);
     }

@@ -78,20 +78,23 @@ public class RecruitService {
         ResponseMember member = memberServerClient.getMember(recruit.getMemberId());
         RecruitDTO recruitDTO = new RecruitDTO(recruit.getRecruitType(), recruit.getRecruitTitle(), recruit.getRecruitContent(), recruit.getRecruitExpDate(), recruit.getRecruitMbCnt(), recruit.getMemberId());
 
-        // 리스트로 추후 수정
-        RecruitCategoryDTO recruitCategoryDTO = recruitCateRepo.findById(recruit.getRecruitCategoryId()).orElseThrow();
-        RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruit.getRecruitId(), recruit.getRecruitCategoryId());
-        RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruitDTO, recruitCategoryDTO);
+        for (int categoryId: recruit.getRecruitCategoryId()){
+            RecruitCategoryDTO recruitCategoryDTO = recruitCateRepo.findById(categoryId).orElseThrow();
+            RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruit.getRecruitId(), categoryId);
+            RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruitDTO, recruitCategoryDTO);
 
-        // 리스트로 추후 수정
-//        SkillEntity skillEntity = skillRepo.findById(recruit.getSkillId()).orElseThrow();
-        ResponseSkill skillEntity = memberServerClient.getSkill(recruit.getSkillId());
-        RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), recruit.getSkillId());
-        RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity.getSkillId());
+            refRecruitRepo.save(refRecruitCategoryDTO);
+        }
+
+        for (int skillId: recruit.getSkillId()) {
+            ResponseSkill skillEntity = memberServerClient.getSkill(skillId);
+            RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), skillId);
+            RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity.getSkillId());
+
+            recruitSkillRepo.save(recruitSkillDTO);
+        }
 
         recruitRepo.save(recruitDTO);
-        refRecruitRepo.save(refRecruitCategoryDTO);
-        recruitSkillRepo.save(recruitSkillDTO);
 
         return recruitDTO;
     }
@@ -187,8 +190,30 @@ public class RecruitService {
     public RefRecruitCategoryVO findRecruitCategory(int recruitId) {
         int recruitCategoryId = refRecruitRepo.findByIdRecruitId(recruitId).getId().getRecruitCategoryId();
         RefRecruitCategoryVO recruitCategory = new RefRecruitCategoryVO(recruitId, recruitCategoryId, recruitCateRepo.findById(recruitCategoryId).get().getRecruitName());
+    public List<RefRecruitCategoryVO> findRecruitCategory(int recruitId) {
 
-        return recruitCategory;
+        List<RefRecruitCategoryDTO> recruitCategoryId = refRecruitRepo.findAllByIdRecruitId(recruitId);
+        System.out.println(recruitCategoryId);
+        List<RefRecruitCategoryVO> refCateVOList = new ArrayList<>();
+
+        for (RefRecruitCategoryDTO refRecruitCategoryDTO : recruitCategoryId) {
+            int refCateId = refRecruitCategoryDTO.getId().getRecruitCategoryId();
+
+            refCateVOList.add(new RefRecruitCategoryVO(recruitId, refCateId, recruitCateRepo.findById(refCateId).get().getRecruitName()));
+        }
+
+        return refCateVOList;
+//        List<RefRecruitCategoryDTO> recruitCategoryId = refRecruitRepo.findAllByIdRecruitId(recruitId);
+//        System.out.println(recruitCategoryId);
+//        List<RefRecruitCategoryVO> refCateVOList = new ArrayList<>();
+//
+//        for (RefRecruitCategoryDTO refRecruitCategoryDTO : recruitCategoryId) {
+//            int refCateId = refRecruitCategoryDTO.getId().getRecruitCategoryId();
+//
+//            refCateVOList.add(new RefRecruitCategoryVO(recruitId, refCateId, recruitCateRepo.findById(refCateId).get().getRecruitName()));
+//        }
+//
+//        return refCateVOList;
     }
 
     public RecruitSkillVO findRecruitSkill(int recruitId) {

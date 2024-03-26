@@ -12,8 +12,6 @@
         <result property="recruitExpDate" column="recruit_expdate"/>
         <result property="recruitMbCnt" column="recruit_mb_cnt"/>
         <result property="memberId" column="member_id"/>
-        <result property="skillId" column="skill_id"/>
-        <result property="recruitCategoryId" column="recruit_category_id"/>
     </resultMap>
 
     <select id="findRecruitList" resultMap="recruitMap">
