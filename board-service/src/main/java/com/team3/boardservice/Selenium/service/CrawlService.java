@@ -1,5 +1,7 @@
 package com.team3.boardservice.Selenium.service;
 
+//import com.team3.boardservice.Selenium.entity.CrawlEntity;
+//import com.team3.boardservice.Selenium.repository.CrawlRepository;
 import com.team3.boardservice.Selenium.entity.CrawlEntity;
 import com.team3.boardservice.Selenium.repository.CrawlRepository;
 import org.openqa.selenium.By;
@@ -7,7 +9,10 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,19 +22,26 @@ public class CrawlService {
     private final WebDriver webDriver;
     private final CrawlRepository crawlRepository;
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    public CrawlService(WebDriver webDriver, CrawlRepository crawlRepository) {
+    public CrawlService(WebDriver webDriver, CrawlRepository crawlRepository, JdbcTemplate jdbcTemplate) {
         this.webDriver = webDriver;
         this.crawlRepository = crawlRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Transactional
     public void crawlJobListings() throws InterruptedException {
+        jdbcTemplate.update("DELETE FROM job_listing");
+        // AUTO_INCREMENT 리셋
+        jdbcTemplate.update("ALTER TABLE job_listing AUTO_INCREMENT = 1");
         webDriver.get("https://www.wanted.co.kr/wdlist/518?country=kr&job_sort=job.recommend_order&years=-1&locations=all");
 
         JavascriptExecutor js = (JavascriptExecutor) webDriver;
         js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
 
-        Thread.sleep(5000);
+        Thread.sleep(6000);
 
         List<WebElement> jobCards = webDriver.findElements(By.className("Card_Card__lU7z_"));
 

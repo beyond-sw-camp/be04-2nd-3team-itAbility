@@ -26,4 +26,15 @@ public class CrawlController {
             return ResponseEntity.internalServerError().body("Crawling Job Listings Failed.");
         }
     }
+
+    @GetMapping("/crawl")
+    public String startCrawling() {
+        try {
+            seleniumService.crawlJobListings();
+            return "Crawling started successfully!";
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return "Crawling interrupted: " + e.getMessage();
+        }
+    }
 }

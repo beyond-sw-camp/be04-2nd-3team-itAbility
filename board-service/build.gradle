@@ -53,9 +53,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.13.0'
 
     implementation 'javax.persistence:javax.persistence-api:2.2'
-
     implementation 'org.seleniumhq.selenium:selenium-java:4.5.0'
-
 }
 
 dependencyManagement {
