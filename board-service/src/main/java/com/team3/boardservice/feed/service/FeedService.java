@@ -4,9 +4,13 @@ import com.team3.boardservice.client.MemberServerClient;
 import com.team3.boardservice.feed.dto.FeedDTO;
 
 import com.team3.boardservice.feed.dto.ImgDTO;
+import com.team3.boardservice.feed.dto.LikeDTO;
 import com.team3.boardservice.feed.repository.FeedRepo;
 import com.team3.boardservice.feed.repository.ImgRepo;
+import com.team3.boardservice.feed.repository.LikeRepo;
 import com.team3.boardservice.feed.vo.FeedVO;
+import com.team3.boardservice.feed.vo.LikeVO;
+import com.team3.boardservice.feed.vo.ResponseFeedVO;
 import com.team3.boardservice.reple.aggregate.CommentEntity;
 import com.team3.boardservice.reple.dto.CommentDTO;
 import com.team3.boardservice.reple.repository.CommentRepo;
@@ -29,14 +33,17 @@ public class FeedService {
     private final ModelMapper modelMapper;
     private final ImgService imgService;
     private final ImgRepo imgRepo;
+    private final LikeRepo likeRepo;
 
     @Autowired
-    public FeedService(FeedRepo feedRepo, CommentRepo commentRepo, ModelMapper modelMapper, ImgService imgService, ImgRepo imgRepo) {
+    public FeedService(FeedRepo feedRepo, CommentRepo commentRepo, ModelMapper modelMapper, ImgService imgService, ImgRepo imgRepo,
+                       LikeRepo likeRepo) {
         this.feedRepo = feedRepo;
         this.commentRepo = commentRepo;
         this.modelMapper = modelMapper;
         this.imgService = imgService;
         this.imgRepo = imgRepo;
+        this.likeRepo = likeRepo;
     }
 
     /* 게시물 전체 목록 조회 */
@@ -116,11 +123,14 @@ public class FeedService {
     }
 
 
-    public List<FeedVO> findMemberFeeds(long memberId) {
+    public List<ResponseFeedVO> findMemberFeeds(long memberId) {
         List<FeedDTO> feedDTOS = feedRepo.findByMemberId(memberId);
-        List<FeedVO> feeds = new ArrayList<>();
+        List<ResponseFeedVO> feeds = new ArrayList<>();
+
         feedDTOS.forEach(feed ->{
-            feeds.add(modelMapper.map(feed,FeedVO.class));
+            List<LikeDTO> likes = likeRepo.findByBoardIdBoardId(feed.getBoardId());
+            List<CommentEntity> comments = commentRepo.findByBoardId(feed);
+            feeds.add(new ResponseFeedVO(feed,likes.size(),comments));
         } );
         return feeds;
     }
