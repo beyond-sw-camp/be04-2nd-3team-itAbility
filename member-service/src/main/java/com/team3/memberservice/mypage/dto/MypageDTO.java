@@ -32,6 +32,8 @@ public class MypageDTO {
     private String phone;
     private String birthDate;
 
+    private DegreeDTO degreeDTO;
+
     private List<ResponseCareer> careers;
 
     private List<String> skills;
@@ -39,7 +41,7 @@ public class MypageDTO {
 
 
 
-    public MypageDTO(MemberProfileDTO profile, List<CareerDTO> careerDTOList, List<ResponseSkill> skillDTOS, List<ResponseRecruitCategory> recruitCategory) {
+    public MypageDTO(MemberProfileDTO profile, DegreeDTO degreeDTO,List<CareerDTO> careerDTOList, List<ResponseSkill> skillDTOS, List<ResponseRecruitCategory> recruitCategory) {
         this.image = profile.getImg().getPath();
         this.skills = new ArrayList<>();
         this.recruitCategories = new ArrayList<>();
@@ -48,6 +50,7 @@ public class MypageDTO {
         this.nickname = profile.getNickname();
         this.phone = profile.getMemberInfo().getPhone();
         this.birthDate = profile.getMemberInfo().getBirthDate();
+        this.degreeDTO = degreeDTO;
         careerDTOList.forEach(career
                 -> this.careers.add(new ResponseCareer(career.getCompanyName(), career.getStartDate()
                                  , career.getEndDate(), career.getRole(), career.getAssignedTask()
