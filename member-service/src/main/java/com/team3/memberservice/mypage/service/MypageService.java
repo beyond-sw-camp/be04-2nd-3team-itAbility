@@ -231,5 +231,10 @@ public class MypageService {
     public List<ResponseRecruitCategory> deleteMemberRecruitCategory(long memberId, RequestRecruitCategory recruitId) {
         return client.deleteRecruitCategory(memberId,recruitId.getRecruitId());
     }
+
+    public DegreeDTO getDegree(long memberId) {
+        MemberProfileEntity memberProfile = memberProfileDAO.findById(memberId).orElseThrow();
+        return modelMapper.map(memberProfile.getDegree(), DegreeDTO.class);
+    }
 }
 

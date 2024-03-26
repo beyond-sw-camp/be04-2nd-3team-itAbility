@@ -44,10 +44,11 @@ public class MypageRestController {
     @GetMapping("/{memberId}")
     public ResponseEntity<MypageDTO> getMypage(@PathVariable long memberId){
         MemberProfileDTO profile = mypageService.getMypage(memberId);
+        DegreeDTO degreeDTO = mypageService.getDegree(memberId);
         List<CareerDTO> careerDTOList = mypageService.getCareerList(memberId);
         List<ResponseSkill> skillDTOS = mypageService.getMemberSkill(memberId);
         List<ResponseRecruitCategory> RecruitCategory = mypageService.getMemberRecruitCategoryList(memberId);
-        MypageDTO mypageDTO = new MypageDTO(profile,careerDTOList,skillDTOS,RecruitCategory);
+        MypageDTO mypageDTO = new MypageDTO(profile,degreeDTO,careerDTOList,skillDTOS,RecruitCategory);
         System.out.println("mypageDTO = " + mypageDTO);
         System.out.println("전송 완료.");
         return ResponseEntity.status(HttpStatus.CREATED).body(mypageDTO);
