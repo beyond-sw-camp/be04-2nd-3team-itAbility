@@ -124,9 +124,7 @@ public class RecruitService {
     // 모집글 목록
     @Transactional(readOnly = true)
     public List<RecruitVO> findRecruitList() {
-
         List<RecruitVO> recruitList = recruitMapper.findRecruitList();
-
         return recruitList;
     }
 
@@ -171,6 +169,23 @@ public class RecruitService {
         MemberRecruitCategoryEntity entity = memberRecruitCategoryDAO.findById(new MemberRecruitCategoryId(memberId,recruitId)).orElseThrow();
         memberRecruitCategoryDAO.delete(entity);
         return getMemberRecruitCategory(memberId);
+    }
+
+    public List<RecruitVO> getMemberRecruitList(long memberId) {
+        List<RecruitDTO> recruitDTOS = recruitRepo.findByMemberInfoDTO(memberId);
+
+        List<RecruitVO> returnValue = new ArrayList<>();
+        recruitDTOS.forEach(rec -> {
+
+//            RecruitSkillDTO skillId = recruitSkillRepo.findByIdRecruitId(rec);
+//            ResponseSkill skillEntity = memberServerClient.getSkill(skillId.getSkillEntity());
+//            ResponseRecruitVO recruitVO =mapper.map(rec,ResponseRecruitVO.class);
+//            List<RefRecruitCategoryDTO> categoryDTO = refRecruitRepo.findAllByIdRecruitId(rec.getRecruitId());
+//            recruitVO.setSkill(skillEntity.getSkillName());
+//            recruitVO.setRecruitCategory(categoryDTO);
+            returnValue.add(mapper.map(rec, RecruitVO.class));
+        });
+        return returnValue;
     }
 
     public List<RefRecruitCategoryVO> findRecruitCategory(int recruitId) {

@@ -105,13 +105,6 @@ public class RecruitController {
         return "redirect:/recruit/list";    // 리다이렉트 주소(모집글 목록?)
     }
 
-    @GetMapping("/member/{memberId}")
-    public String test(@PathVariable long memberId){
-
-        recruitService.test(memberId);
-
-        return null;
-    }
 
     @GetMapping("/recruit-categories/{memberId}")
     List<ResponseRecruitCategory> getRecruitCategory(@PathVariable long memberId){
@@ -130,4 +123,12 @@ public class RecruitController {
         List<ResponseRecruitCategory> response = recruitService.deleteMemberRecruitCategery(memberId,recruitId);
         return response;
     }
+
+
+    @GetMapping("/member/{memberId}")
+    ResponseEntity<List<RecruitVO>> getMemberRecruitList(@PathVariable long memberId) {
+        List<RecruitVO> response = recruitService.getMemberRecruitList(memberId);
+        return ResponseEntity.ok().body(response);
+    }
+
 }

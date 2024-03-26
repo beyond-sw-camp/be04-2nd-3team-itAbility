@@ -26,11 +26,13 @@ public class MypageDTO {
     * skill: 스킬이름만
     * recruitCategory: 전문분야하나만
     * */
-
+    private String image;
     private String name;
     private String nickname;
     private String phone;
     private String birthDate;
+
+    private DegreeDTO degreeDTO;
 
     private List<ResponseCareer> careers;
 
@@ -38,7 +40,9 @@ public class MypageDTO {
     private List<String> recruitCategories;
 
 
-    public MypageDTO(MemberProfileDTO profile, List<CareerDTO> careerDTOList, List<ResponseSkill> skillDTOS, List<ResponseRecruitCategory> recruitCategory) {
+
+    public MypageDTO(MemberProfileDTO profile, DegreeDTO degreeDTO,List<CareerDTO> careerDTOList, List<ResponseSkill> skillDTOS, List<ResponseRecruitCategory> recruitCategory) {
+        this.image = profile.getImg().getPath();
         this.skills = new ArrayList<>();
         this.recruitCategories = new ArrayList<>();
         this.careers = new ArrayList<>();
@@ -46,6 +50,7 @@ public class MypageDTO {
         this.nickname = profile.getNickname();
         this.phone = profile.getMemberInfo().getPhone();
         this.birthDate = profile.getMemberInfo().getBirthDate();
+        this.degreeDTO = degreeDTO;
         careerDTOList.forEach(career
                 -> this.careers.add(new ResponseCareer(career.getCompanyName(), career.getStartDate()
                                  , career.getEndDate(), career.getRole(), career.getAssignedTask()

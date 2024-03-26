@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>modify</title>
+
+    <style>
+        img{
+            width: 100px;
+        }
+    </style>
+</head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<body>
+
+<h1 align="center" > mypage-image </h1>
+
+<img th:src="${image}" alt="">            <!--alt: 시각장애인과 같이 이미지를 보지못하는 경우 alt를 읽게 해줌-->
+
+<form action="mypage/image" method="put" enctype="multipart/form-data"> <!--인코딩 타입을 지정해야한다!-->
+    <input type="hidden" name="memberId" th:value="${memberId}" />
+    이미지: <input type="file" id="imgFile"> <!-- id 추가 -->
+    <img id="preview" /><br>
+
+    <input type="button" value="Upload file" th:onclick=" 'uploadImage(\'' + ${memberId} + '\')'"> <!-- submit 버튼을 button 으로 변경 -->
+    <input type="button" th:value="${memberId}">
+</form>
+
+<button STYLE="width: 150px; height: 100px; font-size: 30px" th:onclick="'redirectTomypage(\'' + ${memberId} + '\')'">돌아가기</button>
+
+
+
+<script>
+
+    function uploadImage(memberId) {
+        const fileInput = document.getElementById('imgFile');
+        const file = fileInput.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+        fetch('http://localhost:8000/member-service/image/profile/'+memberId , {
+            method: 'PATCH',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+            console.log('Image URL:', data.imageUrl);
+        })
+            .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+
+    const imageInput = document.getElementById('imgFile'); // 수정
+    const preview = document.getElementById('preview');
+
+    imageInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const imageUrl = event.target.result;
+                preview.setAttribute("src", imageUrl);
+            }
+
+            reader.readAsDataURL(file);
+        } else {
+            preview.innerHTML = '';
+        }
+    });
+
+    function redirectTomypage(memberId) {
+        window.location.href = "http://localhost:8080/mypage/" + memberId;
+    }
+    // 현재 페이지의 URL 가져오기
+    var currentUrl = window.location.href;
+    // URL에서 memberId 값 추출
+    var memberId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+    // rest-api 요청
+    fetch("http://localhost:8000/member-service/rest/mypage/"+memberId)
+        .then(response => {
+            // 없으면 에러 발생
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // 있으면 pass
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('image').textContent = data.image;
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+</script>
+
+</body>
+</html>

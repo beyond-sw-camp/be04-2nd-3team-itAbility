@@ -5,6 +5,7 @@ import com.team3.boardservice.feed.dto.ImgDTO;
 import com.team3.boardservice.feed.service.FeedService;
 import com.team3.boardservice.feed.service.ImgService;
 import com.team3.boardservice.feed.vo.FeedVO;
+import com.team3.boardservice.feed.vo.ResponseFeedVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,9 @@ import java.util.List;
 @RequestMapping("/feeds")
 @Tag(name = "게시글", description = "전체조회, 상세조회, 생성, 수정, 삭제")
 public class FeedController {
-
-
     private FeedService feedService;
-
     private ImgService imgService;
+
 
     @Autowired
     public FeedController(FeedService feedService, ImgService imgService) {
@@ -35,9 +34,17 @@ public class FeedController {
     /* 게시물 전체 조회 -fin*/
     @Operation(summary = "게시글 전체 조회", description = "모든 사용자들이 작성했던 게시글이 모두 조회됩니다.")
     @GetMapping("/listFeed")
-    public ResponseEntity<String> getAllFeeds() {
+    public ResponseEntity<List<FeedDTO>> getAllFeeds() {
         List<FeedDTO> feeds = feedService.findByFeeds();
-        return ResponseEntity.ok().body("OK");
+        return ResponseEntity.ok().body(feeds);
+    }
+
+    /* 맴버의 작성한 게시물 조회*/
+    @Operation(summary = "멤버 게시글  조회", description = "모든 사용자들이 작성했던 게시글이 모두 조회됩니다.")
+    @GetMapping("member/{memberId}")
+    public ResponseEntity<List<ResponseFeedVO>> getMemberFeeds(@PathVariable long memberId){
+        List<ResponseFeedVO> feeds = feedService.findMemberFeeds(memberId);
+        return ResponseEntity.ok().body(feeds);
     }
 
     /* 게시물 상세 조회시 댓글 출력 -fin*/
@@ -98,5 +105,8 @@ public class FeedController {
 //        return "redirect:/feeds/listFeed";
         return ResponseEntity.ok("게시물 삭제 완료");
     }
+
+
+
 
 }

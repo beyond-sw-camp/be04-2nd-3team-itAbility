@@ -3,8 +3,10 @@ package com.team3.memberservice.mypage.service;
 import com.team3.memberservice.career.dao.CareerDAO;
 import com.team3.memberservice.career.dto.CareerDTO;
 import com.team3.memberservice.client.MemberServiceClient;
+import com.team3.memberservice.ftp.FTP_SERVER;
+import com.team3.memberservice.img.ImageVO;
 import com.team3.memberservice.img.dao.ImageDAO;
-import com.team3.memberservice.img.dto.*;
+import com.team3.memberservice.img.dto.ImageDTO;
 import com.team3.memberservice.img.entity.*;
 import com.team3.memberservice.img.enumData.*;
 import com.team3.memberservice.member.dao.*;
@@ -20,8 +22,10 @@ import com.team3.memberservice.skill.dto.ResponseSkillList;
 import com.team3.memberservice.skill.entity.MemberSkillEntity;
 import com.team3.memberservice.skill.entity.MemberSkillId;
 import com.team3.memberservice.skill.service.SkillService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -30,10 +34,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class MypageService {
     private final MemberProfileDAO memberProfileDAO;
     private final DegreeDAO degreeDAO;
@@ -89,12 +96,12 @@ public class MypageService {
     }
 
 
-    /**<h1>3.이미지 조회 - fin</h1>*/
+    /**<h1>4.이미지수정</h1>*/
     public ImageDTO getImage(long memberId) {
         MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
         return modelMapper.map(member.getImg(), ImageDTO.class);
     }
-    /**<h1>4.이미지수정</h1>*/
+
     @Transactional
     public void modifyImageDTO(long memberId, MultipartFile imgFile) throws IOException {
         MemberProfileEntity member = memberProfileDAO.findById(memberId).orElseThrow();
@@ -107,12 +114,15 @@ public class MypageService {
         String saveName = memberId+ext;
         try {
             imgFile.transferTo(new File(filePath+"/"+saveName));
-            image= new ImageEntity(member.getMemberId(),"/images/profile/"+saveName, IMG_USE.profile,ext);
+            image= new ImageEntity(member.getMemberId(),"/images/profile/"+saveName,IMG_USE.profile,ext);
             imageDAO.save(image);
         } catch(IOException e){
             new File(filePath+"/"+saveName).delete();
         }
     }
+
+
+
 
     /**<h1>5.맴버기술조회</h1>*/
     public List<ResponseSkill> getMemberSkill(Long memberId) {
@@ -220,6 +230,11 @@ public class MypageService {
     @Transactional
     public List<ResponseRecruitCategory> deleteMemberRecruitCategory(long memberId, RequestRecruitCategory recruitId) {
         return client.deleteRecruitCategory(memberId,recruitId.getRecruitId());
+    }
+
+    public DegreeDTO getDegree(long memberId) {
+        MemberProfileEntity memberProfile = memberProfileDAO.findById(memberId).orElseThrow();
+        return modelMapper.map(memberProfile.getDegree(), DegreeDTO.class);
     }
 }
 
