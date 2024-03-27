@@ -12,8 +12,6 @@ public class ResponseMember {
 
     private String provider;
 
-    private String pwd;
-
     private String name;
 
     private String birthDate;
@@ -30,7 +28,6 @@ public class ResponseMember {
         this.memberId = member.getMemberId();
         this.email = member.getEmail();
         this.provider = member.getProvider();
-        this.pwd = member.getPwd();
         this.name = member.getName();
         this.birthDate = member.getBirthDate();
         this.phone = member.getPhone();
