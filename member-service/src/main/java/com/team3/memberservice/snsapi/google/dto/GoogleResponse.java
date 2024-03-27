@@ -19,33 +19,30 @@ public class GoogleResponse implements OAuth2Response {
 
     @Override
     public String getProviderId() {
-        // Using Optional to safely handle null values.
+        // Using Optional to safely handle null values and ensuring a non-null String is returned.
         return Optional.ofNullable(attribute.get("sub"))
                 .map(Object::toString)
-                .orElse(null); // or use orElse("") for an empty string default.
+                .orElse(""); // Returning empty String instead of null.
     }
 
     @Override
     public String getEmail() {
-        // Using Optional to safely handle null values.
         return Optional.ofNullable(attribute.get("email"))
                 .map(Object::toString)
-                .orElse(null); // or use orElse("") for an empty string default.
+                .orElse(""); // Consistently handling Optional to return non-null String.
     }
 
     @Override
     public String getName() {
-        // Using Optional to safely handle null values.
         return Optional.ofNullable(attribute.get("name"))
                 .map(Object::toString)
-                .orElse(null); // or use orElse("") for an empty string default.
+                .orElse(""); // Ensuring consistency in handling potential nulls.
     }
 
     @Override
     public String getThumbnail() {
-        // Using Optional to safely handle null values.
         return Optional.ofNullable(attribute.get("picture"))
                 .map(Object::toString)
-                .orElse(null); // or use orElse("") for an empty string default.
+                .orElse(""); // Maintaining the approach to avoid null returns.
     }
 }
