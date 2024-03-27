@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface MemberInfoRepo extends JpaRepository<MemberInfoDTO,Long> {
     List<MemberInfoDTO> findByMbReportCountGreaterThanEqual(int mbReportCount);
+
+    MemberInfoDTO findByUsername(String username);
 }

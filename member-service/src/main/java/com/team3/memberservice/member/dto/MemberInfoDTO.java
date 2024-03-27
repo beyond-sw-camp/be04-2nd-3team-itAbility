@@ -2,10 +2,7 @@ package com.team3.memberservice.member.dto;
 
 //import com.team3.itability.mypage.MemberProfileDTO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -16,10 +13,15 @@ import lombok.*;
 @ToString(exclude = "memberProfile")
 @Entity(name = "member_info_dto")
 @Table(name = "member_info")
+@Builder
 public class MemberInfoDTO {
     @Id
-    @Column(name = "member_id")
+//    @Column(name = "member_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long memberId;
+
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "email")
 
@@ -28,14 +30,14 @@ public class MemberInfoDTO {
 
     private String provider;
 
-    @Column(name = "pwd")
-    private String pwd;
-
     @Column(name = "name")
     private String name;
 
     @Column(name = "birthdate")
     private String birthDate;
+
+    @Column(name = "picture")
+    private String picture;
 
     @Column(name = "phone")
     private String phone;
