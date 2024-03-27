@@ -4,6 +4,7 @@ import com.team3.memberservice.member.dao.MemberInfoRepo;
 import com.team3.memberservice.member.dto.MemberInfoDTO;
 import com.team3.memberservice.member.dto.UserDTO;
 import com.team3.memberservice.oauth2.dto.CustomOAuth2User;
+import com.team3.memberservice.snsapi.common.CommonService;
 import com.team3.memberservice.snsapi.google.dto.GoogleResponse;
 import com.team3.memberservice.snsapi.kakao.dto.KakaoResponse;
 import com.team3.memberservice.snsapi.naver.dto.NaverResponse;
@@ -20,9 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final MemberInfoRepo memberInfoRepo;
-
-    public CustomOAuth2UserService(MemberInfoRepo memberInfoRepo) {
+    private CommonService commonService;
+    public CustomOAuth2UserService(MemberInfoRepo memberInfoRepo, CommonService commonService) {
         this.memberInfoRepo = memberInfoRepo;
+        this.commonService = commonService;
     }
 
     @Override
@@ -62,8 +64,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .picture(oAuth2Response.getThumbnail())
                     .build();
 
-            memberInfoRepo.save(userEntity);
-
+            userEntity=memberInfoRepo.save(userEntity);
+            commonService.addUserLogin2(userEntity);
 
             UserDTO userDTO = UserDTO.builder()
                     .username(username)
