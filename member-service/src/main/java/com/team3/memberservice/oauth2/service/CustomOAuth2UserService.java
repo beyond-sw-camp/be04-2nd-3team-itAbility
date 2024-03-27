@@ -15,6 +15,12 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
+
 @Service
 @Transactional
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -36,10 +42,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if (registrationId.equals("naver")) {
 
             oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
+
+            MessageDigest md = null;
+            try {
+                md = MessageDigest.getInstance("SHA-512");
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
+            byte[] digest = md.digest(oAuth2Response.getProviderId().getBytes());
+            long providerId = new BigInteger(digest).longValue();
+            System.out.println("sha256: " +providerId );
         }
         else if (registrationId.equals("google")) {
 
             oAuth2Response = new GoogleResponse(oAuth2User.getAttributes());
+
+
         }
         else if (registrationId.equals("kakao")) {
 
@@ -49,26 +67,49 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             return null;
         }
+
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-512");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        byte[] digest = md.digest(oAuth2Response.getProviderId().getBytes());
+        long providerId;
+        if(registrationId.equals("naver")){
+
+            providerId = new BigInteger(digest).longValue();
+        } else if (registrationId.equals("kakao")) {
+            providerId = Long.parseLong(oAuth2Response.getProviderId());
+
+        } else {
+            String first12Digits = oAuth2Response.getProvider().substring(0, 12);
+            providerId = Long.valueOf(first12Digits);
+        }
+        System.out.println("sha256: " +providerId );
+
+
         String username = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
         System.out.println("username = " + username);
+
         MemberInfoDTO existData = memberInfoRepo.findByUsername(username);
 
         if (existData == null) {
             MemberInfoDTO userEntity = MemberInfoDTO.builder()
+                    .memberId(providerId) // 변환된 long 타입의 providerId 사용
                     .username(username)
                     .email(oAuth2Response.getEmail())
                     .name(oAuth2Response.getName())
-                    .provider(oAuth2Response.getProvider())
+                    .role(oAuth2Response.getProvider()) // 역할 설정 수정이 필요할 수 있습니다
                     .picture(oAuth2Response.getThumbnail())
                     .build();
 
             memberInfoRepo.save(userEntity);
 
-
             UserDTO userDTO = UserDTO.builder()
                     .username(username)
                     .name(oAuth2Response.getName())
-                    .role(oAuth2Response.getProvider())
+                    .role(oAuth2Response.getProvider()) // 역할 설정 수정이 필요할 수 있습니다
                     .picture(oAuth2Response.getThumbnail())
                     .build();
 
@@ -83,7 +124,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             UserDTO userDTO = UserDTO.builder()
                     .username(existData.getUsername())
                     .name(oAuth2Response.getName())
-                    .role(existData.getProvider())
+                    .role(existData.getRole()) // 역할 설정 확인
                     .picture(oAuth2Response.getThumbnail())
                     .build();
 

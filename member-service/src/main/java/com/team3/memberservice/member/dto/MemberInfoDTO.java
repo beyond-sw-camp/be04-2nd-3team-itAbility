@@ -17,7 +17,6 @@ import lombok.*;
 public class MemberInfoDTO {
     @Id
 //    @Column(name = "member_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long memberId;
 
     @Column(name = "username")
@@ -28,7 +27,7 @@ public class MemberInfoDTO {
     private String email;
     @Column(name = "provider")
 
-    private String provider;
+    private String role;
 
     @Column(name = "name")
     private String name;
@@ -55,7 +54,7 @@ public class MemberInfoDTO {
         this.memberId = userId;
         this.name = name;
         this.email = email;
-        this.provider = provider.name();
+        this.role = provider.name();
     }
 
 
