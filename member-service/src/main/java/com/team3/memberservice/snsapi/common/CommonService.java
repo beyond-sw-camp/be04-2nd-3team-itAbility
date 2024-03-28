@@ -45,4 +45,15 @@ public class CommonService {
         profile.setDegree(degree);
         memberProfileDAO.save(profile);
     }
+
+    public void addUserLogin2(MemberInfoDTO userEntity) {
+        // userId, imgId, IMG_USE.profile, "link"
+        ImageEntity imageEntity = new ImageEntity(userEntity.getMemberId(),userEntity.getPicture(),IMG_USE.profile,"link");
+        imageDAO.save(imageEntity);
+        MemberProfileEntity profile = new MemberProfileEntity(userEntity, userEntity.getName(), imageEntity);
+        DegreeEntity degree = new DegreeEntity();
+        degreeDAO.save(degree);
+        profile.setDegree(degree);
+        memberProfileDAO.save(profile);
+    }
 }

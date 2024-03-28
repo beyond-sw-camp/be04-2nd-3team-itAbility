@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface LikeRepo extends JpaRepository<LikeDTO,Integer> {
     List<LikeDTO> findByBoardIdBoardId(int boardId);
+
+    void deleteAllByBoardIdBoardId(int boardId);
 }

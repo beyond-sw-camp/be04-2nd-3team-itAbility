@@ -12,8 +12,6 @@ public class ResponseMember {
 
     private String provider;
 
-    private String pwd;
-
     private String name;
 
     private String birthDate;
@@ -29,8 +27,7 @@ public class ResponseMember {
     public ResponseMember(MemberInfoDTO member) {
         this.memberId = member.getMemberId();
         this.email = member.getEmail();
-        this.provider = member.getProvider();
-        this.pwd = member.getPwd();
+        this.provider = member.getRole();
         this.name = member.getName();
         this.birthDate = member.getBirthDate();
         this.phone = member.getPhone();

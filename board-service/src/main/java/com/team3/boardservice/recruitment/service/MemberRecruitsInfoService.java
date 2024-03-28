@@ -9,10 +9,12 @@ import com.team3.boardservice.recruitment.repository.MemberRecruitsInfoRepo;
 import com.team3.boardservice.recruitment.repository.MemberRecruitsMapper;
 import com.team3.boardservice.recruitment.repository.RecruitRepo;
 import com.team3.boardservice.recruitment.vo.MemberRecruitsInfoVO;
+import com.team3.boardservice.recruitment.vo.ResponseMemberApplyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -86,5 +88,13 @@ public class MemberRecruitsInfoService {
         MemberRecruitsInfoDTO memberRecruitsInfo = memberRecruitsInfoRepo.findById(recruitId).orElseThrow();
 
         return memberRecruitsInfo;
+    }
+
+    public List<MemberRecruitsInfoDTO> getMemberApplyList(long memberId) {
+        List<MemberRecruitsInfoDTO> memberRecruitsInfoDTOS = memberRecruitsInfoRepo.findAllByMemberInfoDTO(memberId);
+//        List<ResponseMemberApplyVO> returnValue = new ArrayList<>();
+        System.out.println("memberRecruitsInfoDTOS = " + memberRecruitsInfoDTOS);
+
+        return memberRecruitsInfoDTOS;
     }
 }

@@ -28,6 +28,7 @@ public class RecruitService {
     private final RecruitSkillRepo recruitSkillRepo;
     private final MemberServerClient memberServerClient;
     private final MemberRecruitCategoryDAO memberRecruitCategoryDAO;
+    private final MemberRecruitsInfoRepo memberRecruitsInfoRepo;
 
 
     @Autowired
@@ -39,7 +40,8 @@ public class RecruitService {
                             RefRecruitRepo refRecruitRepo,
                             RecruitSkillRepo recruitSkillRepo,
                             MemberServerClient memberServerClient,
-                            MemberRecruitCategoryDAO memberRecruitCategoryDAO)
+                            MemberRecruitCategoryDAO memberRecruitCategoryDAO,
+                            MemberRecruitsInfoRepo memberRecruitsInfoRepo)
     {
         this.mapper = mapper;
         this.recruitMapper = recruitMapper;
@@ -49,6 +51,7 @@ public class RecruitService {
         this.recruitSkillRepo = recruitSkillRepo;
         this.memberServerClient = memberServerClient;
         this.memberRecruitCategoryDAO = memberRecruitCategoryDAO;
+        this.memberRecruitsInfoRepo = memberRecruitsInfoRepo;
     }
 
     // 모집군 카테고리 조회
@@ -118,6 +121,8 @@ public class RecruitService {
     // 모집글 삭제
     @Transactional
     public void deleteRecruit(int recruitId) {
+        memberRecruitsInfoRepo.deleteAllByRecruitDTORecruitId(recruitId);
+//        refRecruitRepo.deleteAllbyRecruitRecruitId(recruitId);
         recruitRepo.deleteById(recruitId);
     }
 
@@ -171,21 +176,14 @@ public class RecruitService {
         return getMemberRecruitCategory(memberId);
     }
 
-    public List<RecruitVO> getMemberRecruitList(long memberId) {
+    public List<RecruitDTO> getMemberRecruitList(long memberId) {
         List<RecruitDTO> recruitDTOS = recruitRepo.findByMemberInfoDTO(memberId);
-
-        List<RecruitVO> returnValue = new ArrayList<>();
-        recruitDTOS.forEach(rec -> {
-
-//            RecruitSkillDTO skillId = recruitSkillRepo.findByIdRecruitId(rec);
-//            ResponseSkill skillEntity = memberServerClient.getSkill(skillId.getSkillEntity());
-//            ResponseRecruitVO recruitVO =mapper.map(rec,ResponseRecruitVO.class);
-//            List<RefRecruitCategoryDTO> categoryDTO = refRecruitRepo.findAllByIdRecruitId(rec.getRecruitId());
-//            recruitVO.setSkill(skillEntity.getSkillName());
-//            recruitVO.setRecruitCategory(categoryDTO);
-            returnValue.add(mapper.map(rec, RecruitVO.class));
-        });
-        return returnValue;
+//
+//        List<RecruitVO> returnValue = new ArrayList<>();
+//        recruitDTOS.forEach(rec -> {
+//            returnValue.add(mapper.map(rec, RecruitVO.class));
+//        });
+        return recruitDTOS;
     }
 
     public List<RefRecruitCategoryVO> findRecruitCategory(int recruitId) {

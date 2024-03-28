@@ -2,10 +2,7 @@ package com.team3.memberservice.member.dto;
 
 //import com.team3.itability.mypage.MemberProfileDTO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -16,26 +13,30 @@ import lombok.*;
 @ToString(exclude = "memberProfile")
 @Entity(name = "member_info_dto")
 @Table(name = "member_info")
+@Builder
 public class MemberInfoDTO {
     @Id
     @Column(name = "member_id")
     private long memberId;
 
+    @Column(name = "username", unique = true) // 유니크 제약 조건 추가
+    private String username;
+
+
     @Column(name = "email")
-
     private String email;
+
     @Column(name = "provider")
-
-    private String provider;
-
-    @Column(name = "pwd")
-    private String pwd;
+    private String role;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "birthdate")
     private String birthDate;
+
+    @Column(name = "picture")
+    private String picture;
 
     @Column(name = "phone")
     private String phone;
@@ -53,7 +54,7 @@ public class MemberInfoDTO {
         this.memberId = userId;
         this.name = name;
         this.email = email;
-        this.provider = provider.name();
+        this.role = provider.name();
     }
 
 

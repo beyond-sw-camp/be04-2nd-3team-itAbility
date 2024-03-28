@@ -1,8 +1,10 @@
 package com.team3.boardservice.recruitment.controller;
 
 import com.team3.boardservice.recruitment.aggregate.MemberRecruitsInfoDTO;
+import com.team3.boardservice.recruitment.aggregate.RecruitDTO;
 import com.team3.boardservice.recruitment.service.MemberRecruitsInfoService;
 import com.team3.boardservice.recruitment.vo.MemberRecruitsInfoVO;
+import com.team3.boardservice.recruitment.vo.ResponseMemberApplyVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import com.team3.boardservice.recruitment.vo.ReqeuestRecruitCategory;
@@ -85,6 +87,11 @@ public class MemberRecruitsInfoController {
                 .build();
     }
 
-
+    @GetMapping("/member-apply-list/{memberId}")
+    @Operation(summary = "자신이 신청한 모집글 조회", description = "사용자는 자신이 신청한 모집글 목록들을 조회할 수 있습니다.")
+    public ResponseEntity<List<MemberRecruitsInfoDTO> > getMemberApplyList(@PathVariable long memberId){
+        List<MemberRecruitsInfoDTO> returnValue= memberRecruitsInfoService.getMemberApplyList(memberId);
+        return ResponseEntity.ok().body(returnValue);
+    }
 
 }

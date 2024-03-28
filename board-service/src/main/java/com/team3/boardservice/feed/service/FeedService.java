@@ -68,10 +68,11 @@ public class FeedService {
     /* 게시물 생성 -fin */
     @Transactional
     public FeedVO createFeed(FeedDTO feedDTO,
-                             long memberId,
-                             List<ImgDTO> imgDTOS) {
+                             long memberId
+//                             ,List<ImgDTO> imgDTOS
+                             ) {
         feedDTO.setMemberId(memberId);
-        feedDTO.setImgId(imgDTOS);
+//        feedDTO.setImgId(imgDTOS);
         FeedDTO saveFeed = feedRepo.save(feedDTO);
         return modelMapper.map(saveFeed,FeedVO.class);
     }
@@ -79,38 +80,39 @@ public class FeedService {
     /* 게시물 수정 */
     @Transactional
     public FeedVO modifyFeed(int boardId,
-                             FeedDTO feedDTO,
-                             List<ImgDTO> addedImgs,
-                             List<String> removeImgIds) {
+                             FeedDTO feedDTO
+//                             ,List<ImgDTO> addedImgs,
+//                             List<String> removeImgIds
+                             ) {
         FeedDTO feed = feedRepo.findById(feedDTO.getBoardId()).orElseThrow();
         feed.setBoardTitle(feedDTO.getBoardTitle());
         feed.setBoardContent(feedDTO.getBoardContent());
 
-        // 게시물 수정시 새로운 이미지 추가
-        if (addedImgs != null && !addedImgs.isEmpty()) {
-            for (ImgDTO imgDTO : addedImgs) {
-                feed.getImgId().add(imgDTO);
-                imgRepo.save(imgDTO);
-            }
-        }
-
-        // 게시물 수정시 삭제할 이미지 처리
-        if (removeImgIds != null && !removeImgIds.isEmpty()) {
-            for (String imgId : removeImgIds) {
-                feed.getImgId().removeIf(img -> img.getImgId().equals(imgId));
-                imgRepo.deleteById(imgId);
-            }
-        }
-
+//        // 게시물 수정시 새로운 이미지 추가
+//        if (addedImgs != null && !addedImgs.isEmpty()) {
+//            for (ImgDTO imgDTO : addedImgs) {
+//                feed.getImgId().add(imgDTO);
+//                imgRepo.save(imgDTO);
+//            }
+//        }
+//        // 게시물 수정시 삭제할 이미지 처리
+//        if (removeImgIds != null && !removeImgIds.isEmpty()) {
+//            for (String imgId : removeImgIds) {
+//                feed.getImgId().removeIf(img -> img.getImgId().equals(imgId));
+//                imgRepo.deleteById(imgId);
+//            }
+//        }
         feedRepo.save(feed);
-
         return modelMapper.map(feed,FeedVO.class);
     }
 
     /* 게시물 삭제 */
     @Transactional
     public void removeFeed(int boardId) {
+        System.out.println("boardId = " + boardId);
         FeedDTO deleteFeed = feedRepo.findById(boardId).orElseThrow();
+        likeRepo.deleteAllByBoardIdBoardId(boardId);
+        commentRepo.deleteAllByBoardIdBoardId(boardId);
         List<ImgDTO> imgDTOList = deleteFeed.getImgId();
 
         // 생성 되었던 이미지 DB에서 삭제
