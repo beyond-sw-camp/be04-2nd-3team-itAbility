@@ -9,6 +9,7 @@ import com.team3.memberservice.snsapi.google.dto.GoogleResponse;
 import com.team3.memberservice.snsapi.kakao.dto.KakaoResponse;
 import com.team3.memberservice.snsapi.naver.dto.NaverResponse;
 import com.team3.memberservice.oauth2.dto.OAuth2Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -27,7 +28,10 @@ import java.util.Optional;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final MemberInfoRepo memberInfoRepo;
-    private CommonService commonService;
+
+    private final CommonService commonService;
+
+    @Autowired
     public CustomOAuth2UserService(MemberInfoRepo memberInfoRepo, CommonService commonService) {
         this.memberInfoRepo = memberInfoRepo;
         this.commonService = commonService;
@@ -78,17 +82,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
         byte[] digest = md.digest(oAuth2Response.getProviderId().getBytes());
         long providerId;
-        if(registrationId.equals("naver")){
+        if(registrationId.equals("naver")||registrationId.equals("google")){
 
             providerId = new BigInteger(digest).longValue();
-        } else if (registrationId.equals("kakao")) {
+            if (providerId < 0) {
+                providerId = -providerId;
+            }
+        } else {
             providerId = Long.parseLong(oAuth2Response.getProviderId());
 
-        } else {
-            String first12Digits = oAuth2Response.getProvider().substring(0, 12);
-            providerId = Long.valueOf(first12Digits);
         }
-        System.out.println("sha256: " +providerId );
+
+
+
+        System.out.println("sha512: " + providerId );
 
 
         String username = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
@@ -105,9 +112,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .role(oAuth2Response.getProvider()) // 역할 설정 수정이 필요할 수 있습니다
                     .picture(oAuth2Response.getThumbnail())
                     .build();
-            userEntity=memberInfoRepo.save(userEntity);
+
+
+
+            userEntity = memberInfoRepo.save(userEntity);
             commonService.addUserLogin2(userEntity);
+
             UserDTO userDTO = UserDTO.builder()
+                    .email(oAuth2Response.getEmail())
                     .username(username)
                     .name(oAuth2Response.getName())
                     .role(oAuth2Response.getProvider()) // 역할 설정 수정이 필요할 수 있습니다
@@ -123,6 +135,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             memberInfoRepo.save(existData);
 
             UserDTO userDTO = UserDTO.builder()
+                    .email(existData.getEmail())
                     .username(existData.getUsername())
                     .name(oAuth2Response.getName())
                     .role(existData.getRole()) // 역할 설정 확인
