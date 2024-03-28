@@ -11,4 +11,5 @@ public interface CommentRepo extends JpaRepository<CommentEntity,Integer> {
     List<CommentEntity> findByBoardId(FeedDTO boardId);
 
 
+    void deleteAllByBoardIdBoardId(int boardId);
 }

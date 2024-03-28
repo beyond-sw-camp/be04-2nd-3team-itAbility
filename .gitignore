@@ -42,3 +42,5 @@ out/
 
 *.yml
 member-service/src/main/resources/itability-418007-0c2a47d403c7.json
+board-service/src/main/java/com/team3/boardservice/recruitment/controller/RecruitController.java.rej
+member-service/src/main/resources/itability-418007-0c2a47d403c7.json

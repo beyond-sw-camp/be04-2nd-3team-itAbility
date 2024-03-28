@@ -28,6 +28,7 @@ import java.util.Optional;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final MemberInfoRepo memberInfoRepo;
+
     private final CommonService commonService;
 
     @Autowired
@@ -113,9 +114,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .build();
 
 
+
             userEntity = memberInfoRepo.save(userEntity);
             commonService.addUserLogin2(userEntity);
-
 
             UserDTO userDTO = UserDTO.builder()
                     .email(oAuth2Response.getEmail())

@@ -1,6 +1,5 @@
 package com.team3.boardservice.recruitment.controller;
 
-import com.team3.boardservice.mypage.entity.RequestRecruitCategory;
 import com.team3.boardservice.recruitment.aggregate.RecruitDTO;
 import com.team3.boardservice.recruitment.service.RecruitService;
 import com.team3.boardservice.recruitment.vo.RecruitVO;
@@ -20,7 +19,7 @@ import java.util.List;
 public class RecruitController {
 
     private final RecruitService recruitService;
-
+    
     @Autowired
     public RecruitController(RecruitService recruitService) {
         this.recruitService = recruitService;
@@ -46,6 +45,23 @@ public class RecruitController {
         return ResponseEntity.ok().body(recruitList);
     }
 
+    //리스트로 변환
+    @GetMapping("/recruit-category/{recruitId}")
+    public ResponseEntity<List<RefRecruitCategoryVO>> findRecruitCategory(@PathVariable int recruitId) {
+
+        List<RefRecruitCategoryVO> recruitCategoryName = recruitService.findRecruitCategory(recruitId);
+
+        return ResponseEntity.ok().body(recruitCategoryName);
+    }
+
+    @GetMapping("/recruit-skill/{recruitId}")
+    public ResponseEntity<RecruitSkillVO> findRecruitSkill(@PathVariable int recruitId) {
+
+        RecruitSkillVO recruitSkillName = recruitService.findRecruitSkill(recruitId);
+
+        return ResponseEntity.ok().body(recruitSkillName);
+    }
+
     // 설명. 모집군 카테고리
 //    @GetMapping(value = "/recruit_category", produces = "application/json; charset=UTF-8")
 //    @ResponseBody
@@ -67,6 +83,7 @@ public class RecruitController {
 
         RecruitDTO recruitDTO = recruitService.registRecruit(recruit);
 
+
         return ResponseEntity.status(HttpStatus.CREATED).body(recruitDTO);
     }
 
@@ -84,19 +101,12 @@ public class RecruitController {
     @Operation(summary = "모집글 삭제", description = "사용자는 해당 모집글을 삭제할 수 있습니다.")
     public String deleteRecruit(@PathVariable int recruitId) {
 
+
         recruitService.deleteRecruit(recruitId);
 
         return "redirect:/recruit/list";    // 리다이렉트 주소(모집글 목록?)
     }
 
-
-    @GetMapping("/member/{memberId}")
-    public String test(@PathVariable long memberId){
-
-        recruitService.test(memberId);
-
-        return null;
-    }
 
     @GetMapping("/recruit-categories/{memberId}")
     List<ResponseRecruitCategory> getRecruitCategory(@PathVariable long memberId){
@@ -115,4 +125,13 @@ public class RecruitController {
         List<ResponseRecruitCategory> response = recruitService.deleteMemberRecruitCategery(memberId,recruitId);
         return response;
     }
+
+
+    @GetMapping("/member/{memberId}")
+    ResponseEntity<List<RecruitDTO>> getMemberRecruitList(@PathVariable long memberId) {
+//        List<RecruitVO> response = recruitService.getMemberRecruitList(memberId);
+        List<RecruitDTO> response = recruitService.getMemberRecruitList(memberId);
+        return ResponseEntity.ok().body(response);
+    }
+
 }

@@ -26,5 +26,4 @@ public class MemberRecruitsInfoDTO {
 
     @Column(name="member_id")
     private long memberInfoDTO;
-
 }

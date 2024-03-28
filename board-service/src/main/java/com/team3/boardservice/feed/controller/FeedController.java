@@ -25,6 +25,7 @@ public class FeedController {
     private ImgService imgService;
 
 
+
     @Autowired
     public FeedController(FeedService feedService, ImgService imgService) {
         this.feedService = feedService;
@@ -40,7 +41,7 @@ public class FeedController {
     }
 
     /* 맴버의 작성한 게시물 조회*/
-    @Operation(summary = "게시글 전체 조회", description = "모든 사용자들이 작성했던 게시글이 모두 조회됩니다.")
+    @Operation(summary = "멤버 게시글  조회", description = "모든 사용자들이 작성했던 게시글이 모두 조회됩니다.")
     @GetMapping("member/{memberId}")
     public ResponseEntity<List<ResponseFeedVO>> getMemberFeeds(@PathVariable long memberId){
         List<ResponseFeedVO> feeds = feedService.findMemberFeeds(memberId);
@@ -60,39 +61,38 @@ public class FeedController {
     @Operation(summary = "게시물 생성", description = "게시글을 작성 및 여러 개의 이미지를 등록할 수 있습니다.")
     @PostMapping("/{memberId}")
     public ResponseEntity<FeedVO> createdFeed(@RequestBody FeedDTO feedDTO,
-                                              @RequestParam(name="file") List<MultipartFile> requestImgs,
+//                                              @RequestParam(name="file") List<MultipartFile> requestImgs,
                                               @PathVariable long memberId) throws IOException {
         System.out.println("게시물 생성 접근");
         System.out.println("feedDTO = " + feedDTO);
-        List<ImgDTO> imgDTOS = imgService.multiFileUpload(requestImgs);
-        FeedVO createdFeed = feedService.createFeed(feedDTO, memberId, imgDTOS);
+//        List<ImgDTO> imgDTOS = imgService.multiFileUpload(requestImgs);
+        FeedVO createdFeed = feedService.createFeed(feedDTO, memberId);
 
         return ResponseEntity.ok().body(createdFeed);
     }
 
     /* 게시물 수정 -fin*/
     @Operation(summary = "게시물 수정", description = "작성자가 등록했던 게시글을 수정 및 등록했던 이미지 삭제와 새 이미지 등록할 수 있습니다.")
-//    @PutMapping("/{boardId}")
-    @PostMapping("/{boardId}/updateFeed")
-    public ResponseEntity<FeedVO> updateFeed(@ModelAttribute int boardId,
-                                             @RequestParam(required = false) List<MultipartFile> newImgs,
-                                             @RequestParam(required = false) List<String> removeImgIds,
-                                             @ModelAttribute FeedDTO feedDTO) throws IOException {
-        // 수정시 새롭게 추가될 이미지 파일 처리
-        List<ImgDTO> addedImgs = null;
-        if(newImgs != null && !newImgs.isEmpty()) {
-            addedImgs = imgService.multiFileUpload(newImgs);
-        }
-
-        // 수정시 이미지 파일 삭제 처리
-        if(removeImgIds != null && !removeImgIds.isEmpty()) {
-            imgService.removeImages(removeImgIds);
-        }
+    @PutMapping("/{boardId}")
+    public ResponseEntity<FeedVO> updateFeed(@PathVariable int boardId,
+//                                             @RequestParam(required = false) List<MultipartFile> newImgs,
+//                                             @RequestParam(required = false) List<String> removeImgIds,
+                                             @RequestBody FeedDTO feedDTO) throws IOException {
+//        // 수정시 새롭게 추가될 이미지 파일 처리
+//        List<ImgDTO> addedImgs = null;
+//        if(newImgs != null && !newImgs.isEmpty()) {
+//            addedImgs = imgService.multiFileUpload(newImgs);
+//        }
+//
+//        // 수정시 이미지 파일 삭제 처리
+//        if(removeImgIds != null && !removeImgIds.isEmpty()) {
+//            imgService.removeImages(removeImgIds);
+//        }
 //        // boardId를 feedDTO에 설정
 //        feedDTO.setBoardId(boardId);
-
+        System.out.println("feedDTO = " + feedDTO);
         // 서비스를 통해 게시물 수정
-        FeedVO updatedFeed = feedService.modifyFeed(boardId, feedDTO, addedImgs, removeImgIds);
+        FeedVO updatedFeed = feedService.modifyFeed(boardId, feedDTO /*,addedImgs, removeImgIds*/);
         // 수정된 게시물 반환
         return ResponseEntity.ok().body(updatedFeed);
     }
@@ -101,6 +101,7 @@ public class FeedController {
     @Operation(summary = "게시물 삭제", description = "작성자가 등록했던 게시글을 삭제할 수 있으며, 이 때 등록했던 이미지 및 댓글이 모두 삭제됩니다.")
     @DeleteMapping("/{boardId}")
     public ResponseEntity<String> removeFeed(@PathVariable int boardId) {
+
         feedService.removeFeed(boardId);
 //        return "redirect:/feeds/listFeed";
         return ResponseEntity.ok("게시물 삭제 완료");
