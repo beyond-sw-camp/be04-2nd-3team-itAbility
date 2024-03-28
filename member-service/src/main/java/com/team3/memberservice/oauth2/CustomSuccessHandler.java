@@ -1,6 +1,8 @@
 package com.team3.memberservice.oauth2;
 
 import com.team3.memberservice.jwt.JWTUtil;
+import com.team3.memberservice.member.dto.MemberInfoDTO;
+import com.team3.memberservice.member.dto.UserDTO;
 import com.team3.memberservice.oauth2.dto.CustomOAuth2User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -8,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +30,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+
 
         //OAuth2User
         CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();

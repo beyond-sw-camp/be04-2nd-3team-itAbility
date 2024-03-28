@@ -16,17 +16,17 @@ import lombok.*;
 @Builder
 public class MemberInfoDTO {
     @Id
-//    @Column(name = "member_id")
+    @Column(name = "member_id")
     private long memberId;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true) // 유니크 제약 조건 추가
     private String username;
 
+
     @Column(name = "email")
-
     private String email;
-    @Column(name = "provider")
 
+    @Column(name = "provider")
     private String role;
 
     @Column(name = "name")
