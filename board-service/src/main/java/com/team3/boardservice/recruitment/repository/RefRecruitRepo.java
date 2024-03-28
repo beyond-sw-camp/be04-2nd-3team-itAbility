@@ -10,4 +10,6 @@ import java.util.List;
 public interface RefRecruitRepo extends JpaRepository<RefRecruitCategoryDTO, Integer> {
 
     List<RefRecruitCategoryDTO> findAllByIdRecruitId(int recruitId);
+
+//    void deleteAllbyRecruitRecruitId(int recruitId);
 }

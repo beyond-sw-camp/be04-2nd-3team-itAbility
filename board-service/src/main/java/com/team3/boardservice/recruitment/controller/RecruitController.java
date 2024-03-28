@@ -19,7 +19,7 @@ import java.util.List;
 public class RecruitController {
 
     private final RecruitService recruitService;
-
+    
     @Autowired
     public RecruitController(RecruitService recruitService) {
         this.recruitService = recruitService;
@@ -83,6 +83,7 @@ public class RecruitController {
 
         RecruitDTO recruitDTO = recruitService.registRecruit(recruit);
 
+
         return ResponseEntity.status(HttpStatus.CREATED).body(recruitDTO);
     }
 
@@ -99,6 +100,7 @@ public class RecruitController {
     @DeleteMapping("/{recruitId}")
     @Operation(summary = "모집글 삭제", description = "사용자는 해당 모집글을 삭제할 수 있습니다.")
     public String deleteRecruit(@PathVariable int recruitId) {
+
 
         recruitService.deleteRecruit(recruitId);
 
