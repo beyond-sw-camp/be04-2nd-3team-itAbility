@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class MemberInfoService {
@@ -34,8 +35,9 @@ public class MemberInfoService {
         return memberRepository.findById(memberId).orElse(null);
     }
 
-    public MemberInfoDTO findMember(Long memberId){
-        return memberRepository.findById(memberId).orElseThrow();
+    public MemberInfoDTO findMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoSuchElementException("No member found with ID: " + memberId));
     }
 
     public List<ResponseMember> findMemberList(){

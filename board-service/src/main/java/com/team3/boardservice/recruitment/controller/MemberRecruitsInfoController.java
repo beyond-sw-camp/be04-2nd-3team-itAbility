@@ -51,11 +51,12 @@ public class MemberRecruitsInfoController {
     @Transactional
     @PostMapping("/regist")
     @Operation(summary = "모집글 신청", description = "사용자는 입력한 내용으로 모집글에 신청할 수 있습니다.")
-    public ResponseEntity<MemberRecruitsInfoDTO> registMemberRecruit(@RequestBody MemberRecruitsInfoVO memberRecruitsInfo) {
-
+    public ResponseEntity<String> registMemberRecruit(@RequestBody MemberRecruitsInfoVO memberRecruitsInfo) {
+        System.out.println(memberRecruitsInfo);
         MemberRecruitsInfoDTO memberRecruits = memberRecruitsInfoService.registMemberRecruit(memberRecruitsInfo);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(memberRecruits);
+        return ResponseEntity.ok("/localhost:5173/recruit");
+//        /" + memberRecruitsInfo.getRecruitId()
     }
 
     @PutMapping("/accept/{memberRecruitInfoId}")

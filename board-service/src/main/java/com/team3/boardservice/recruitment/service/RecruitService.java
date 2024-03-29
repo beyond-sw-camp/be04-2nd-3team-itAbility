@@ -78,24 +78,24 @@ public class RecruitService {
     public RecruitDTO registRecruit(RecruitVO recruit) {
 
 //        MemberInfoDTO member = memberInfoRepo.findById(recruit.getMemberId()).orElseThrow();
-        ResponseMember member = memberServerClient.getMember(recruit.getMemberId());
+//        ResponseMember member = memberServerClient.getMember(recruit.getMemberId());
         RecruitDTO recruitDTO = new RecruitDTO(recruit.getRecruitType(), recruit.getRecruitTitle(), recruit.getRecruitContent(), recruit.getRecruitExpDate(), recruit.getRecruitMbCnt(), recruit.getMemberId());
 
-        for (int categoryId: recruit.getRecruitCategoryId()){
-            RecruitCategoryDTO recruitCategoryDTO = recruitCateRepo.findById(categoryId).orElseThrow();
-            RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruit.getRecruitId(), categoryId);
-            RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruitDTO, recruitCategoryDTO);
-
-            refRecruitRepo.save(refRecruitCategoryDTO);
-        }
-
-        for (int skillId: recruit.getSkillId()) {
-            ResponseSkill skillEntity = memberServerClient.getSkill(skillId);
-            RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), skillId);
-            RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity.getSkillId());
-
-            recruitSkillRepo.save(recruitSkillDTO);
-        }
+//        for (int categoryId: recruit.getRecruitCategoryId()){
+//            RecruitCategoryDTO recruitCategoryDTO = recruitCateRepo.findById(categoryId).orElseThrow();
+//            RefRecruitCategoryId refRecruitCategoryId = new RefRecruitCategoryId(recruit.getRecruitId(), categoryId);
+//            RefRecruitCategoryDTO refRecruitCategoryDTO = new RefRecruitCategoryDTO(refRecruitCategoryId, recruitDTO, recruitCategoryDTO);
+//
+//            refRecruitRepo.save(refRecruitCategoryDTO);
+//        }
+//
+//        for (int skillId: recruit.getSkillId()) {
+//            ResponseSkill skillEntity = memberServerClient.getSkill(skillId);
+//            RecruitSkillId recruitSkillId = new RecruitSkillId(recruit.getRecruitId(), skillId);
+//            RecruitSkillDTO recruitSkillDTO = new RecruitSkillDTO(recruitSkillId, recruitDTO, skillEntity.getSkillId());
+//
+//            recruitSkillRepo.save(recruitSkillDTO);
+//        }
 
         recruitRepo.save(recruitDTO);
 
@@ -121,7 +121,7 @@ public class RecruitService {
     // 모집글 삭제
     @Transactional
     public void deleteRecruit(int recruitId) {
-        memberRecruitsInfoRepo.deleteAllByRecruitDTORecruitId(recruitId);
+//        memberRecruitsInfoRepo.deleteAllByRecruitDTORecruitId(recruitId);
 //        refRecruitRepo.deleteAllbyRecruitRecruitId(recruitId);
         recruitRepo.deleteById(recruitId);
     }

@@ -1,25 +1,21 @@
 package com.team3.boardservice.member.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import lombok.*;
+import lombok.Data;
 
 @Data
-public class ResponseMember {
+public class ResponseMember2 {
 
     private long memberId;
 
-    private String username;
-
     private String email;
 
-    private String role;
+    private String provider;
+
+    private String pwd;
 
     private String name;
 
     private String birthDate;
-
-    private String picture;
 
     private String phone;
 
