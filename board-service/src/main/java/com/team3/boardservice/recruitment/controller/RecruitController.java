@@ -1,5 +1,9 @@
 package com.team3.boardservice.recruitment.controller;
 
+import com.team3.boardservice.mypage.entity.MemberRecruitCategoryEntity;
+import com.team3.boardservice.mypage.entity.MemberRecruitCategoryId;
+import com.team3.boardservice.recruitment.aggregate.MemberRecruitsInfoDTO;
+import com.team3.boardservice.recruitment.aggregate.RecruitCategoryDTO;
 import com.team3.boardservice.recruitment.aggregate.RecruitDTO;
 import com.team3.boardservice.recruitment.service.RecruitService;
 import com.team3.boardservice.recruitment.vo.RecruitVO;
@@ -125,6 +129,14 @@ public class RecruitController {
         List<ResponseRecruitCategory> response = recruitService.deleteMemberRecruitCategery(memberId,recruitId);
         return response;
     }
+    @PutMapping("/recruit-categories/{memberId}")
+    ResponseEntity PutAllRecruitCategory(@PathVariable long memberId, @RequestBody List<RequestRecruitCategory> recruits){
+        System.out.println("recruits = " + recruits);
+        recruitService.putAllMemberRecruitCategery(memberId,recruits);
+
+        return ResponseEntity.ok().build();
+    }
+
 
 
     @GetMapping("/member/{memberId}")
@@ -132,6 +144,12 @@ public class RecruitController {
 //        List<RecruitVO> response = recruitService.getMemberRecruitList(memberId);
         List<RecruitDTO> response = recruitService.getMemberRecruitList(memberId);
         return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/recruit-categories")
+    ResponseEntity<List<RecruitCategoryDTO>> getRecruitCategories(){
+        List<RecruitCategoryDTO> returnValue = recruitService.getAllRecruitCategory();
+        return ResponseEntity.ok().body(returnValue) ;
     }
 
 }

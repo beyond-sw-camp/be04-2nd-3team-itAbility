@@ -175,14 +175,16 @@ public class RecruitService {
         memberRecruitCategoryDAO.delete(entity);
         return getMemberRecruitCategory(memberId);
     }
+    public void putAllMemberRecruitCategery(long memberId, List<RequestRecruitCategory> recruits) {
+        memberRecruitsInfoRepo.deleteAllByMemberInfoDTO(memberId);
+        System.out.println("삭제 완료");
+        recruits.forEach(recruit ->{
+            postMemberRecruitCategery(memberId,recruit.getRecruitCategoryId());
+        });
+    }
 
     public List<RecruitDTO> getMemberRecruitList(long memberId) {
         List<RecruitDTO> recruitDTOS = recruitRepo.findByMemberInfoDTO(memberId);
-//
-//        List<RecruitVO> returnValue = new ArrayList<>();
-//        recruitDTOS.forEach(rec -> {
-//            returnValue.add(mapper.map(rec, RecruitVO.class));
-//        });
         return recruitDTOS;
     }
 
@@ -207,5 +209,9 @@ public class RecruitService {
         RecruitSkillVO recruitSkillName = new RecruitSkillVO(recruitId, recruitSkillId, memberServerClient.getSkill(recruitSkillId).getSkillName());
 
         return recruitSkillName;
+    }
+
+    public List<RecruitCategoryDTO> getAllRecruitCategory() {
+        return recruitCateRepo.findAll();
     }
 }

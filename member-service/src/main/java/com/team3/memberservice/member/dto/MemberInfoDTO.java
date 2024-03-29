@@ -50,6 +50,8 @@ public class MemberInfoDTO {
     @Column(name = "report_count")
     private int mbReportCount;
 
+    private String token;
+
     public MemberInfoDTO(Long userId, String name, String email, Provider provider) {
         this.memberId = userId;
         this.name = name;

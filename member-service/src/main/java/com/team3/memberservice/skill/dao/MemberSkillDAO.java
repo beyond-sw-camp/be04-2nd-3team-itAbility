@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface MemberSkillDAO extends JpaRepository<MemberSkillEntity, MemberSkillId> {
     List<MemberSkillEntity> findByIdMemberId(Long memberId);
+
+    void deleteAllByIdMemberId(long memberId);
 }

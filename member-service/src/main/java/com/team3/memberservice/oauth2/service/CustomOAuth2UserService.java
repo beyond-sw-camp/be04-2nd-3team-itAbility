@@ -5,6 +5,7 @@ import com.team3.memberservice.member.dto.MemberInfoDTO;
 import com.team3.memberservice.member.dto.UserDTO;
 import com.team3.memberservice.oauth2.dto.CustomOAuth2User;
 import com.team3.memberservice.snsapi.common.CommonService;
+import com.team3.memberservice.snsapi.github.GithubResponse;
 import com.team3.memberservice.snsapi.google.dto.GoogleResponse;
 import com.team3.memberservice.snsapi.kakao.dto.KakaoResponse;
 import com.team3.memberservice.snsapi.naver.dto.NaverResponse;
@@ -69,6 +70,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             oAuth2Response = new KakaoResponse(oAuth2User.getAttributes());
         }
+
+        else if (registrationId.equals("github")) {
+
+            oAuth2Response = new GithubResponse(oAuth2User.getAttributes());
+        }
         else {
 
             return null;
@@ -88,11 +94,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             if (providerId < 0) {
                 providerId = -providerId;
             }
-        } else {
+        } else  {
             providerId = Long.parseLong(oAuth2Response.getProviderId());
 
         }
-
 
 
         System.out.println("sha512: " + providerId );

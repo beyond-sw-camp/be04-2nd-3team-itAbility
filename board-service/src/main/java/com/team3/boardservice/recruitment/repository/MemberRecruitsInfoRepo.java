@@ -13,4 +13,6 @@ public interface MemberRecruitsInfoRepo extends JpaRepository<MemberRecruitsInfo
     List<MemberRecruitsInfoDTO> findAllByMemberInfoDTO(long memberId);
 
     void deleteAllByRecruitDTORecruitId(int recruitId);
+
+    void deleteAllByMemberInfoDTO(long memberId);
 }

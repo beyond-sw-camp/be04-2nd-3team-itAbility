@@ -21,6 +21,7 @@ import com.team3.memberservice.skill.dto.ResponseSkill;
 import com.team3.memberservice.skill.dto.ResponseSkillList;
 import com.team3.memberservice.skill.entity.MemberSkillEntity;
 import com.team3.memberservice.skill.entity.MemberSkillId;
+import com.team3.memberservice.skill.entity.SkillEntity;
 import com.team3.memberservice.skill.service.SkillService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -236,5 +237,36 @@ public class MypageService {
         MemberProfileEntity memberProfile = memberProfileDAO.findById(memberId).orElseThrow();
         return modelMapper.map(memberProfile.getDegree(), DegreeDTO.class);
     }
+
+    @Transactional
+    public void putMemberSkills(long memberId, List<SkillEntity> skills) {
+        memberSkillDAO.deleteAllByIdMemberId(memberId);
+        skills.forEach(skill ->{
+            RequestSkillId request = new RequestSkillId(skill.getSkillId());
+            putMemberSkill(memberId,request);
+        });
+    }
+
+    @Transactional
+    public void putMemberRecruitCategories(long memberId, List<SkillEntity> skills) {
+
+        skills.forEach(skill ->{
+            RequestSkillId request = new RequestSkillId(skill.getSkillId());
+            putMemberSkill(memberId,request);
+        });
+    }
+
+    /*
+    *
+    @Transactional
+    public List<ResponseRecruitCategory> putMemberRecruitCategory(long memberId, RequestRecruitCategory recruitId) {
+        return client.postRecruitCategory(memberId,recruitId.getRecruitId());
+    }
+
+    @Transactional
+    public List<ResponseRecruitCategory> deleteMemberRecruitCategory(long memberId, RequestRecruitCategory recruitId) {
+        return client.deleteRecruitCategory(memberId,recruitId.getRecruitId());
+    }
+    * */
 }
 

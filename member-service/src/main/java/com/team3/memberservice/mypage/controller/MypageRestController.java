@@ -5,9 +5,11 @@ import com.team3.memberservice.img.ImageVO;
 import com.team3.memberservice.img.dto.ImageDTO;
 import com.team3.memberservice.mypage.dto.*;
 import com.team3.memberservice.mypage.service.MypageService;
+import com.team3.memberservice.skill.dao.SkillDAO;
 import com.team3.memberservice.skill.dto.RequestSkillId;
 import com.team3.memberservice.skill.dto.ResponseSkill;
 import com.team3.memberservice.skill.dto.ResponseSkillList;
+import com.team3.memberservice.skill.entity.SkillEntity;
 import com.team3.memberservice.skill.service.SkillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -106,10 +108,18 @@ public class MypageRestController {
 
     @Operation(summary = "기술스택 추가", description = "회원의 기술스택을 추가합니다.")
     @PostMapping("/{memberId}/skill")
-    public ResponseEntity<List<ResponseSkill>> putMemberSkill(@PathVariable long memberId, @RequestBody RequestSkillId skillId){
+    public ResponseEntity<List<ResponseSkill>> postMemberSkill(@PathVariable long memberId, @RequestBody RequestSkillId skillId){
         List<ResponseSkill> returnValue = mypageService.putMemberSkill(memberId, skillId);
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
     }
+
+    @PutMapping("/{memberId}/skill")
+    public ResponseEntity putMemberSkill(@PathVariable long memberId, @RequestBody List<SkillEntity> skills) {
+        System.out.println("skills = " + skills);
+        mypageService.putMemberSkills(memberId,skills);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @Operation(summary = "기술스택 삭제", description = "회원의 기술스택을 제거합니다.")
     @DeleteMapping("/{memberId}/skill")
     public ResponseEntity<ResponseSkillList> deleteMemberSkill(@PathVariable long memberId, @RequestBody RequestSkillId skillId){
