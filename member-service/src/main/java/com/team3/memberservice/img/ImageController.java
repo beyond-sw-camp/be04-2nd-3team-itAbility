@@ -1,5 +1,7 @@
 package com.team3.memberservice.img;
 
+import com.team3.memberservice.img.dto.ImageDTO;
+import com.team3.memberservice.img.entity.ImageEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,14 @@ public class ImageController {
     public ImageController(ImageService imageService) {
         this.imageService = imageService;
     }
+
+    @GetMapping("/profile/{memberId}")
+    public ResponseEntity<ImageEntity> get(@PathVariable long memberId){
+        ImageEntity imageUrl = imageService.getProfileImage(memberId);
+
+        return ResponseEntity.ok().body(imageUrl);
+    }
+
 
     @PatchMapping("/profile/{memberId}")
     public ResponseEntity<String> get(@PathVariable Long memberId, @RequestParam("file")MultipartFile file) throws IOException {

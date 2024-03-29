@@ -52,7 +52,7 @@ public class MypageDTO {
         this.birthDate = profile.getMemberInfo().getBirthDate();
         this.degreeDTO = degreeDTO;
         careerDTOList.forEach(career
-                -> this.careers.add(new ResponseCareer(career.getCompanyName(), career.getStartDate()
+                -> this.careers.add(new ResponseCareer(career.getCareerId(),career.getCompanyName(), career.getStartDate()
                                  , career.getEndDate(), career.getRole(), career.getAssignedTask()
                                  , career.isCurrentJob())));
 

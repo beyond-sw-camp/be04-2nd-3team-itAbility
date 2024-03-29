@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseCareer {
-
+    private int careerId;
     private String companyName;
     private String startDate;
     private String endDate;

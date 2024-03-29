@@ -90,9 +90,12 @@ public class MypageRestController {
     @Operation(summary = "경력 삭제", description = "회원의 경력을 제거합니다.")
     @DeleteMapping("/{memberId}/career")
     public ResponseEntity<CareerDTO> deleteCareer(@PathVariable long memberId, @RequestBody CareerDTO careerDTO){
+
         CareerDTO returnValue = mypageService.deleteCareer(careerDTO,memberId);
         return ResponseEntity.status(HttpStatus.OK).body(returnValue);
     }
+
+
 
     @Operation(summary = "기술스택 조회", description = "회원의 기술스택을 조회합니다.")
     @GetMapping("/{memberId}/skill")

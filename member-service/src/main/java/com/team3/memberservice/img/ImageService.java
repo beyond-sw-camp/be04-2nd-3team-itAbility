@@ -73,4 +73,9 @@ public class ImageService {
         // 이미지 파일 이름을 랜덤 UUID로 생성
         return UUID.randomUUID().toString();
     }
+
+    public ImageEntity getProfileImage(long memberId) {
+        ImageEntity image = imageDAO.findById(memberId).orElseThrow();
+        return image;
+    }
 }
