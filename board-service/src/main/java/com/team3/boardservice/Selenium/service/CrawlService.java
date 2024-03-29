@@ -74,4 +74,8 @@ public class CrawlService {
 
         webDriver.quit();
     }
+
+    public List<CrawlEntity> findAllJobListings() {
+        return crawlRepository.findAll();
+    }
 }

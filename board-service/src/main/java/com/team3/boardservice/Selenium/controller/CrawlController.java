@@ -1,10 +1,13 @@
 package com.team3.boardservice.Selenium.controller;
 
+import com.team3.boardservice.Selenium.entity.CrawlEntity;
 import com.team3.boardservice.Selenium.service.CrawlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class CrawlController {
@@ -36,5 +39,10 @@ public class CrawlController {
             Thread.currentThread().interrupt();
             return "Crawling interrupted: " + e.getMessage();
         }
+    }
+
+    @GetMapping("/job-listings")
+    public List<CrawlEntity> getAllJobListings() {
+        return seleniumService.findAllJobListings();
     }
 }
