@@ -191,7 +191,6 @@ public class RecruitService {
     public List<RefRecruitCategoryVO> findRecruitCategory(int recruitId) {
 
         List<RefRecruitCategoryDTO> recruitCategoryId = refRecruitRepo.findAllByIdRecruitId(recruitId);
-        System.out.println(recruitCategoryId);
         List<RefRecruitCategoryVO> refCateVOList = new ArrayList<>();
 
         for (RefRecruitCategoryDTO refRecruitCategoryDTO : recruitCategoryId) {
@@ -201,14 +200,20 @@ public class RecruitService {
         }
 
         return refCateVOList;
-
     }
 
-    public RecruitSkillVO findRecruitSkill(int recruitId) {
-        int recruitSkillId = recruitSkillRepo.findByIdRecruitId(recruitId).getId().getSkillId();
-        RecruitSkillVO recruitSkillName = new RecruitSkillVO(recruitId, recruitSkillId, memberServerClient.getSkill(recruitSkillId).getSkillName());
+    public List<RecruitSkillVO> findRecruitSkill(int recruitId) {
 
-        return recruitSkillName;
+        List<RecruitSkillDTO> recruitSkillId = recruitSkillRepo.findAllByIdRecruitId(recruitId);
+        List<RecruitSkillVO> recruitSkillVOList = new ArrayList<>();
+
+        for (RecruitSkillDTO recruitSkillDTO : recruitSkillId) {
+            int skillId = recruitSkillDTO.getId().getSkillId();
+
+            recruitSkillVOList.add(new RecruitSkillVO(recruitId, skillId, memberServerClient.getSkill(skillId).getSkillName()));
+        }
+
+        return recruitSkillVOList;
     }
 
     public List<RecruitCategoryDTO> getAllRecruitCategory() {
