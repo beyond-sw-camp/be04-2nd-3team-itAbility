@@ -79,12 +79,13 @@ public class RecruitController {
 
     @PostMapping("/regist")
     @Operation(summary = "모집글 등록", description = "사용자가 입력한 내용으로 모집글을 등록할 수 있습니다.")
-    public ResponseEntity<RecruitDTO> registRecruit(@RequestBody RecruitVO recruit) {
-
+    public ResponseEntity<String> registRecruit(@RequestBody RecruitVO recruit) {
+        System.out.println(recruit);
         RecruitDTO recruitDTO = recruitService.registRecruit(recruit);
 
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(recruitDTO);
+//        return ResponseEntity.ok(recruitDTO);
+        return ResponseEntity.ok("/localhost:5173/recruit");
     }
 
     @PutMapping("/modify/{recruitId}")
