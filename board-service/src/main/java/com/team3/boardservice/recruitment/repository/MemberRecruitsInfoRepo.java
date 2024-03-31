@@ -11,8 +11,5 @@ import java.util.Optional;
 public interface MemberRecruitsInfoRepo extends JpaRepository<MemberRecruitsInfoDTO, Integer> {
 
     List<MemberRecruitsInfoDTO> findAllByMemberInfoDTO(long memberId);
-
-    void deleteAllByRecruitDTORecruitId(int recruitId);
-
-    void deleteAllByMemberInfoDTO(long memberId);
+    List<MemberRecruitsInfoDTO> deleteAllByMemberInfoDTO(long memberId);
 }

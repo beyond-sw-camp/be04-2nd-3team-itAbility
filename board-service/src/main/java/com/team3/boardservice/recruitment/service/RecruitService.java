@@ -175,9 +175,11 @@ public class RecruitService {
         memberRecruitCategoryDAO.delete(entity);
         return getMemberRecruitCategory(memberId);
     }
+
     public void putAllMemberRecruitCategery(long memberId, List<RequestRecruitCategory> recruits) {
-        memberRecruitsInfoRepo.deleteAllByMemberInfoDTO(memberId);
-        System.out.println("삭제 완료");
+
+        memberRecruitCategoryDAO.deleteAllByIdMemberId(memberId);
+
         recruits.forEach(recruit ->{
             postMemberRecruitCategery(memberId,recruit.getRecruitCategoryId());
         });

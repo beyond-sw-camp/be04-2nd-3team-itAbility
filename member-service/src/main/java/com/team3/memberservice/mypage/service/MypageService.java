@@ -247,26 +247,5 @@ public class MypageService {
         });
     }
 
-    @Transactional
-    public void putMemberRecruitCategories(long memberId, List<SkillEntity> skills) {
-
-        skills.forEach(skill ->{
-            RequestSkillId request = new RequestSkillId(skill.getSkillId());
-            putMemberSkill(memberId,request);
-        });
-    }
-
-    /*
-    *
-    @Transactional
-    public List<ResponseRecruitCategory> putMemberRecruitCategory(long memberId, RequestRecruitCategory recruitId) {
-        return client.postRecruitCategory(memberId,recruitId.getRecruitId());
-    }
-
-    @Transactional
-    public List<ResponseRecruitCategory> deleteMemberRecruitCategory(long memberId, RequestRecruitCategory recruitId) {
-        return client.deleteRecruitCategory(memberId,recruitId.getRecruitId());
-    }
-    * */
 }
 

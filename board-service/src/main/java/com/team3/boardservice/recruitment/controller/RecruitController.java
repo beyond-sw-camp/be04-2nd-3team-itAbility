@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -130,7 +131,10 @@ public class RecruitController {
         List<ResponseRecruitCategory> response = recruitService.deleteMemberRecruitCategery(memberId,recruitId);
         return response;
     }
-    @PutMapping("/recruit-categories/{memberId}")
+
+
+    @Transactional
+    @PutMapping("/recruit-categories/profile/{memberId}")
     ResponseEntity PutAllRecruitCategory(@PathVariable long memberId, @RequestBody List<RequestRecruitCategory> recruits){
         System.out.println("recruits = " + recruits);
         recruitService.putAllMemberRecruitCategery(memberId,recruits);
